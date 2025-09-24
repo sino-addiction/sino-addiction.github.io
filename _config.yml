@@ -28,6 +28,10 @@ github_username: jekyll
 # Theme settings
 remote_theme: just-the-docs/just-the-docs
 
+# Plugins (GitHub Pages supports jekyll-remote-theme)
+plugins:
+  - jekyll-remote-theme
+
 # just-the-docs theme configuration
 # Enable search
 search_enabled: true
@@ -69,7 +73,7 @@ defaults:
       path: ""
       type: "news"
     values:
-      layout: "post"
+      layout: "default"
   - scope:
       path: ""
       type: "studies"
@@ -94,3 +98,4 @@ exclude:
   - README.md
   - CONTRIBUTING.md
   - docs/
+  - pages/templates/

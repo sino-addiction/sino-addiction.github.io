@@ -8,8 +8,7 @@ nav_order: 15
 
 Stay up to date with the latest announcements from SANI.
 
-<!-- This list is automatically generated from posts in /news/_posts/ -->
-{% raw %}
+<!-- This list is automatically generated from posts in _news/ -->
 <ul>
   {% for post in site.news %}
     <li>
@@ -21,4 +20,3 @@ Stay up to date with the latest announcements from SANI.
     </li>
   {% endfor %}
 </ul>
-{% endraw %}

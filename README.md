@@ -1,6 +1,5 @@
-<<<<<<< HEAD
 <!--
-TODO: If you plan to use a custom domain like sani-initiative.org, create a file named CNAME in the root of this repository and add the domain name on a single line.
+If you plan to use a custom domain like sani-initiative.org, create a file named CNAME in the root of this repository and add the domain name on a single line.
 Example:
 sani-initiative.org
 -->
@@ -15,16 +14,15 @@ The site is built with [Jekyll](https://jekyllrb.com/) and uses the [Just the Do
 
 To preview your changes locally before pushing to GitHub:
 
-1.  **Install Dependencies**: Make sure you have Ruby and Bundler installed. Then, install the project dependencies:
+1.  Install Ruby. Optionally install Bundler for a managed environment.
+2.  Serve the site:
     ```bash
-    bundle install
+    jekyll serve --livereload
     ```
-
-2.  **Run Jekyll Server**:
+    Or with Bundler (if you add a Gemfile):
     ```bash
     bundle exec jekyll serve --livereload
     ```
-
 3.  Open your browser and navigate to `http://127.0.0.1:4000`.
 
 ## How to Edit Content
@@ -57,10 +55,10 @@ To change the order of pages in the top navigation bar, edit the `nav_order` val
 
 ### Add a News Post
 
-1.  Create a new file in the `/news/_posts/` directory.
-2.  The filename must follow the format `YYYY-MM-DD-your-post-title.md`.
-3.  Use the template from `/pages/templates/news-post-template.md` as a starting point.
-4.  Fill in the front-matter (title, date, author) and write the post content in Markdown.
+1.  Create a new file in the `/_news/` directory.
+2.  Use a filename you like (optionally `YYYY-MM-DD-my-title.md`).
+3.  Use the template in `/pages/templates/news-post-template.md` as a starting point.
+4.  Fill in the front matter (title, date, author, summary) and write the post content in Markdown.
 
 ## How to Change Theme Settings
 
@@ -69,7 +67,3 @@ Theme settings, such as color scheme or title, can be modified in the `_config.y
 ## Publishing
 
 The site is automatically built and deployed by GitHub Pages whenever changes are pushed to the `main` branch.
-=======
-# sino-addiction.github.io
-Website
->>>>>>> 0390b65c482f8cef4c733a0948ae1dc37d148a1d

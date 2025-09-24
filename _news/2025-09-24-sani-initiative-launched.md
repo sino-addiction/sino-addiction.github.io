@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: default
 title: "SANI Initiative Officially Launched"
 date: 2025-09-24
 author: "SANI Steering Committee"

@@ -8,8 +8,7 @@ nav_order: 12
 
 This page lists the active and completed studies conducted under the SANI consortium.
 
-<!-- TODO: This list will be automatically populated from the /studies/ collection. -->
-{% raw %}
+<!-- This list is generated from the _studies collection. -->
 <ul>
   {% for study in site.studies %}
     <li>
@@ -17,7 +16,6 @@ This page lists the active and completed studies conducted under the SANI consor
     </li>
   {% endfor %}
 </ul>
-{% endraw %}
 
 ## How to Cite SANI Studies
 
