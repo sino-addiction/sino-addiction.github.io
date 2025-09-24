@@ -1,0 +1,96 @@
+# Welcome to Jekyll!
+#
+# This config file is meant for settings that affect your whole blog, values
+# which you are expected to set up once and rarely edit after that. If you find
+# yourself editing this file very often, consider using Jekyll's data files
+# feature for the data you need to update frequently.
+#
+# For technical reasons, this file is *NOT* reloaded automatically when you use
+# 'bundle exec jekyll serve'. You need to restart the server every time you change this file.
+#
+# Site settings
+# These are used to personalize your new site. If you look in the HTML files,
+# you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
+# You can create any custom variable you would like, and they will be accessible
+# in the templates via {{ site.title }}, etc.
+
+title: SANI
+email: your-email@example.com # TODO: Update email
+description: >- # this means to ignore newlines until "baseurl:"
+  Sino/Asian Addiction Neuroimaging Initiative (SANI) is a collaborative
+  research initiative focused on advancing the understanding of addiction
+  through multimodal neuroimaging.
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "https://sino-addiction.github.io" # the base hostname & protocol for your site, e.g. http://example.com
+twitter_username: jekyllrb
+github_username: jekyll
+
+# Theme settings
+remote_theme: just-the-docs/just-the-docs
+
+# just-the-docs theme configuration
+# Enable search
+search_enabled: true
+
+# Aux links for the header
+aux_links:
+  "SANI on GitHub":
+    - "https://github.com/sino-addiction/sino-addiction.github.io"
+
+# Color scheme supports "light", "dark", "dark_high_contrast", "light_high_contrast"
+color_scheme: light
+
+# Build settings
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+# Permalinks
+permalink: pretty
+
+# Collections
+collections:
+  news:
+    output: true
+    permalink: /news/:title/
+  studies:
+    output: true
+    permalink: /studies/:title/
+
+# Default front matter for collections
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
+  - scope:
+      path: ""
+      type: "news"
+    values:
+      layout: "post"
+  - scope:
+      path: ""
+      type: "studies"
+    values:
+      layout: "default"
+
+# Exclude from processing.
+# The following items will not be processed, by default.
+# Any item listed under the `exclude:` key here will be automatically added to
+# the internal list of excluded items by default.
+exclude:
+  - .sass-cache/
+  - .jekyll-cache/
+  - gemfiles/
+  - Gemfile
+  - Gemfile.lock
+  - node_modules/
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+  - README.md
+  - CONTRIBUTING.md
+  - docs/

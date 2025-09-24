@@ -1,0 +1,20 @@
+/* SANI Custom CSS Overrides */
+/* Use this file for lightweight typography and style tweaks. */
+
+/* Example: Increase base font size for better readability */
+/*
+body {
+  font-size: 17px;
+}
+*/
+
+/* Example: Ensure good contrast for links */
+/*
+a {
+  color: #0056b3;
+}
+
+a:hover {
+  color: #003d80;
+}
+*/
