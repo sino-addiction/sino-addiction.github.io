@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!--
 TODO: If you plan to use a custom domain like sani-initiative.org, create a file named CNAME in the root of this repository and add the domain name on a single line.
 Example:
@@ -68,3 +69,7 @@ Theme settings, such as color scheme or title, can be modified in the `_config.y
 ## Publishing
 
 The site is automatically built and deployed by GitHub Pages whenever changes are pushed to the `main` branch.
+=======
+# sino-addiction.github.io
+Website
+>>>>>>> 0390b65c482f8cef4c733a0948ae1dc37d148a1d
