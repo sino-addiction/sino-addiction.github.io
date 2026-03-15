@@ -14,23 +14,23 @@ type Props = {
 const { items, numbered = false, columns = 3 } = Astro.props;
 
 const gridClass =
-  columns === 4 ? "grid gap-6 sm:grid-cols-2 xl:grid-cols-4" : columns === 2 ? "grid gap-6 md:grid-cols-2" : "grid gap-6 lg:grid-cols-3";
+  columns === 4 ? "grid gap-6 sm:grid-cols-2 lg:grid-cols-4" : columns === 2 ? "grid gap-6 md:grid-cols-2" : "grid gap-6 lg:grid-cols-3";
 ---
 
 <div class={gridClass}>
   {items.map((item, index) => (
-    <article class:list={["surface-card reveal h-full p-6 md:p-7", index % 3 === 1 ? "delay-1" : index % 3 === 2 ? "delay-2" : ""]}>
-      <div class="flex items-start gap-4">
+    <article class="surface-card flex flex-col h-full p-6 md:p-8 border-t-4 border-t-accent">
+      <div class="flex items-start gap-4 flex-col">
         <span class:list={[
-          "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-sm font-semibold",
-          numbered ? "bg-primary-900 text-white" : "bg-soft-100 text-accent-700",
+          "flex h-12 w-12 shrink-0 items-center justify-center rounded-lg text-sm font-bold shadow-sm",
+          numbered ? "bg-ink-deep text-white" : "bg-surface-alt border border-border text-ink-deep border-b-2",
         ]}>
-          {numbered ? String(index + 1).padStart(2, "0") : item.label ? item.label.slice(0, 3) : "S"}
+          {numbered ? String(index + 1).padStart(2, "0") : item.label ? item.label.slice(0, 3) : "SA"}
         </span>
-        <div class="min-w-0">
-          {item.label && !numbered && <p class="text-xs font-semibold uppercase tracking-[0.06em] text-accent-700">{item.label}</p>}
-          <h3 class="zh-heading mt-1 font-serif text-2xl leading-8 font-bold text-primary-900">{item.title}</h3>
-          <p class="mt-3 text-base leading-7 text-secondary-600">{item.description}</p>
+        <div class="min-w-0 flex-1 mt-4">
+          {item.label && !numbered && <p class="text-[12px] font-semibold uppercase tracking-[0.06em] text-accent mb-2">{item.label}</p>}
+          <h3 class="card-title text-ink-deep leading-snug">{item.title}</h3>
+          <p class="mt-3 text-[15px] leading-relaxed text-text-secondary">{item.description}</p>
         </div>
       </div>
     </article>

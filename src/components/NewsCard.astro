@@ -13,16 +13,20 @@ const formattedDate = entry.data.date.toLocaleDateString("zh-CN", {
 });
 ---
 
-<article class="surface-card reveal group flex h-full flex-col overflow-hidden p-6">
-  <p class="text-sm font-medium text-muted-500">{formattedDate}</p>
-  <h3 class="zh-heading mt-4 font-serif text-2xl leading-8 font-bold tracking-tight text-primary-900">
-    <a href={`/news/${entry.data.slug}/`} class="hover:text-accent-700">{entry.data.title}</a>
+<article class="surface-card group flex h-full flex-col p-7 hover:shadow-md transition-shadow">
+  <p class="text-[12px] font-bold text-text-muted uppercase tracking-wider mb-4 border-l-2 border-accent pl-2">{formattedDate}</p>
+  <h3 class="card-title line-clamp-2 hover:text-accent transition-colors leading-[1.4]">
+    <a href={`/news/${entry.data.slug}/`} class="outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm">
+      {entry.data.title}
+    </a>
   </h3>
-  <p class="mt-4 flex-1 text-base leading-7 text-secondary-600">{entry.data.summary}</p>
-  <div class="mt-6">
-    <a href={`/news/${entry.data.slug}/`} class="btn-link">
+  <p class="mt-4 flex-1 text-[15px] leading-relaxed text-text-secondary line-clamp-3">
+    {entry.data.summary}
+  </p>
+  <div class="mt-6 pt-5 border-t border-border/60">
+    <a href={`/news/${entry.data.slug}/`} class="btn-link text-[13px] font-semibold hover:text-accent transition-colors inline-block">
       阅读更多
-      <span aria-hidden="true">→</span>
+      <span aria-hidden="true" class="ml-1 opacity-70">→</span>
     </a>
   </div>
 </article>

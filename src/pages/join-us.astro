@@ -18,40 +18,55 @@ const { Content } = await render(page);
 
   {page.data.highlights && (
     <section class="page-wrap section-shell">
-      <div class="section-frame px-6 py-10 md:px-10 md:py-12">
-        <SectionHeading eyebrow="Why Join" title="为什么加入 SANI" description="在保持联盟规则清晰的前提下，让更多机构能够共享资源、问题与方法。" center={true} />
-        <div class="mt-10">
-          <FeatureGrid items={page.data.highlights} columns={4} />
-        </div>
+      <SectionHeading eyebrow="Why Join" title="为什么加入 SANI" description="在保持联盟规则清晰的前提下，让更多机构能够共享数据、问题与研究体系。" center={true} />
+      <div class="mt-12">
+        <FeatureGrid items={page.data.highlights} columns={4} />
       </div>
     </section>
   )}
 
   <section class="page-wrap section-shell pt-0">
-    <div class="grid gap-6 xl:grid-cols-[1.02fr_0.98fr]">
-      <div class="section-frame px-6 py-10 md:px-10 md:py-12">
-        <SectionHeading eyebrow="How To Join" title="加入流程" description="当前阶段重点是通过邮件把合作意向、数据边界与角色预期说明清楚。" />
-        {page.data.steps && <Timeline steps={page.data.steps} />}
+    {page.data.cta ? (
+      <div class="grid gap-12 lg:grid-cols-[1fr_360px] items-start">
+        <div class="flex flex-col">
+          <SectionHeading eyebrow="How To Join" title="加入流程" description="当前阶段重点是通过邮件把合作意向、数据边界与角色预期说明清楚。" />
+          {page.data.steps && (
+            <div class="mt-8 surface-card p-8 md:p-12 border-t-4 border-t-accent">
+              <Timeline steps={page.data.steps} />
+            </div>
+          )}
+        </div>
+        <div class="sticky top-24 w-full">
+          <CtaPanel {...page.data.cta} />
+        </div>
       </div>
-      {page.data.cta && <CtaPanel {...page.data.cta} />}
-    </div>
+    ) : (
+      <div class="max-w-4xl mx-auto flex flex-col">
+        <SectionHeading eyebrow="How To Join" title="加入流程" description="联系意向说明。" />
+        {page.data.steps && (
+           <div class="mt-8 surface-card p-8 md:p-12 border-t-4 border-t-accent w-full">
+              <Timeline steps={page.data.steps} />
+           </div>
+        )}
+      </div>
+    )}
   </section>
 
   <section class="page-wrap section-shell pt-0">
-    <div class="section-frame px-6 py-10 md:px-10 md:py-12">
-      <SectionHeading eyebrow="Current Contact Mode" title="静态站点的联系方式" description="这次升级保留纯静态部署，不引入假表单或后端占位逻辑。" />
-      <div class="mt-8 grid gap-8 lg:grid-cols-[1fr_0.9fr]">
-        <div class="prose-shell">
+    <div class="max-w-5xl mx-auto flex flex-col items-center">
+      <SectionHeading eyebrow="Contact Mode" title="机构联系方式" description="当前提供官方邮箱接口对接学术服务。" center={true} />
+      <div class="mt-12 w-full grid gap-10 lg:grid-cols-[1.2fr_1fr] items-stretch surface-card p-10 md:p-12">
+        <div class="prose-shell flex flex-col justify-center">
           <Content />
         </div>
-        <div class="surface-card p-7">
-          <p class="eyebrow">Contact</p>
-          <h3 class="mt-4 font-serif text-3xl font-bold text-primary-900">{siteData.contact.email}</h3>
-          <p class="mt-4 text-base leading-7 text-secondary-600">{siteData.contact.note}</p>
-          <div class="mt-8">
-            <a href={`mailto:${siteData.contact.email}`} class="btn-primary">
+        <div class="h-full flex flex-col justify-center bg-surface-alt p-8 rounded-lg border border-border">
+          <span class="eyebrow ring-1 ring-inset ring-accent/10 mb-5 max-w-min">Email</span>
+          <h3 class="text-[20px] leading-snug font-bold text-ink-deep font-sans break-all">{siteData.contact.email}</h3>
+          <p class="mt-4 text-[15px] leading-relaxed text-text-secondary">{siteData.contact.note}</p>
+          <div class="mt-8 pt-6 border-t border-border">
+            <a href={`mailto:${siteData.contact.email}`} class="btn-primary w-full shadow-sm text-[14px]">
               发送合作邮件
-              <span aria-hidden="true">↗</span>
+              <span aria-hidden="true" class="ml-2 font-normal opacity-70">↗</span>
             </a>
           </div>
         </div>

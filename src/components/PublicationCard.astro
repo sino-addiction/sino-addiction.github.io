@@ -8,24 +8,25 @@ type Props = {
 const { entry } = Astro.props;
 ---
 
-<article class="surface-card reveal p-6 md:p-7">
-  <div class="flex flex-wrap gap-2">
+<article class="surface-card h-full flex flex-col p-6 md:p-8 hover:shadow-md transition-shadow">
+  <div class="flex flex-wrap gap-2 mb-4">
     {entry.data.tags.map((tag) => (
-      <span class="status-badge status-available">{tag}</span>
+      <span class="status-badge status-integrating">{tag}</span>
     ))}
   </div>
-  <h3 class="zh-heading mt-5 font-serif text-2xl leading-8 font-bold tracking-tight text-primary-900">{entry.data.title}</h3>
-  <p class="mt-3 text-base leading-7 text-secondary-600">{entry.data.authors}</p>
-  <p class="mt-3 text-sm font-medium uppercase tracking-[0.08em] text-muted-500">
-    {entry.data.journal} · {entry.data.year}
+  <h3 class="card-title line-clamp-2 text-ink-deep leading-[1.4] m-0">{entry.data.title}</h3>
+  <p class="mt-4 text-[15px] leading-relaxed text-text-secondary line-clamp-2">{entry.data.authors}</p>
+  <p class="mt-4 pt-4 border-t border-border/60 text-[13px] font-[600] uppercase tracking-[0.05em] text-text-muted">
+    {entry.data.journal} <span class="mx-1 font-normal opacity-50">|</span> {entry.data.year}
   </p>
-  {entry.body && <p class="mt-5 text-base leading-7 text-secondary-600">{entry.body}</p>}
-  <div class="mt-6 flex flex-wrap items-center gap-4">
-    {entry.data.doi && <span class="text-sm font-medium text-secondary-600">DOI: {entry.data.doi}</span>}
+  {entry.body && <p class="mt-4 text-[14px] leading-relaxed text-text-secondary line-clamp-2">{entry.body}</p>}
+  
+  <div class="mt-auto pt-6 flex flex-wrap items-center justify-between gap-4 w-full">
+    {entry.data.doi && <span class="text-[12px] font-mono text-text-secondary/80 truncate max-w-[200px]" title={entry.data.doi}>doi:{entry.data.doi}</span>}
     {entry.data.externalUrl && (
-      <a href={entry.data.externalUrl} class="btn-link" target="_blank" rel="noreferrer">
-        查看详情
-        <span aria-hidden="true">↗</span>
+      <a href={entry.data.externalUrl} class="btn-link text-[13px]" target="_blank" rel="noreferrer">
+        查看原文
+        <span aria-hidden="true" class="ml-1 opacity-70">↗</span>
       </a>
     )}
   </div>

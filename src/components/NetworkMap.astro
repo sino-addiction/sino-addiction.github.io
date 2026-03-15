@@ -2,24 +2,40 @@
 import { siteData } from "../data/site";
 ---
 
-<div class="surface-card overflow-hidden p-5 md:p-6">
-  <svg viewBox="0 0 520 360" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg" aria-label="协作网络地图示意" role="img">
-    <defs>
-      <linearGradient id="mapFill" x1="0%" x2="100%" y1="0%" y2="100%">
-        <stop offset="0%" stop-color="#F4F6F3" />
-        <stop offset="100%" stop-color="#EAF1EE" />
-      </linearGradient>
-    </defs>
-    <rect x="8" y="8" width="504" height="344" rx="22" fill="#ffffff" stroke="#D7E0DC" stroke-width="1.5"></rect>
-    <path d="M92 88 C140 52, 220 40, 300 66 C354 84, 410 120, 438 168 C456 202, 444 244, 408 268 C360 300, 284 304, 220 282 C168 264, 120 230, 98 188 C78 148, 72 112, 92 88 Z" fill="url(#mapFill)" stroke="#B7C8C1" stroke-width="1.5"></path>
-    {siteData.networkMap.map((point) => (
-      <>
-        <circle cx={point.x - 12} cy={point.y - 5} r="11" fill="#1F8A84" fill-opacity="0.16"></circle>
-        <circle cx={point.x - 12} cy={point.y - 5} r="5.5" fill="#102132"></circle>
-        <text x={point.x} y={point.y} font-size="12" fill="#486173">
-          {point.city} · {point.label}
-        </text>
-      </>
-    ))}
-  </svg>
+<div class="surface-card flex flex-col justify-center h-full p-8 bg-[radial-gradient(ellipse_at_top,_var(--color-surface),_var(--color-bg))]">
+  <div class="relative w-full aspect-[4/3] max-w-lg mx-auto">
+    <svg viewBox="0 0 520 360" class="w-full h-full drop-shadow-sm" xmlns="http://www.w3.org/2000/svg" aria-label="协作网络地图" role="img">
+      <!-- Grid Background to look like a data platform -->
+      <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="var(--color-border)" stroke-width="0.5" stroke-dasharray="2 2" />
+      </pattern>
+      <rect width="100%" height="100%" fill="url(#grid)" />
+      
+      <!-- Network Links -->
+      <g stroke="var(--color-border)" stroke-width="1.5" stroke-dasharray="4 4">
+        <line x1="260" y1="180" x2="150" y2="100" />
+        <line x1="260" y1="180" x2="380" y2="120" />
+        <line x1="260" y1="180" x2="160" y2="280" />
+        <line x1="260" y1="180" x2="350" y2="260" />
+      </g>
+
+      <!-- Center Hub -->
+      <circle cx="260" cy="180" r="24" fill="var(--color-ink-deep)" fill-opacity="0.05" />
+      <circle cx="260" cy="180" r="8" fill="var(--color-ink-deep)" />
+      <text x="260" y="220" font-size="13" font-weight="600" fill="var(--color-ink-deep)" text-anchor="middle" font-family="Inter, sans-serif">数据与协调中枢</text>
+
+      {siteData.networkMap.map((point) => (
+        <g class="transition-transform hover:scale-105" style="transform-origin: center;">
+          <circle cx={point.x - 12} cy={point.y - 5} r="16" fill="var(--color-accent)" fill-opacity="0.1" />
+          <circle cx={point.x - 12} cy={point.y - 5} r="6" fill="var(--color-accent)" />
+          <text x={point.x + 2} y={point.y - 1} font-size="13" font-weight="600" fill="var(--color-text-primary)" font-family="Inter, sans-serif">
+            {point.city}
+          </text>
+          <text x={point.x + 2} y={point.y + 14} font-size="11" fill="var(--color-text-secondary)" font-family="Inter, sans-serif">
+            {point.label}
+          </text>
+        </g>
+      ))}
+    </svg>
+  </div>
 </div>

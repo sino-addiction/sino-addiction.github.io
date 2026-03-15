@@ -11,18 +11,20 @@ type Props = {
 const { steps } = Astro.props;
 ---
 
-<div class="relative mt-10">
+<div class="relative mt-8">
   <div class="space-y-6">
     {steps.map((step, index) => (
-      <article class:list={["surface-card reveal p-6 md:p-7", index % 3 === 1 ? "delay-1" : index % 3 === 2 ? "delay-2" : ""]}>
-        <div class="flex items-center gap-3">
-          <span class="inline-flex h-9 min-w-9 items-center justify-center rounded-lg bg-primary-900 px-2 text-sm font-semibold text-white">
+      <article class="surface-card flex flex-col md:flex-row md:items-start gap-6 p-6 md:p-8">
+        <div class="flex items-center gap-4 md:w-1/4 shrink-0">
+          <span class="inline-flex h-10 min-w-10 items-center justify-center rounded-lg bg-ink-deep text-[15px] font-bold text-white shadow-sm">
             {String(index + 1).padStart(2, "0")}
           </span>
-          <div class="h-px flex-1 bg-border-200"></div>
+          <div class="h-px w-12 bg-border md:hidden"></div>
         </div>
-        <h3 class="zh-heading mt-5 font-serif text-2xl leading-8 font-bold text-primary-900">{step.title}</h3>
-        <p class="mt-3 text-base leading-7 text-secondary-600">{step.description}</p>
+        <div class="flex-1">
+          <h3 class="card-title text-ink-deep m-0 leading-snug">{step.title}</h3>
+          <p class="mt-3 text-[15px] leading-relaxed text-text-secondary">{step.description}</p>
+        </div>
       </article>
     ))}
   </div>

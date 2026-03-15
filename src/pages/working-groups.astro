@@ -17,34 +17,47 @@ const projects = sortFeaturedFirst(await getCollection("projects"));
   <Hero {...page.data.hero} compact={true} />
 
   <section class="page-wrap section-shell">
-    <div class="section-frame px-6 py-10 md:px-10 md:py-12">
-      <SectionHeading eyebrow="Workflow" title="项目申请流程" description="先明确问题，再评估可行性、资源边界与复现要求，让协作从一开始就可追踪。" />
-      {page.data.steps && <Timeline steps={page.data.steps} />}
-    </div>
+    <SectionHeading eyebrow="Workflow" title="项目申请流程" description="明确研究问题与边界，在平台框架内进行标准化的合作流转。" center={true} />
+    {page.data.steps && page.data.steps.length > 0 && (
+      <div class="mt-12 surface-card p-8 md:p-12 border-t-4 border-t-accent">
+        <Timeline steps={page.data.steps} />
+      </div>
+    )}
   </section>
 
-  <section class="page-wrap section-shell pt-0">
-    <div class="grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">
-      <div class="section-frame px-6 py-10 md:px-10 md:py-12">
-        <SectionHeading eyebrow="Current Projects" title="当前项目" description="展示示例项目与阶段进展，后续可以直接通过 Markdown 新增或更新。" />
-        <div class="prose-shell mt-6">
+  {page.data.cta ? (
+    <section class="page-wrap section-shell pt-0">
+      <div class="grid gap-10 lg:grid-cols-[1fr_360px] items-start">
+        <div class="flex flex-col">
+          <SectionHeading eyebrow="Guidelines" title="管理办法" description="查阅相关的申请和协作规则。" />
+          <div class="prose-shell mt-8 surface-card p-8">
+            <Content />
+          </div>
+        </div>
+        <div class="sticky top-24 w-full">
+          <CtaPanel {...page.data.cta} />
+        </div>
+      </div>
+    </section>
+  ) : (
+    <section class="page-wrap section-shell pt-0">
+      <div class="max-w-4xl mx-auto flex flex-col items-center">
+        <SectionHeading eyebrow="Guidelines" title="管理办法" description="查阅相关的申请和协作规则。" center={true} />
+        <div class="prose-shell mt-8 surface-card p-8 md:p-12 w-full">
           <Content />
         </div>
       </div>
+    </section>
+  )}
 
-      {page.data.cta && <CtaPanel {...page.data.cta} />}
-    </div>
-  </section>
-
-  <section id="current-projects" class="page-wrap section-shell pt-0">
-    <div class="section-frame px-6 py-10 md:px-10 md:py-12">
-      <div class="grid gap-6 md:grid-cols-2">
-        {projects.map((entry, index) => (
-          <div class:list={[index % 2 === 1 ? "delay-1" : ""]}>
-            <ProjectCard entry={entry} />
-          </div>
+  {projects && projects.length > 0 && (
+    <section id="current-projects" class="page-wrap section-shell pt-0">
+      <SectionHeading eyebrow="Current Projects" title="当前在研项目" description="覆盖多方面的合作项目进度与产出目录。" center={true} />
+      <div class="mt-12 grid gap-6 xl:grid-cols-2 auto-rows-fr">
+        {projects.map((entry) => (
+          <ProjectCard entry={entry} />
         ))}
       </div>
-    </div>
-  </section>
+    </section>
+  )}
 </BaseLayout>

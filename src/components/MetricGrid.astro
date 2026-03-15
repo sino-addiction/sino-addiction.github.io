@@ -18,16 +18,16 @@ const getStatusClass = (status: string) => {
 };
 ---
 
-<div class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+<div class="grid gap-4 auto-rows-fr">
   {items.map((item, index) => (
-    <article class:list={["surface-card reveal h-full p-6", index % 3 === 1 ? "delay-1" : index % 3 === 2 ? "delay-2" : ""]}>
-      <div class="flex items-start justify-between gap-3">
-        <h3 class="zh-heading font-serif text-2xl leading-8 font-bold text-primary-900">{item.name}</h3>
-        <span class:list={["status-badge", getStatusClass(item.status)]}>
+    <article class="surface-card p-5 h-full flex flex-col justify-center w-full">
+      <div class="flex items-center justify-between gap-3">
+        <h3 class="card-title text-[18px] line-clamp-1 m-0">{item.name}</h3>
+        <span class:list={["status-badge shrink-0", getStatusClass(item.status)]}>
           {item.status === "available" ? "可用" : item.status === "integrating" ? "整合中" : "规划中"}
         </span>
       </div>
-      <p class="mt-4 text-sm leading-6 text-secondary-600">{item.note}</p>
+      <p class="mt-3 text-[14px] leading-relaxed text-text-secondary w-full">{item.note}</p>
     </article>
   ))}
 </div>

@@ -15,18 +15,23 @@ const { Content } = await render(page);
   <Hero {...page.data.hero} compact={true} accentLabel={siteData.collaborationFlow} />
 
   <section class="page-wrap section-shell">
-    <div class="section-frame px-6 py-10 md:px-10 md:py-12">
-      <SectionHeading eyebrow="System Design" title="从数据到成果的协作链路" description="SANI 的协作重点不是单次数据汇总，而是让治理、处理、分析和成果沉淀形成可持续复用的机制。" />
-      <div class="mt-8 grid gap-10 lg:grid-cols-[1.05fr_0.95fr]">
-        <div class="prose-shell">
+    <div class="grid gap-12 lg:grid-cols-2 lg:items-center">
+      <div class="flex flex-col h-full justify-center">
+        <SectionHeading eyebrow="System Design" title="从数据到成果的协作链路" description="SANI 的协作重点不是单次数据汇总，而是让治理、处理、分析和成果沉淀形成可持续复用的模式。" />
+        <div class="prose-shell mt-8 surface-card p-8 md:p-10 border-l-4 border-l-status-integrating">
           <Content />
         </div>
-        <div class="grid gap-4">
+      </div>
+      <div class="h-full w-full">
+        <div class="grid gap-4 auto-rows-fr h-full">
           {siteData.collaborationFlow.map((item, index) => (
-            <div class:list={["surface-card reveal p-5", index === 1 ? "delay-1" : index === 2 ? "delay-2" : index === 3 ? "delay-3" : ""]}>
-              <p class="text-xs font-semibold uppercase tracking-[0.08em] text-accent-700">Phase {index + 1}</p>
-              <h3 class="zh-heading mt-3 font-serif text-2xl leading-8 font-bold text-primary-900">{item}</h3>
-            </div>
+            <article class="surface-card flex items-center gap-4 p-5 md:p-6 hover:border-accent hover:shadow-md transition-all">
+              <span class="flex shrink-0 h-10 w-10 bg-surface-alt border border-border text-ink-deep font-bold items-center justify-center rounded-lg text-sm">{index + 1}</span>
+              <div class="min-w-0 flex flex-col justify-center">
+                <span class="text-[12px] font-bold text-accent uppercase tracking-wider">Phase {index + 1}</span>
+                <h3 class="card-title text-[18px] opacity-90 mt-1">{item}</h3>
+              </div>
+            </article>
           ))}
         </div>
       </div>
@@ -35,17 +40,16 @@ const { Content } = await render(page);
 
   {page.data.sections && (
     <section class="page-wrap section-shell pt-0">
-      <div class="section-frame px-6 py-10 md:px-10 md:py-12">
-        <SectionHeading eyebrow="Governance Details" title="协作原则" description="把角色分工、工作流与署名规则写清楚，是联盟持续运行的前提。" />
-        <div class="mt-8">
-          <FeatureGrid
-            items={page.data.sections.map((section) => ({
-              label: "SANI",
-              title: section.title,
-              description: section.body,
-            }))}
-          />
-        </div>
+      <SectionHeading eyebrow="Governance Details" title="协作原则" description="把角色分工、工作流与署名规则写清楚，是联盟持续运行的前提。" center={true} />
+      <div class="mt-12">
+        <FeatureGrid
+          items={page.data.sections.map((section) => ({
+            label: "SANI",
+            title: section.title,
+            description: section.body,
+          }))}
+          columns={2}
+        />
       </div>
     </section>
   )}

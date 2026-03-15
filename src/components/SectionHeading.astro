@@ -4,13 +4,14 @@ type Props = {
   title: string;
   description?: string;
   center?: boolean;
+  inverted?: boolean;
 };
 
-const { eyebrow, title, description, center = false } = Astro.props;
+const { eyebrow, title, description, center = false, inverted = false } = Astro.props;
 ---
 
-<div class:list={[center ? "mx-auto max-w-3xl text-center" : "max-w-3xl"]}>
-  {eyebrow && <p class="eyebrow">{eyebrow}</p>}
-  <h2 class="section-title zh-heading mt-4">{title}</h2>
-  {description && <p class="mt-4 text-base leading-7 text-secondary-600 md:text-[1.0625rem]">{description}</p>}
+<div class:list={[center ? "mx-auto text-center flex flex-col items-center" : "", "max-w-3xl"]}>
+  {eyebrow && <span class:list={["eyebrow mb-5 ring-1 ring-inset", inverted ? "text-accent-soft bg-white/5 ring-white/20" : "ring-accent/10"]}>{eyebrow}</span>}
+  <h2 class:list={["text-h2", inverted ? "text-white" : "text-ink-deep"]}>{title}</h2>
+  {description && <p class:list={["mt-5 body-large max-w-2xl", center ? "mx-auto" : "", inverted ? "text-white/80" : "text-text-secondary"]}>{description}</p>}
 </div>

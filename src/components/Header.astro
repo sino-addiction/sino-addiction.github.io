@@ -16,21 +16,23 @@ const isActive = (href: string) => {
 };
 ---
 
-<header class="site-header px-4 md:px-6" data-site-header>
+<header class="site-header" data-site-header>
   <div class="nav-frame">
-    <div class="hidden h-full items-center lg:grid lg:grid-cols-[260px_minmax(0,1fr)_190px] lg:gap-6">
-      <a href="/" class="inline-flex items-center gap-3">
-        <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-primary-900 text-sm font-bold text-white">SA</span>
-        <span class="min-w-0">
-          <span class="block font-serif text-[1.35rem] font-bold leading-6 text-primary-900">{siteData.siteShortName}</span>
-          <span class="block truncate text-[11px] font-medium uppercase tracking-[0.08em] text-muted-500">Sino Addiction Neuroimaging Initiative</span>
+    <div class="hidden h-full w-full items-center justify-between lg:flex lg:gap-8">
+      <a href="/" class="inline-flex items-center gap-4 shrink-0">
+        <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-ink-deep text-sm font-bold text-white shadow-sm">SA</span>
+        <span class="min-w-0 flex flex-col justify-center">
+          <span class="block font-serif text-[20px] font-bold leading-tight text-ink-deep">{siteData.siteShortName}</span>
+          <span class="block text-[11px] font-[600] uppercase tracking-[0.06em] text-text-muted mt-[2px] leading-[1.2] whitespace-nowrap">
+            Sino Addiction<br/>Neuroimaging Initiative
+          </span>
         </span>
       </a>
 
-      <nav aria-label="主导航" class="min-w-0">
-        <ul class="flex min-w-0 items-center justify-center gap-1 whitespace-nowrap">
+      <nav aria-label="主导航" class="min-w-0 h-full flex-1 flex justify-center">
+        <ul class="flex min-w-0 items-center justify-center gap-2 whitespace-nowrap h-full">
           {siteData.navigation.map((item) => (
-            <li>
+            <li class="h-full flex items-center">
               <a href={item.href} class:list={["nav-link", isActive(item.href) ? "nav-link-active" : ""]}>
                 {item.label}
               </a>
@@ -39,29 +41,29 @@ const isActive = (href: string) => {
         </ul>
       </nav>
 
-      <div class="flex justify-end">
+      <div class="flex justify-end shrink-0">
         {siteData.portal.available && siteData.portal.href ? (
-          <a href={siteData.portal.href} class="btn-secondary">
+          <a href={siteData.portal.href} class="btn-secondary whitespace-nowrap">
             {siteData.portal.label}
           </a>
         ) : (
-          <span class="inline-flex h-11 items-center rounded-full border border-border-200 bg-surface-0 px-4 text-sm font-semibold text-secondary-600">
+          <span class="btn-secondary whitespace-nowrap opacity-80 cursor-not-allowed">
             {siteData.portal.label} · 即将开放
           </span>
         )}
       </div>
     </div>
 
-    <details class="group py-4 lg:hidden">
+    <details class="group py-4 w-full lg:hidden">
       <summary class="flex cursor-pointer list-none items-center justify-between gap-4">
         <span class="inline-flex items-center gap-3">
-          <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary-900 text-sm font-bold text-white">SA</span>
-          <span class="font-serif text-2xl font-bold leading-none text-primary-900">{siteData.siteShortName}</span>
+          <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-ink-deep text-sm font-bold text-white shadow-sm">SA</span>
+          <span class="font-serif text-[20px] font-bold leading-none text-ink-deep">{siteData.siteShortName}</span>
         </span>
-        <span class="btn-secondary px-4">菜单</span>
+        <span class="btn-secondary px-4 text-xs h-9">菜单</span>
       </summary>
 
-      <div class="mt-4 border-t border-border-200 pt-4">
+      <div class="mt-4 border-t border-border pt-4">
         <nav aria-label="移动端主导航">
           <ul class="grid gap-1">
             {siteData.navigation.map((item) => (
@@ -69,10 +71,10 @@ const isActive = (href: string) => {
                 <a
                   href={item.href}
                   class:list={[
-                    "flex min-h-11 items-center rounded-lg px-3 text-base font-medium",
+                    "flex min-h-11 items-center rounded-lg px-3 text-[15px] font-medium transition-colors",
                     isActive(item.href)
-                      ? "bg-soft-100 text-primary-900"
-                      : "text-secondary-600 hover:bg-soft-100 hover:text-primary-900",
+                      ? "bg-surface-alt text-ink-deep border border-border"
+                      : "text-text-secondary hover:bg-surface-alt hover:text-ink-deep",
                   ]}
                 >
                   {item.label}
@@ -81,7 +83,7 @@ const isActive = (href: string) => {
             ))}
           </ul>
         </nav>
-        <p class="mt-4 rounded-lg border border-border-200 bg-surface-0 px-4 py-3 text-sm leading-6 text-secondary-600">{siteData.portal.note}</p>
+        <p class="mt-4 rounded-lg border border-border bg-surface-alt px-4 py-3 text-sm leading-6 text-text-secondary">{siteData.portal.note}</p>
       </div>
     </details>
   </div>

@@ -11,19 +11,19 @@ type Props = {
 const { eyebrow, title, description, label, href, external = false } = Astro.props;
 ---
 
-<aside class="surface-card reveal p-7 md:p-8">
-  {eyebrow && <p class="eyebrow">{eyebrow}</p>}
-  <h3 class="zh-heading mt-5 font-serif text-[1.75rem] leading-[2.3rem] font-bold tracking-tight text-primary-900">{title}</h3>
-  <p class="mt-4 max-w-2xl text-base leading-7 text-secondary-600">{description}</p>
-  <div class="mt-8">
+<aside class="surface-card p-7 md:p-8 border-l-4 border-l-accent flex flex-col items-start w-full">
+  {eyebrow && <span class="eyebrow mb-4 ring-1 ring-inset ring-accent/10">{eyebrow}</span>}
+  <h3 class="text-[22px] leading-snug font-bold text-ink-deep">{title}</h3>
+  <p class="mt-3 text-[15px] leading-relaxed text-text-secondary">{description}</p>
+  <div class="mt-6 pt-5 border-t border-border w-full flex">
     <a
       href={href}
-      class="btn-secondary"
+      class="btn-secondary text-[13px] w-full text-center"
       target={external ? "_blank" : undefined}
       rel={external ? "noreferrer" : undefined}
     >
       {label}
-      <span aria-hidden="true">{external ? "↗" : "→"}</span>
+      <span aria-hidden="true" class="ml-1 opacity-70">{external ? "↗" : "→"}</span>
     </a>
   </div>
 </aside>
