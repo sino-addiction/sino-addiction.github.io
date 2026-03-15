@@ -14,43 +14,73 @@ const { Content } = await render(page);
 <BaseLayout title={page.data.title} description={page.data.description}>
   <Hero {...page.data.hero} compact={true} accentLabel={siteData.collaborationFlow} />
 
+  <!-- Core Flow inserted here from old homepage -->
+  <section class="page-wrap section-shell pb-16 md:pb-24 border-b border-border/60">
+    <SectionHeading title="协作与产出链路" description="统一预处理、质量控制和数据汇聚，为科学协作扫除方法壁垒。" center={true} />
+    
+    <div class="mt-16 max-w-5xl mx-auto hidden md:block relative">
+      <div class="absolute top-[40px] left-[13%] right-[13%] h-[2px] bg-border z-0"></div>
+      
+      <div class="grid grid-cols-4 gap-6 relative z-10">
+        {siteData.collaborationFlow.map((step, idx) => (
+          <div class="flex flex-col items-center text-center group">
+            <div class="w-[80px] h-[80px] rounded-full bg-surface border-2 border-border flex items-center justify-center text-[24px] font-bold text-ink-deep mb-6 group-hover:border-accent transition-colors shadow-sm relative overflow-hidden">
+               <div class="absolute inset-0 bg-accent/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+               <span class="relative z-10">0{idx + 1}</span>
+            </div>
+            <h3 class="text-[18px] lg:text-[20px] font-bold text-ink-deep mb-3">{step}</h3>
+          </div>
+        ))}
+      </div>
+      <div class="grid grid-cols-4 gap-6 mt-4 opacity-80">
+        <p class="text-[14px] leading-relaxed text-text-secondary text-center px-2">中心数据依照协定安全汇聚，物理隔离脱敏并清洗字段。</p>
+        <p class="text-[14px] leading-relaxed text-text-secondary text-center px-2">执行自动化预处理管道与质量检查，校正跨站点信号偏移。</p>
+        <p class="text-[14px] leading-relaxed text-text-secondary text-center px-2">发起假设驱动研究在联盟登记后进入执行分析流程。</p>
+        <p class="text-[14px] leading-relaxed text-text-secondary text-center px-2">提炼可复用代码，沉淀多中心协作规范论著与公共基质。</p>
+      </div>
+    </div>
+
+    <!-- Mobile view -->
+    <div class="mt-12 md:hidden flex flex-col gap-10 relative">
+      <div class="absolute left-[31px] top-4 bottom-4 w-[2px] bg-border z-0"></div>
+      {siteData.collaborationFlow.map((step, idx) => (
+        <div class="flex items-start gap-5 relative z-10">
+          <div class="w-[64px] h-[64px] shrink-0 rounded-full bg-surface border-2 border-border flex items-center justify-center text-[20px] font-bold text-ink-deep shadow-sm">0{idx+1}</div>
+          <div class="pt-2">
+            <h3 class="text-[18px] font-bold text-ink-deep mb-2">{step}</h3>
+            {idx === 0 && <p class="text-[15px] leading-relaxed text-text-secondary">中心数据依照协定安全汇聚，保证跨中心的清洗一致性。</p>}
+            {idx === 1 && <p class="text-[15px] leading-relaxed text-text-secondary">执行自动化预处理管道，提供开箱即用的分析态数据。</p>}
+            {idx === 2 && <p class="text-[15px] leading-relaxed text-text-secondary">支持研究者提交专项计划，启动深度数据分析工作。</p>}
+            {idx === 3 && <p class="text-[15px] leading-relaxed text-text-secondary">发布科学论著与工具组件，反馈到联盟生态与科研池中。</p>}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Content Sections -->
   <section class="page-wrap section-shell">
-    <div class="grid gap-12 lg:grid-cols-2 lg:items-center">
-      <div class="flex flex-col h-full justify-center">
-        <SectionHeading eyebrow="System Design" title="从数据到成果的协作链路" description="SANI 的协作重点不是单次数据汇总，而是让治理、处理、分析和成果沉淀形成可持续复用的模式。" />
-        <div class="prose-shell mt-8 surface-card p-8 md:p-10 border-l-4 border-l-status-integrating">
+    <div class="grid gap-12 lg:grid-cols-2 lg:items-start max-w-6xl mx-auto">
+      <div class="flex flex-col pt-8">
+        <SectionHeading eyebrow="System Detail" title="平台协作规范" description="为确保所有多中心工作的效率与严谨，联盟遵循公开、透明的工作准则。" />
+        <div class="prose-shell mt-8 surface-card p-8 md:p-10 border-l-4 border-l-status-integrating text-[15px] leading-[1.8]">
           <Content />
         </div>
       </div>
-      <div class="h-full w-full">
-        <div class="grid gap-4 auto-rows-fr h-full">
-          {siteData.collaborationFlow.map((item, index) => (
-            <article class="surface-card flex items-center gap-4 p-5 md:p-6 hover:border-accent hover:shadow-md transition-all">
-              <span class="flex shrink-0 h-10 w-10 bg-surface-alt border border-border text-ink-deep font-bold items-center justify-center rounded-lg text-sm">{index + 1}</span>
-              <div class="min-w-0 flex flex-col justify-center">
-                <span class="text-[12px] font-bold text-accent uppercase tracking-wider">Phase {index + 1}</span>
-                <h3 class="card-title text-[18px] opacity-90 mt-1">{item}</h3>
-              </div>
-            </article>
-          ))}
-        </div>
+      <div>
+        {page.data.sections && (
+          <div class="grid gap-6">
+             {page.data.sections.map((section) => (
+              <article class="surface-card p-6 md:p-8 border-t-4 border-t-accent hover:shadow-md transition-shadow">
+                <span class="text-[12px] font-bold text-accent uppercase tracking-wider mb-2 block">Protocol</span>
+                <h3 class="text-[20px] font-bold text-ink-deep mb-3">{section.title}</h3>
+                <p class="text-[15px] leading-relaxed text-text-secondary">{section.body}</p>
+              </article>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   </section>
 
-  {page.data.sections && (
-    <section class="page-wrap section-shell pt-0">
-      <SectionHeading eyebrow="Governance Details" title="协作原则" description="把角色分工、工作流与署名规则写清楚，是联盟持续运行的前提。" center={true} />
-      <div class="mt-12">
-        <FeatureGrid
-          items={page.data.sections.map((section) => ({
-            label: "SANI",
-            title: section.title,
-            description: section.body,
-          }))}
-          columns={2}
-        />
-      </div>
-    </section>
-  )}
 </BaseLayout>
