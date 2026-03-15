@@ -19,7 +19,7 @@ const getStatusClass = (status: string) => {
 ---
 
 <div class="grid gap-4 auto-rows-fr">
-  {items.map((item) => (
+  {items.map((item, index) => (
     <article class="surface-card p-5 h-full flex flex-col justify-center w-full">
       <div class="flex items-center justify-between gap-3">
         <h3 class="card-title text-[18px] line-clamp-1 m-0">{item.name}</h3>

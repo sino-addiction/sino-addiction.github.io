@@ -16,23 +16,9 @@ export type SiteStatusItem = {
   note: string;
 };
 
-export type CollaborationSite = {
-  id: string;
-  city: string;
-  label: string;
-  institution: string;
-  sampleSize: string;
-  memberCount: string;
-  x: number;
-  y: number;
-  panelPlacement: "top-left" | "top-right" | "right" | "bottom-left" | "bottom-right";
-  connectorPath: string;
-};
-
 type SiteData = {
   siteName: string;
   siteShortName: string;
-  siteFullNameEn: string;
   description: string;
   navigation: SiteLink[];
   footerLinks: SiteLink[];
@@ -52,7 +38,6 @@ type SiteData = {
     addictionTypes: SiteStatusItem[];
   };
   collaborationFlow: string[];
-  collaborationSites: CollaborationSite[];
   networkMap: {
     label: string;
     city: string;
@@ -66,16 +51,15 @@ type SiteData = {
 export const siteData: SiteData = {
   siteName: "中国成瘾神经影像协作计划",
   siteShortName: "SANI",
-  siteFullNameEn: "Sino Addiction Neuroimaging Initiative",
   description:
     "SANI 致力于构建国内成瘾神经影像数据库，以多中心协作为基础推动标准化、可复现和高质量研究。",
   navigation: [
     { label: "首页", href: "/" },
     { label: "协作模式", href: "/collaboration" },
+    { label: "数据看板", href: "/dashboard" },
     { label: "项目管理", href: "/working-groups" },
     { label: "研究成果", href: "/publications" },
     { label: "关于我们", href: "/about" },
-    { label: "加入我们", href: "/join-us" },
   ],
   footerLinks: [
     { label: "隐私政策", href: "mailto:sani@placeholder.org", external: true },
@@ -113,80 +97,6 @@ export const siteData: SiteData = {
     ],
   },
   collaborationFlow: ["数据汇聚", "标准化处理", "协作分析", "成果沉淀"],
-  collaborationSites: [
-    {
-      id: "beijing",
-      city: "北京",
-      label: "北京中心",
-      institution: "北京大学第六医院",
-      sampleSize: "样本 450",
-      memberCount: "成员 26",
-      x: 338,
-      y: 86,
-      panelPlacement: "top-right",
-      connectorPath: "M338 86 C390 78,444 64,504 46",
-    },
-    {
-      id: "shanghai",
-      city: "上海",
-      label: "上海中心",
-      institution: "上海市精神卫生中心",
-      sampleSize: "样本 320",
-      memberCount: "成员 22",
-      x: 404,
-      y: 150,
-      panelPlacement: "right",
-      connectorPath: "M404 150 C446 152,476 156,510 164",
-    },
-    {
-      id: "guangzhou",
-      city: "广州",
-      label: "广州中心",
-      institution: "南方医科大学",
-      sampleSize: "样本 210",
-      memberCount: "成员 18",
-      x: 356,
-      y: 246,
-      panelPlacement: "bottom-right",
-      connectorPath: "M356 246 C406 278,452 296,504 318",
-    },
-    {
-      id: "wuhan",
-      city: "武汉",
-      label: "武汉中心",
-      institution: "武汉大学人民医院",
-      sampleSize: "样本 160",
-      memberCount: "成员 16",
-      x: 324,
-      y: 188,
-      panelPlacement: "right",
-      connectorPath: "M324 188 C382 192,442 198,510 204",
-    },
-    {
-      id: "xian",
-      city: "西安",
-      label: "西安中心",
-      institution: "空军军医大学",
-      sampleSize: "样本 120",
-      memberCount: "成员 14",
-      x: 254,
-      y: 148,
-      panelPlacement: "top-left",
-      connectorPath: "M254 148 C208 122,150 92,88 60",
-    },
-    {
-      id: "chengdu",
-      city: "成都",
-      label: "成都中心",
-      institution: "四川大学华西医院",
-      sampleSize: "样本 280",
-      memberCount: "成员 17",
-      x: 206,
-      y: 214,
-      panelPlacement: "bottom-left",
-      connectorPath: "M206 214 C164 250,124 284,74 318",
-    },
-  ],
   networkMap: [
     { city: "北京", institution: "北京大学第六医院", count: "450 样本", label: "张三", x: 332, y: 92 },
     { city: "上海", institution: "上海市精神卫生中心", count: "320 样本", label: "王五", x: 394, y: 136 },

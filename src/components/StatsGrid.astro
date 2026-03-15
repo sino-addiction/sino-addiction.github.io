@@ -13,7 +13,7 @@ const { items } = Astro.props;
 ---
 
 <div class="grid gap-6 md:grid-cols-3">
-  {items.map((item) => (
+  {items.map((item, index) => (
     <article class="flex flex-col p-6 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm min-h-[160px]">
       <p class="font-serif text-[48px] leading-[1.1] font-bold tracking-tight text-white mb-3">{item.value}</p>
       <p class="mt-auto text-[16px] font-semibold text-white/95">{item.label}</p>
