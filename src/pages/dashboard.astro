@@ -3,7 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import SectionHeading from "../components/SectionHeading.astro";
 import MetricGrid from "../components/MetricGrid.astro";
 import { siteData } from "../data/site";
-import { requirePage, render } from "../lib/content";
+import { requirePage } from "../lib/content";
 
 // Use same hero pattern from pages
 const page = await requirePage("dashboard").catch(() => null);

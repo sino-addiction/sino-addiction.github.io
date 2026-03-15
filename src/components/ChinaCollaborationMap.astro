@@ -1,0 +1,128 @@
+---
+import { siteData } from "../data/site";
+import SectionHeading from "./SectionHeading.astro";
+
+const defaultSite = siteData.collaborationSites[0]?.id ?? "";
+---
+
+<section class="page-wrap section-shell pb-16 pt-10">
+  <div class="map-section-shell">
+    <SectionHeading
+      eyebrow="Collaboration Map"
+      title="协作版图"
+      description="以下示意图展示国内主要协作站点的空间分布。悬停节点可查看单位、城市与参与规模。"
+    />
+
+    <div class="mt-8 hidden lg:block" data-map-root data-default-site={defaultSite} data-active-site={defaultSite}>
+      <div class="map-desktop-stage">
+        <div class="map-figure-wrap">
+          <svg viewBox="0 0 560 360" class="h-auto w-full" xmlns="http://www.w3.org/2000/svg" aria-label="中国协作版图示意图" role="img">
+            <defs>
+              <linearGradient id="chinaFill" x1="0%" x2="100%" y1="0%" y2="100%">
+                <stop offset="0%" stop-color="#EEF4F1"></stop>
+                <stop offset="100%" stop-color="#E2ECE8"></stop>
+              </linearGradient>
+            </defs>
+
+            <path
+              d="M76 124 L112 98 L168 84 L218 88 L256 74 L302 82 L344 72 L388 86 L430 102 L462 126 L486 154 L474 182 L494 210 L480 232 L442 248 L416 272 L378 282 L340 298 L292 302 L250 288 L204 286 L174 264 L140 254 L110 228 L90 198 L80 170 L68 144 Z"
+              fill="url(#chinaFill)"
+              stroke="#B9CCC4"
+              stroke-width="1.8"
+            ></path>
+            <path d="M462 126 L506 110 L532 128 L510 160 L474 182" fill="none" stroke="#B9CCC4" stroke-width="1.6"></path>
+
+            <g class="connector connector-base">
+              {siteData.collaborationSites.map((site) => (
+                <path class={`connector-path connector-${site.id}`} d={site.connectorPath}></path>
+              ))}
+            </g>
+
+            <g>
+              {siteData.collaborationSites.map((site) => (
+                <g class="map-site" data-site-id={site.id} tabindex="0" role="button" aria-label={`${site.city}，${site.institution}`}>
+                  <circle cx={site.x} cy={site.y} r="13" class="site-ring"></circle>
+                  <circle cx={site.x} cy={site.y} r="5.4" class="site-core"></circle>
+                  <text x={site.x + 10} y={site.y - 10} class="site-label">
+                    {site.city}
+                  </text>
+                </g>
+              ))}
+            </g>
+          </svg>
+        </div>
+
+        <div class="map-tooltip-layer">
+          {siteData.collaborationSites.map((site) => (
+            <article class={`map-tooltip map-tooltip-${site.panelPlacement}`} data-site-card={site.id} id={`site-card-${site.id}`}>
+              <p class="text-xs font-semibold uppercase tracking-[0.06em] text-muted-500">{site.label}</p>
+              <h3 class="mt-2 font-serif text-xl font-bold text-primary-900">{site.institution}</h3>
+              <p class="mt-1 text-sm text-secondary-600">{site.city}</p>
+              <div class="mt-3 flex flex-wrap gap-2">
+                <span class="status-badge status-available">{site.sampleSize}</span>
+                <span class="status-badge status-integrating">{site.memberCount}</span>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <div class="lg:hidden">
+      <div class="map-mobile-canvas">
+        <svg viewBox="0 0 560 360" class="h-auto w-full" xmlns="http://www.w3.org/2000/svg" aria-label="中国协作版图移动示意" role="img">
+          <path
+            d="M76 124 L112 98 L168 84 L218 88 L256 74 L302 82 L344 72 L388 86 L430 102 L462 126 L486 154 L474 182 L494 210 L480 232 L442 248 L416 272 L378 282 L340 298 L292 302 L250 288 L204 286 L174 264 L140 254 L110 228 L90 198 L80 170 L68 144 Z"
+            fill="#EEF4F1"
+            stroke="#B9CCC4"
+            stroke-width="1.8"
+          ></path>
+          <path d="M462 126 L506 110 L532 128 L510 160 L474 182" fill="none" stroke="#B9CCC4" stroke-width="1.6"></path>
+          {siteData.collaborationSites.map((site) => (
+            <>
+              <circle cx={site.x} cy={site.y} r="10" fill="#1F8A84" fill-opacity="0.18"></circle>
+              <circle cx={site.x} cy={site.y} r="4.6" fill="#176E69"></circle>
+            </>
+          ))}
+        </svg>
+      </div>
+
+      <div class="mt-5 grid gap-3 sm:grid-cols-2">
+        {siteData.collaborationSites.map((site) => (
+          <article class="surface-card p-4">
+            <p class="text-xs font-semibold uppercase tracking-[0.06em] text-muted-500">{site.label}</p>
+            <h3 class="mt-1 font-semibold text-primary-900">{site.institution}</h3>
+            <p class="mt-1 text-sm text-secondary-600">{site.city}</p>
+            <div class="mt-2 flex flex-wrap gap-2">
+              <span class="status-badge status-available">{site.sampleSize}</span>
+              <span class="status-badge status-integrating">{site.memberCount}</span>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  (() => {
+    const roots = document.querySelectorAll("[data-map-root]");
+    roots.forEach((root) => {
+      const defaultSite = root.getAttribute("data-default-site") || "";
+      const setActive = (siteId) => {
+        if (!siteId) return;
+        root.setAttribute("data-active-site", siteId);
+      };
+
+      setActive(defaultSite);
+
+      const siteNodes = root.querySelectorAll("[data-site-id]");
+      siteNodes.forEach((node) => {
+        const siteId = node.getAttribute("data-site-id") || "";
+        node.addEventListener("mouseenter", () => setActive(siteId));
+        node.addEventListener("focus", () => setActive(siteId));
+        node.addEventListener("click", () => setActive(siteId));
+      });
+    });
+  })();
+</script>

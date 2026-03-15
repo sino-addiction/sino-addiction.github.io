@@ -1,115 +1,55 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import SectionHeading from "../components/SectionHeading.astro";
-import FeaturedCarousel from "../components/FeaturedCarousel.astro";
-import NetworkMap from "../components/NetworkMap.astro";
-import { siteData } from "../data/site";
-import { listPublishedNews, sortFeaturedFirst } from "../lib/content";
+import HomeHero from "../components/HomeHero.astro";
+import ChinaCollaborationMap from "../components/ChinaCollaborationMap.astro";
+import AllianceUpdates from "../components/AllianceUpdates.astro";
+import { listPublishedNews, requirePage, sortFeaturedFirst } from "../lib/content";
 
-// Fetch contents
-const news = (await listPublishedNews()).slice(0, 1);
-const projects = sortFeaturedFirst(await getCollection("projects")).slice(0, 1);
-const publications = sortFeaturedFirst(await getCollection("publications")).slice(0, 1);
+const page = await requirePage("index");
+const news = (await listPublishedNews()).slice(0, 4);
+const projects = sortFeaturedFirst(await getCollection("projects")).slice(0, 3);
+const publications = sortFeaturedFirst(await getCollection("publications"))
+  .sort((a, b) => b.data.year - a.data.year)
+  .slice(0, 3);
 
-const carouselItems: { type: "项目" | "新闻" | "成果"; title: string; description: string; url: string; meta: string; }[] = [];
+const truncate = (text: string, length = 86) => (text.length > length ? `${text.slice(0, length)}…` : text);
 
-news.forEach(n => {
-  const dateStr = n.data.date.toLocaleDateString("zh-CN", { year: "numeric", month: "long", day: "numeric" });
-  carouselItems.push({
-    type: "新闻",
-    title: n.data.title,
-    description: n.data.summary,
-    url: `/news/${n.slug}/`,
-    meta: dateStr
-  });
-});
-
-projects.forEach(p => {
-  carouselItems.push({
-    type: "项目",
-    title: p.data.title,
-    description: p.body,
-    url: "/working-groups",
-    meta: p.data.lead || "SANI Team"
-  });
-});
-
-publications.forEach(p => {
-  carouselItems.push({
-    type: "成果",
-    title: p.data.title,
-    description: p.body || p.data.authors,
-    url: p.data.externalUrl || "/publications",
-    meta: `${p.data.journal} / ${p.data.year}`
-  });
-});
+const updateItems = [
+  ...news.map((entry) => ({
+    type: "新闻" as const,
+    title: entry.data.title,
+    summary: truncate(entry.data.summary, 90),
+    meta: entry.data.date.toLocaleDateString("zh-CN", { year: "numeric", month: "2-digit", day: "2-digit" }),
+    href: `/news/${entry.data.slug}/`,
+  })),
+  ...projects.map((entry) => ({
+    type: "项目" as const,
+    title: entry.data.title,
+    summary: truncate(entry.body ?? "项目详情请见工作组页面。", 90),
+    meta: `${entry.data.lead} · ${entry.data.dateStart}-${entry.data.dateEnd}`,
+    href: "/working-groups/#current-projects",
+  })),
+  ...publications.map((entry) => ({
+    type: "成果" as const,
+    title: entry.data.title,
+    summary: truncate(entry.body ?? `${entry.data.journal} ${entry.data.year}`, 90),
+    meta: `${entry.data.journal} · ${entry.data.year}`,
+    href: "/publications/",
+  })),
+];
 ---
 
-<BaseLayout title={siteData.siteName} description={siteData.description}>
-  
-  <!-- Hero Section & Stats Block -->
-  <section class="page-wrap pt-16 md:pt-28 pb-16 border-b border-border/60">
-    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-16 lg:gap-12">
-      <!-- Left Hero Text -->
-      <div class="flex-1 max-w-3xl flex flex-col items-start text-left">
-        <h1 class="text-[38px] md:text-[50px] lg:text-[54px] font-serif font-bold text-ink-deep leading-[1.18] mb-4 text-balance">
-          中国成瘾神经影像协作计划
-        </h1>
-        <h2 class="text-[18px] md:text-[20px] font-bold text-accent tracking-[0.05em] mb-8">
-          Sino-Addiction Neuroimaging Initiatives
-        </h2>
-        <p class="text-[16px] md:text-[18px] leading-[1.8] text-text-secondary max-w-2xl text-balance mb-10">
-          致力于构建标准化、可复现的多中心成瘾神经影像网络，通过规范化数据治理与透明的协作机制，推动高转化价值的成瘾基质与客观生物标志物研究。
-        </p>
-        <div class="flex flex-wrap gap-4 items-center">
-          <a href="/about" class="btn-primary">了解更多</a>
-          <a href="/join-us" class="btn-secondary">加入我们</a>
-        </div>
-      </div>
-      
-      <!-- Right Stats KPIs -->
-      <div class="w-full lg:w-auto shrink-0 flex hidden lg:flex flex-col gap-6 p-8 bg-surface-alt border border-border shadow-sm rounded-xl min-w-[280px]">
-        {siteData.homepage.stats.map((stat) => (
-          <div class="flex flex-col">
-            <span class="text-[13px] font-semibold text-text-muted uppercase tracking-wider mb-1">{stat.label}</span>
-            <span class="text-[36px] font-serif font-bold text-ink-deep leading-none">{stat.value}</span>
-          </div>
-        ))}
-      </div>
+<BaseLayout title={page.data.title} description={page.data.description}>
+  <HomeHero
+    kicker={page.data.hero.kicker}
+    title={page.data.hero.title}
+    subtitle={page.data.hero.subtitle}
+    primaryCta={{ label: "了解更多", href: "/collaboration" }}
+    secondaryCta={{ label: "加入我们", href: "/join-us" }}
+  />
 
-      <!-- Mobile/Tablet Side-by-side stats -->
-      <div class="w-full lg:hidden grid grid-cols-3 gap-4 border-t border-border pt-10">
-         {siteData.homepage.stats.map((stat) => (
-          <div class="flex flex-col border-l-2 border-accent pl-4">
-            <span class="text-[12px] font-semibold text-text-muted uppercase tracking-wider mb-2">{stat.label}</span>
-            <span class="text-[28px] md:text-[36px] font-serif font-bold text-ink-deep leading-none">{stat.value}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
+  <ChinaCollaborationMap />
 
-  <!-- Network Map Hub -->
-  <section class="page-wrap py-16 md:py-24 border-b border-border/60">
-     <div class="max-w-6xl mx-auto flex flex-col items-center">
-       <SectionHeading title="协作版图" description="立足多中心规模化建设的样本与研究枢纽" center={true} />
-       <div class="w-full mt-12 bg-surface border border-border rounded-xl overflow-hidden min-h-[400px]">
-         <NetworkMap />
-       </div>
-     </div>
-  </section>
-
-  <!-- Featured Carousel -->
-  {carouselItems.length > 0 && (
-    <section class="page-wrap py-16 md:py-24">
-       <div class="max-w-5xl mx-auto">
-         <SectionHeading title="联盟动态" center={true} />
-         <div class="mt-12">
-           <FeaturedCarousel items={carouselItems} />
-         </div>
-       </div>
-    </section>
-  )}
-
+  <AllianceUpdates items={updateItems} />
 </BaseLayout>
