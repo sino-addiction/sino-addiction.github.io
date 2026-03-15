@@ -13,12 +13,12 @@ const { eyebrow, title, description, label, href, external = false } = Astro.pro
 
 <aside class="surface-card reveal p-7 md:p-8">
   {eyebrow && <p class="eyebrow">{eyebrow}</p>}
-  <h3 class="mt-5 font-serif text-3xl font-semibold tracking-tight text-ink-950">{title}</h3>
-  <p class="mt-4 max-w-2xl text-base leading-7 text-ink-700">{description}</p>
+  <h3 class="zh-heading mt-5 font-serif text-[1.75rem] leading-[2.3rem] font-bold tracking-tight text-primary-900">{title}</h3>
+  <p class="mt-4 max-w-2xl text-base leading-7 text-secondary-600">{description}</p>
   <div class="mt-8">
     <a
       href={href}
-      class="inline-flex items-center gap-2 rounded-full bg-ink-950 px-6 py-3 text-sm font-semibold text-white hover:-translate-y-0.5 hover:bg-ink-800"
+      class="btn-secondary"
       target={external ? "_blank" : undefined}
       rel={external ? "noreferrer" : undefined}
     >

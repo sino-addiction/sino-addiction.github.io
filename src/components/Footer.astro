@@ -2,36 +2,31 @@
 import { siteData } from "../data/site";
 ---
 
-<footer class="px-4 pb-8 pt-16 md:px-6">
-  <div class="mx-auto max-w-7xl overflow-hidden rounded-[2rem] border border-white/70 bg-ink-950 px-6 py-10 text-white shadow-[0_24px_70px_rgba(8,19,29,0.2)] md:px-10">
-    <div class="grid gap-10 lg:grid-cols-[1.4fr_1fr] lg:items-end">
+<footer class="page-wrap pb-8 pt-14">
+  <div class="section-frame px-6 py-9 md:px-9">
+    <div class="grid gap-8 lg:grid-cols-[1.4fr_1fr] lg:items-end">
       <div>
-        <p class="eyebrow border-white/10 bg-white/8 text-sage-300">SANI Network</p>
-        <h2 class="mt-5 max-w-2xl font-serif text-3xl font-semibold tracking-tight text-balance md:text-4xl">
-          以标准化与协作为基础，构建更可信的成瘾神经影像研究网络。
+        <p class="eyebrow">SANI Network</p>
+        <h2 class="zh-heading mt-5 max-w-3xl font-serif text-[2rem] leading-[2.5rem] font-bold text-primary-900">
+          以标准化、可复现和多中心协作为核心，建设更可信的成瘾神经影像研究基础设施。
         </h2>
-        <p class="mt-4 max-w-2xl text-base leading-7 text-white/72 md:text-lg">
-          当前站点保持纯静态部署，用于公开展示项目愿景、合作流程、研究成果与加入方式。
+        <p class="mt-4 max-w-2xl text-base leading-7 text-secondary-600">
+          站点提供联盟机制、项目流程、研究成果和加入方式的公开信息，后续将持续更新数据治理与协作资源。
         </p>
       </div>
 
-      <div class="space-y-6">
-        <div class="rounded-3xl border border-white/10 bg-white/6 p-5">
-          <p class="text-sm uppercase tracking-[0.24em] text-white/55">联系邮箱</p>
-          <a href={`mailto:${siteData.contact.email}`} class="mt-2 block text-lg font-semibold text-sage-300 hover:text-white">
+      <div class="space-y-5">
+        <div class="surface-card p-5">
+          <p class="text-sm font-semibold text-muted-500">联系邮箱</p>
+          <a href={`mailto:${siteData.contact.email}`} class="mt-2 block text-lg font-semibold text-accent-700 hover:text-accent-600">
             {siteData.contact.email}
           </a>
-          <p class="mt-2 text-sm leading-6 text-white/62">{siteData.contact.note}</p>
+          <p class="mt-2 text-sm leading-6 text-secondary-600">{siteData.contact.note}</p>
         </div>
 
-        <div class="flex flex-wrap gap-3 text-sm text-white/70">
+        <div class="flex flex-wrap gap-2">
           {siteData.footerLinks.map((link) => (
-            <a
-              href={link.href}
-              class="rounded-full border border-white/10 px-4 py-2 hover:border-sage-300/50 hover:text-white"
-              target={link.external ? "_blank" : undefined}
-              rel={link.external ? "noreferrer" : undefined}
-            >
+            <a href={link.href} class="btn-secondary !h-10 !px-4" target={link.external ? "_blank" : undefined} rel={link.external ? "noreferrer" : undefined}>
               {link.label}
             </a>
           ))}
@@ -39,9 +34,9 @@ import { siteData } from "../data/site";
       </div>
     </div>
 
-    <div class="mt-10 flex flex-col gap-3 border-t border-white/10 pt-6 text-sm text-white/48 md:flex-row md:items-center md:justify-between">
+    <div class="mt-8 flex flex-col gap-3 border-t border-border-200 pt-5 text-sm text-muted-500 md:flex-row md:items-center md:justify-between">
       <p>&copy; 2026 {siteData.siteName} ({siteData.siteShortName}).</p>
-      <p>Built with Astro static generation for GitHub Pages.</p>
+      <p>Static site powered by Astro.</p>
     </div>
   </div>
 </footer>

@@ -8,25 +8,29 @@ type Feature = {
 type Props = {
   items: Feature[];
   numbered?: boolean;
+  columns?: 2 | 3 | 4;
 };
 
-const { items, numbered = false } = Astro.props;
+const { items, numbered = false, columns = 3 } = Astro.props;
+
+const gridClass =
+  columns === 4 ? "grid gap-6 sm:grid-cols-2 xl:grid-cols-4" : columns === 2 ? "grid gap-6 md:grid-cols-2" : "grid gap-6 lg:grid-cols-3";
 ---
 
-<div class="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+<div class={gridClass}>
   {items.map((item, index) => (
-    <article class:list={["surface-card reveal p-6", index % 3 === 1 ? "delay-1" : index % 3 === 2 ? "delay-2" : ""]}>
+    <article class:list={["surface-card reveal h-full p-6 md:p-7", index % 3 === 1 ? "delay-1" : index % 3 === 2 ? "delay-2" : ""]}>
       <div class="flex items-start gap-4">
         <span class:list={[
-          "flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl text-sm font-semibold",
-          numbered ? "bg-ink-950 text-white" : "bg-sage-500/12 text-sage-500",
+          "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-sm font-semibold",
+          numbered ? "bg-primary-900 text-white" : "bg-soft-100 text-accent-700",
         ]}>
-          {numbered ? String(index + 1).padStart(2, "0") : item.label ? item.label.slice(0, 2) : "•"}
+          {numbered ? String(index + 1).padStart(2, "0") : item.label ? item.label.slice(0, 3) : "S"}
         </span>
-        <div>
-          {item.label && !numbered && <p class="text-xs font-semibold uppercase tracking-[0.22em] text-sage-500">{item.label}</p>}
-          <h3 class="mt-1 font-serif text-2xl font-semibold tracking-tight text-ink-950">{item.title}</h3>
-          <p class="mt-3 text-base leading-7 text-ink-700">{item.description}</p>
+        <div class="min-w-0">
+          {item.label && !numbered && <p class="text-xs font-semibold uppercase tracking-[0.06em] text-accent-700">{item.label}</p>}
+          <h3 class="zh-heading mt-1 font-serif text-2xl leading-8 font-bold text-primary-900">{item.title}</h3>
+          <p class="mt-3 text-base leading-7 text-secondary-600">{item.description}</p>
         </div>
       </div>
     </article>

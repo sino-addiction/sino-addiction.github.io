@@ -3,7 +3,6 @@ import { getCollection, render } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Hero from "../components/Hero.astro";
 import SectionHeading from "../components/SectionHeading.astro";
-import FeatureGrid from "../components/FeatureGrid.astro";
 import TeamCard from "../components/TeamCard.astro";
 import NetworkMap from "../components/NetworkMap.astro";
 import { requirePage } from "../lib/content";
@@ -11,64 +10,86 @@ import { requirePage } from "../lib/content";
 const page = await requirePage("about");
 const { Content } = await render(page);
 const team = (await getCollection("team")).sort((a, b) => a.data.order - b.data.order);
+
+const institutionTypes = [
+  {
+    title: "高校与研究院",
+    description: "负责研究问题设计、方法验证与跨中心学术协作。",
+  },
+  {
+    title: "医疗机构",
+    description: "负责样本招募、临床评估与长期随访管理。",
+  },
+  {
+    title: "计算与数据团队",
+    description: "负责质控、标准化流程和复现基础设施建设。",
+  },
+];
 ---
 
 <BaseLayout title={page.data.title} description={page.data.description}>
   <Hero {...page.data.hero} compact={true} />
 
-  <section class="mx-auto mt-8 max-w-7xl px-4 md:px-6">
-    <div class="section-frame px-6 py-12 md:px-10">
-      <div class="grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
+  <section class="page-wrap section-shell">
+    <div class="section-frame px-6 py-10 md:px-10 md:py-12">
+      <div class="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
         <div>
-          <SectionHeading eyebrow="Identity" title="组织定位与协作边界" />
+          <SectionHeading eyebrow="What Is SANI" title="SANI 是什么" description="SANI 是面向成瘾神经影像研究的多中心协作网络，强调规范治理、标准化处理和可复现研究流程。" />
           <div class="prose-shell mt-6">
             <Content />
           </div>
-        </div>
-
-        {page.data.sections && (
-          <FeatureGrid
-            items={page.data.sections.map((section) => ({
-              label: "About",
-              title: section.title,
-              description: section.body,
-            }))}
-          />
-        )}
-      </div>
-    </div>
-  </section>
-
-  <section class="mx-auto mt-8 max-w-7xl px-4 md:px-6">
-    <div class="section-frame px-6 py-12 md:px-10">
-      <SectionHeading eyebrow="Core Team" title="核心团队" description="团队成员与简介来自独立内容文件，便于持续增补与维护。" center={true} />
-      <div class="mt-10 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
-        {team.map((entry, index) => (
-          <div class:list={[index % 4 === 1 ? "delay-1" : index % 4 === 2 ? "delay-2" : index % 4 === 3 ? "delay-3" : ""]}>
-            <TeamCard entry={entry} />
+          <div class="mt-6 rounded-xl border border-border-200 bg-soft-100 px-4 py-3 text-sm leading-6 text-secondary-600">
+            联盟目标不是单次课题协作，而是持续沉淀可复用的数据与方法基础设施。
           </div>
-        ))}
+        </div>
+        <NetworkMap />
       </div>
     </div>
   </section>
 
-  <section class="mx-auto mt-8 max-w-7xl px-4 md:px-6">
-    <div class="section-frame px-6 py-12 md:px-10">
-      <SectionHeading eyebrow="Network" title="协作网络示意" description="示意图用于展示当前主要节点分布，后续可替换为更精确的机构地图或区域视图。" />
-      <div class="mt-8 grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
-        <NetworkMap />
-        <div class="grid gap-4">
-          {team.map((entry, index) => (
-            <article class:list={["surface-card reveal flex items-start gap-4 p-5", index % 2 === 1 ? "delay-1" : ""]}>
-              <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-sage-500/12 font-semibold text-sage-500">
-                {entry.data.name.slice(0, 1)}
-              </div>
-              <div>
-                <h3 class="font-semibold text-ink-950">{entry.data.name}</h3>
-                <p class="mt-1 text-sm text-ink-700">{entry.data.institution}</p>
-                <p class="mt-1 text-sm text-ink-700">{entry.data.city}</p>
-              </div>
+  <section class="page-wrap section-shell pt-0">
+    <div class="section-frame px-6 py-10 md:px-10 md:py-12">
+      <SectionHeading eyebrow="Positioning" title="组织定位与协作边界" description="通过明确“做什么”和“不做什么”，降低多中心协作中的职责歧义和流程冲突。" />
+      <div class="mt-8 grid gap-6 lg:grid-cols-2">
+        <article class="surface-card reveal h-full p-6 md:p-7">
+          <h3 class="zh-heading font-serif text-2xl leading-8 font-bold text-primary-900">我们做什么</h3>
+          <ul class="mt-4 space-y-3 text-base leading-7 text-secondary-600">
+            <li>建立可追踪的数据治理与访问流程。</li>
+            <li>统一多中心质控与预处理标准。</li>
+            <li>支持基于联盟规则的联合研究与复现审查。</li>
+            <li>沉淀代码、文档和方法资产，服务长期协作。</li>
+          </ul>
+        </article>
+        <article class="surface-card reveal delay-1 h-full p-6 md:p-7">
+          <h3 class="zh-heading font-serif text-2xl leading-8 font-bold text-primary-900">我们不做什么</h3>
+          <ul class="mt-4 space-y-3 text-base leading-7 text-secondary-600">
+            <li>不提供绕过伦理与合规流程的访问通道。</li>
+            <li>不支持缺乏复现材料与治理记录的分析产出。</li>
+            <li>不把联盟平台等同于单中心私有数据仓库。</li>
+            <li>不以短期展示替代长期可复用机制建设。</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-wrap section-shell pt-0">
+    <div class="section-frame px-6 py-10 md:px-10 md:py-12">
+      <SectionHeading eyebrow="Collaboration Network" title="协作网络与机构类型" description="以机构类型与核心成员共同呈现联盟结构，而不是仅用零散文本描述。" />
+      <div class="mt-8 grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
+        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-1">
+          {institutionTypes.map((item, index) => (
+            <article class:list={["surface-card reveal p-6", index === 1 ? "delay-1" : index === 2 ? "delay-2" : ""]}>
+              <h3 class="zh-heading font-serif text-2xl leading-8 font-bold text-primary-900">{item.title}</h3>
+              <p class="mt-3 text-base leading-7 text-secondary-600">{item.description}</p>
             </article>
+          ))}
+        </div>
+        <div class="grid gap-6 sm:grid-cols-2">
+          {team.map((entry, index) => (
+            <div class:list={[index % 4 === 1 ? "delay-1" : index % 4 === 2 ? "delay-2" : index % 4 === 3 ? "delay-3" : ""]}>
+              <TeamCard entry={entry} />
+            </div>
           ))}
         </div>
       </div>

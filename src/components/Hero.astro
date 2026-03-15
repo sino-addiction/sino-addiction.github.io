@@ -18,48 +18,76 @@ type Props = {
 const { kicker, title, subtitle, primaryCta, secondaryCta, compact = false, accentLabel = [] } = Astro.props;
 ---
 
-<section class:list={["mx-auto max-w-7xl px-4 md:px-6", compact ? "pt-8" : "pt-6"]}>
-  <div class:list={["hero-gradient grid-glow relative overflow-hidden rounded-[2.25rem] border border-white/10 px-6 py-14 text-white shadow-[0_36px_90px_rgba(8,19,29,0.22)] md:px-10 lg:px-14", compact ? "md:py-16" : "md:py-20"]}>
-    <div class="absolute inset-y-0 right-0 hidden w-80 bg-[radial-gradient(circle,_rgba(125,215,203,0.18),_transparent_72%)] lg:block"></div>
-    <div class="relative max-w-4xl">
-      {kicker && <p class="eyebrow border-white/10 bg-white/10 text-sage-300">{kicker}</p>}
-      <h1 class="mt-5 max-w-4xl font-serif text-4xl font-semibold leading-tight tracking-tight text-balance md:text-6xl">
-        {title}
-      </h1>
-      <p class="mt-6 max-w-3xl text-lg leading-8 text-white/78 md:text-xl">{subtitle}</p>
+<section class:list={["page-wrap", compact ? "pt-6" : "pt-4"]}>
+  <div class:list={["hero-panel px-6 md:px-10", compact ? "py-10 md:py-12" : "py-12 md:py-14"]}>
+    <div class="grid items-center gap-10 lg:grid-cols-[1.08fr_0.92fr]">
+      <div class="max-w-3xl">
+        {kicker && <p class="eyebrow">{kicker}</p>}
+        <h1 class="hero-title zh-heading mt-6">{title}</h1>
+        <p class="hero-subtitle">{subtitle}</p>
 
-      {accentLabel.length > 0 && (
-        <div class="mt-8 flex flex-wrap items-center gap-3 text-sm text-white/72">
-          {accentLabel.map((item) => (
-            <span class="rounded-full border border-white/10 bg-white/8 px-4 py-2">{item}</span>
-          ))}
-        </div>
-      )}
+        {accentLabel.length > 0 && (
+          <div class="mt-7 flex flex-wrap gap-2">
+            {accentLabel.map((item) => (
+              <span class="status-badge status-integrating">{item}</span>
+            ))}
+          </div>
+        )}
 
-      {(primaryCta || secondaryCta) && (
-        <div class="mt-10 flex flex-wrap gap-4">
-          {primaryCta && (
-            <a
-              href={primaryCta.href}
-              class="rounded-full bg-sage-500 px-6 py-3 text-sm font-semibold text-white shadow-[0_12px_30px_rgba(71,185,173,0.2)] hover:-translate-y-0.5 hover:bg-sage-400"
-              target={primaryCta.external ? "_blank" : undefined}
-              rel={primaryCta.external ? "noreferrer" : undefined}
-            >
-              {primaryCta.label}
-            </a>
-          )}
-          {secondaryCta && (
-            <a
-              href={secondaryCta.href}
-              class="rounded-full border border-white/14 bg-white/8 px-6 py-3 text-sm font-semibold text-white hover:bg-white/14"
-              target={secondaryCta.external ? "_blank" : undefined}
-              rel={secondaryCta.external ? "noreferrer" : undefined}
-            >
-              {secondaryCta.label}
-            </a>
-          )}
-        </div>
-      )}
+        {(primaryCta || secondaryCta) && (
+          <div class="mt-8 flex flex-wrap gap-3">
+            {primaryCta && (
+              <a href={primaryCta.href} class="btn-primary" target={primaryCta.external ? "_blank" : undefined} rel={primaryCta.external ? "noreferrer" : undefined}>
+                {primaryCta.label}
+              </a>
+            )}
+            {secondaryCta && (
+              <a href={secondaryCta.href} class="btn-secondary" target={secondaryCta.external ? "_blank" : undefined} rel={secondaryCta.external ? "noreferrer" : undefined}>
+                {secondaryCta.label}
+              </a>
+            )}
+          </div>
+        )}
+      </div>
+
+      <div class="surface-card p-4 md:p-5">
+        <svg viewBox="0 0 560 360" class="h-auto w-full" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="SANI 协作网络示意图">
+          <rect x="8" y="8" width="544" height="344" rx="18" fill="#FFFFFF" stroke="#D7E0DC" stroke-width="1.5"></rect>
+          <g stroke="#B7C8C1" stroke-width="1.5">
+            <line x1="126" y1="118" x2="282" y2="95"></line>
+            <line x1="126" y1="118" x2="182" y2="256"></line>
+            <line x1="282" y1="95" x2="420" y2="126"></line>
+            <line x1="282" y1="95" x2="282" y2="252"></line>
+            <line x1="420" y1="126" x2="364" y2="264"></line>
+            <line x1="182" y1="256" x2="282" y2="252"></line>
+            <line x1="282" y1="252" x2="364" y2="264"></line>
+          </g>
+          <g>
+            <circle cx="126" cy="118" r="13" fill="#1F8A84" fill-opacity="0.16"></circle>
+            <circle cx="126" cy="118" r="5" fill="#1F8A84"></circle>
+            <circle cx="282" cy="95" r="13" fill="#102132" fill-opacity="0.16"></circle>
+            <circle cx="282" cy="95" r="5" fill="#102132"></circle>
+            <circle cx="420" cy="126" r="13" fill="#1F8A84" fill-opacity="0.16"></circle>
+            <circle cx="420" cy="126" r="5" fill="#1F8A84"></circle>
+            <circle cx="182" cy="256" r="13" fill="#102132" fill-opacity="0.16"></circle>
+            <circle cx="182" cy="256" r="5" fill="#102132"></circle>
+            <circle cx="282" cy="252" r="13" fill="#1F8A84" fill-opacity="0.16"></circle>
+            <circle cx="282" cy="252" r="5" fill="#1F8A84"></circle>
+            <circle cx="364" cy="264" r="13" fill="#102132" fill-opacity="0.16"></circle>
+            <circle cx="364" cy="264" r="5" fill="#102132"></circle>
+          </g>
+          <g fill="#486173" font-size="12" font-family="Source Han Sans SC, Noto Sans SC, sans-serif">
+            <text x="84" y="95">数据中心</text>
+            <text x="248" y="74">治理与质控</text>
+            <text x="388" y="102">研究协作</text>
+            <text x="143" y="288">临床队列</text>
+            <text x="254" y="279">分析平台</text>
+            <text x="332" y="294">联合产出</text>
+          </g>
+          <rect x="22" y="22" width="156" height="42" rx="10" fill="#E6F0EC"></rect>
+          <text x="34" y="48" fill="#176E69" font-size="13" font-family="Source Han Sans SC, Noto Sans SC, sans-serif">MULTI-SITE RESEARCH</text>
+        </svg>
+      </div>
     </div>
   </div>
 </section>

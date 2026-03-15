@@ -14,16 +14,13 @@ const formattedDate = entry.data.date.toLocaleDateString("zh-CN", {
 ---
 
 <article class="surface-card reveal group flex h-full flex-col overflow-hidden p-6">
-  <p class="text-sm font-medium text-ink-700">{formattedDate}</p>
-  <h3 class="mt-4 font-serif text-2xl font-semibold tracking-tight text-ink-950">
-    <a href={`/news/${entry.data.slug}/`} class="hover:text-sage-500">{entry.data.title}</a>
+  <p class="text-sm font-medium text-muted-500">{formattedDate}</p>
+  <h3 class="zh-heading mt-4 font-serif text-2xl leading-8 font-bold tracking-tight text-primary-900">
+    <a href={`/news/${entry.data.slug}/`} class="hover:text-accent-700">{entry.data.title}</a>
   </h3>
-  <p class="mt-4 flex-1 text-base leading-7 text-ink-700">{entry.data.summary}</p>
+  <p class="mt-4 flex-1 text-base leading-7 text-secondary-600">{entry.data.summary}</p>
   <div class="mt-6">
-    <a
-      href={`/news/${entry.data.slug}/`}
-      class="inline-flex items-center gap-2 rounded-full border border-ink-900/10 px-4 py-2 text-sm font-semibold text-ink-900 hover:border-sage-500/30 hover:bg-sage-500/8 hover:text-sage-500"
-    >
+    <a href={`/news/${entry.data.slug}/`} class="btn-link">
       阅读更多
       <span aria-hidden="true">→</span>
     </a>

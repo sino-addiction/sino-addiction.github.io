@@ -6,17 +6,17 @@ import { siteData } from "../data/site";
   <svg viewBox="0 0 520 360" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg" aria-label="协作网络地图示意" role="img">
     <defs>
       <linearGradient id="mapFill" x1="0%" x2="100%" y1="0%" y2="100%">
-        <stop offset="0%" stop-color="#f5f2eb" />
-        <stop offset="100%" stop-color="#ece7dd" />
+        <stop offset="0%" stop-color="#F4F6F3" />
+        <stop offset="100%" stop-color="#EAF1EE" />
       </linearGradient>
     </defs>
-    <rect x="8" y="8" width="504" height="344" rx="22" fill="#fdfcf9" stroke="#d8d2c5" stroke-width="2"></rect>
-    <path d="M92 88 C140 52, 220 40, 300 66 C354 84, 410 120, 438 168 C456 202, 444 244, 408 268 C360 300, 284 304, 220 282 C168 264, 120 230, 98 188 C78 148, 72 112, 92 88 Z" fill="url(#mapFill)" stroke="#c8c0b0" stroke-width="2"></path>
+    <rect x="8" y="8" width="504" height="344" rx="22" fill="#ffffff" stroke="#D7E0DC" stroke-width="1.5"></rect>
+    <path d="M92 88 C140 52, 220 40, 300 66 C354 84, 410 120, 438 168 C456 202, 444 244, 408 268 C360 300, 284 304, 220 282 C168 264, 120 230, 98 188 C78 148, 72 112, 92 88 Z" fill="url(#mapFill)" stroke="#B7C8C1" stroke-width="1.5"></path>
     {siteData.networkMap.map((point) => (
       <>
-        <circle cx={point.x - 12} cy={point.y - 5} r="11" fill="#47b9ad" fill-opacity="0.18"></circle>
-        <circle cx={point.x - 12} cy={point.y - 5} r="5.5" fill="#17364a"></circle>
-        <text x={point.x} y={point.y} font-size="12" fill="#17364a">
+        <circle cx={point.x - 12} cy={point.y - 5} r="11" fill="#1F8A84" fill-opacity="0.16"></circle>
+        <circle cx={point.x - 12} cy={point.y - 5} r="5.5" fill="#102132"></circle>
+        <text x={point.x} y={point.y} font-size="12" fill="#486173">
           {point.city} · {point.label}
         </text>
       </>

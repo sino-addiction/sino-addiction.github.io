@@ -12,19 +12,17 @@ const { steps } = Astro.props;
 ---
 
 <div class="relative mt-10">
-  <div class="absolute left-4 top-0 hidden h-full w-px bg-linear-to-b from-sage-400/60 via-sage-500/30 to-transparent md:block"></div>
-  <div class="space-y-5">
+  <div class="space-y-6">
     {steps.map((step, index) => (
-      <article class:list={["surface-card reveal grid gap-5 p-6 md:grid-cols-[auto_1fr]", index % 3 === 1 ? "delay-1" : index % 3 === 2 ? "delay-2" : ""]}>
-        <div class="flex items-start md:items-center">
-          <span class="relative z-10 flex h-12 w-12 items-center justify-center rounded-2xl bg-ink-950 font-semibold text-white shadow-[0_12px_24px_rgba(8,19,29,0.18)]">
-            {index + 1}
+      <article class:list={["surface-card reveal p-6 md:p-7", index % 3 === 1 ? "delay-1" : index % 3 === 2 ? "delay-2" : ""]}>
+        <div class="flex items-center gap-3">
+          <span class="inline-flex h-9 min-w-9 items-center justify-center rounded-lg bg-primary-900 px-2 text-sm font-semibold text-white">
+            {String(index + 1).padStart(2, "0")}
           </span>
+          <div class="h-px flex-1 bg-border-200"></div>
         </div>
-        <div>
-          <h3 class="font-serif text-2xl font-semibold text-ink-950">{step.title}</h3>
-          <p class="mt-3 text-base leading-7 text-ink-700">{step.description}</p>
-        </div>
+        <h3 class="zh-heading mt-5 font-serif text-2xl leading-8 font-bold text-primary-900">{step.title}</h3>
+        <p class="mt-3 text-base leading-7 text-secondary-600">{step.description}</p>
       </article>
     ))}
   </div>

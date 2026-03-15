@@ -3,7 +3,6 @@ import { getCollection, render } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Hero from "../components/Hero.astro";
 import SectionHeading from "../components/SectionHeading.astro";
-import FeatureGrid from "../components/FeatureGrid.astro";
 import StatsGrid from "../components/StatsGrid.astro";
 import MetricGrid from "../components/MetricGrid.astro";
 import NewsCard from "../components/NewsCard.astro";
@@ -16,30 +15,55 @@ const page = await requirePage("index");
 const { Content } = await render(page);
 const news = (await listPublishedNews()).slice(0, 3);
 const projects = sortFeaturedFirst(await getCollection("projects")).slice(0, 2);
+
+const getStatusClass = (status: "available" | "integrating" | "planned") => {
+  if (status === "available") return "status-available";
+  if (status === "integrating") return "status-integrating";
+  return "status-planned";
+};
 ---
 
 <BaseLayout title={page.data.title} description={page.data.description}>
   <Hero {...page.data.hero} accentLabel={siteData.collaborationFlow} />
 
-  <section class="mx-auto mt-8 max-w-7xl px-4 md:px-6">
-    <div class="section-frame px-6 py-12 md:px-10 md:py-14">
-      <div class="grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:items-start">
-        <div>
-          <SectionHeading eyebrow="Core Value" title="合作与参与方式" description="用更清晰的协作路径，把多中心数据、标准化处理与研究产出连成稳定工作流。" />
-          {page.data.sections && (
-            <div class="prose-shell mt-8">
-              <Content />
-            </div>
-          )}
+  <section class="page-wrap section-shell">
+    <div class="section-frame px-6 py-10 md:px-10 md:py-12">
+      <div class="grid-12 items-start">
+        <div class="col-span-12 lg:col-span-4">
+          <SectionHeading eyebrow="Collaboration Pathway" title="合作与参与方式" description="统一工作流、标准化流程和透明协作边界，是 SANI 作为研究联盟长期运行的基础。" />
+          <div class="prose-shell mt-6">
+            <Content />
+          </div>
+          <div class="mt-6 rounded-xl border border-border-200 bg-soft-100 px-4 py-3 text-sm leading-6 text-secondary-600">
+            协作流程采用统一的版本管理与质量控制，不依赖单中心临时流程。
+          </div>
         </div>
 
-        {page.data.highlights && <FeatureGrid items={page.data.highlights} numbered={true} />}
+        <div class="col-span-12 lg:col-span-8">
+          <div class="grid gap-6 lg:grid-cols-3">
+            <article class="surface-card reveal h-full p-6">
+              <span class="status-badge status-available">01</span>
+              <h3 class="zh-heading mt-5 font-serif text-2xl leading-8 font-bold text-primary-900">数据汇聚</h3>
+              <p class="mt-3 text-base leading-7 text-secondary-600">多中心影像与临床数据按统一字段规范接入，形成可治理、可追踪、可复用的数据资产。</p>
+            </article>
+            <article class="surface-card reveal delay-1 h-full p-6">
+              <span class="status-badge status-integrating">02</span>
+              <h3 class="zh-heading mt-5 font-serif text-2xl leading-8 font-bold text-primary-900">标准化处理</h3>
+              <p class="mt-3 text-base leading-7 text-secondary-600">统一质控、预处理和派生指标策略，降低站点差异带来的方法偏差与解释噪声。</p>
+            </article>
+            <article class="surface-card reveal delay-2 h-full p-6">
+              <span class="status-badge status-planned">03</span>
+              <h3 class="zh-heading mt-5 font-serif text-2xl leading-8 font-bold text-primary-900">协作产出</h3>
+              <p class="mt-3 text-base leading-7 text-secondary-600">通过项目申请、复现审查和联合发表机制，沉淀代码、报告和可持续扩展的研究成果。</p>
+            </article>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="mx-auto mt-8 max-w-7xl px-4 md:px-6">
-    <div class="section-frame px-6 py-12 md:px-10">
+  <section class="page-wrap section-shell pt-0">
+    <div class="section-frame px-6 py-10 md:px-10 md:py-12">
       <SectionHeading eyebrow="Scale" title="当前协作规模" description="下列指标为当前示例值，可持续在站点级配置中更新，而不需要改任何页面模板。" center={true} />
       <div class="mt-10">
         <StatsGrid items={siteData.homepage.stats} />
@@ -47,21 +71,27 @@ const projects = sortFeaturedFirst(await getCollection("projects")).slice(0, 2);
     </div>
   </section>
 
-  <section class="mx-auto mt-8 max-w-7xl px-4 md:px-6">
-    <div class="grid gap-8 xl:grid-cols-[1fr_1fr]">
-      <div class="section-frame px-6 py-12 md:px-10">
-        <SectionHeading eyebrow="Data Coverage" title="数据模态" description="可根据真实项目统计持续更新。" />
+  <section class="page-wrap section-shell pt-0">
+    <div class="grid gap-6 xl:grid-cols-2">
+      <div class="section-frame px-6 py-10 md:px-8 md:py-12">
+        <SectionHeading eyebrow="Data Modalities" title="数据模态" description="以状态化方式展示接入节奏，避免单一占位文本。" />
         <div class="mt-8">
           <MetricGrid items={siteData.homepage.modalities} />
         </div>
       </div>
-      <div class="section-frame px-6 py-12 md:px-10">
-        <SectionHeading eyebrow="Cohorts" title="成瘾类型" description="包含健康对照，按项目口径统计。" />
-        <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+
+      <div class="section-frame px-6 py-10 md:px-8 md:py-12">
+        <SectionHeading eyebrow="Cohort Taxonomy" title="成瘾类型" description="按队列管理与样本准备状态展示当前研究覆盖。" />
+        <div class="mt-8 grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
           {siteData.homepage.addictionTypes.map((item, index) => (
-            <article class:list={["surface-card reveal p-5", index % 3 === 1 ? "delay-1" : index % 3 === 2 ? "delay-2" : ""]}>
-              <p class="font-serif text-3xl font-semibold text-ink-950">{item.value}</p>
-              <p class="mt-3 text-base leading-7 text-ink-800">{item.label}</p>
+            <article class:list={["surface-card reveal h-full p-5", index % 3 === 1 ? "delay-1" : index % 3 === 2 ? "delay-2" : ""]}>
+              <div class="flex flex-wrap items-start justify-between gap-2">
+                <h3 class="zh-heading font-serif text-xl leading-7 font-bold text-primary-900">{item.name}</h3>
+                <span class:list={["status-badge", getStatusClass(item.status)]}>
+                  {item.status === "available" ? "可用" : item.status === "integrating" ? "整合中" : "规划中"}
+                </span>
+              </div>
+              <p class="mt-3 text-sm leading-6 text-secondary-600">{item.note}</p>
             </article>
           ))}
         </div>
@@ -69,10 +99,10 @@ const projects = sortFeaturedFirst(await getCollection("projects")).slice(0, 2);
     </div>
   </section>
 
-  <section id="news" class="mx-auto mt-8 max-w-7xl px-4 md:px-6">
-    <div class="section-frame px-6 py-12 md:px-10">
+  <section id="news" class="page-wrap section-shell pt-0">
+    <div class="section-frame px-6 py-10 md:px-10 md:py-12">
       <SectionHeading eyebrow="Latest" title="新闻与动态" description="联盟最新进展、研究发布与平台建设更新。" center={true} />
-      <div class="mt-10 grid gap-5 md:grid-cols-3">
+      <div class="mt-10 grid gap-6 md:grid-cols-3">
         {news.map((entry, index) => (
           <div class:list={[index === 1 ? "delay-1" : index === 2 ? "delay-2" : ""]}>
             <NewsCard entry={entry} />
@@ -82,13 +112,13 @@ const projects = sortFeaturedFirst(await getCollection("projects")).slice(0, 2);
     </div>
   </section>
 
-  <section class="mx-auto mt-8 max-w-7xl px-4 md:px-6">
-    <div class="grid gap-8 xl:grid-cols-[0.9fr_1.1fr]">
+  <section class="page-wrap section-shell pt-0">
+    <div class="grid gap-6 xl:grid-cols-[0.9fr_1.1fr]">
       {page.data.cta && <CtaPanel {...page.data.cta} />}
 
-      <div class="section-frame px-6 py-12 md:px-10">
+      <div class="section-frame px-6 py-10 md:px-10 md:py-12">
         <SectionHeading eyebrow="Featured Projects" title="重点在研项目" description="项目条目来自内容集合，新增项目时只需要补一份 Markdown 文件。" />
-        <div class="mt-8 grid gap-5 lg:grid-cols-2">
+        <div class="mt-8 grid gap-6 lg:grid-cols-2">
           {projects.map((entry, index) => (
             <div class:list={[index === 1 ? "delay-1" : ""]}>
               <ProjectCard entry={entry} />

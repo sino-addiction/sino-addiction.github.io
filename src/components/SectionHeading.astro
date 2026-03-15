@@ -11,6 +11,6 @@ const { eyebrow, title, description, center = false } = Astro.props;
 
 <div class:list={[center ? "mx-auto max-w-3xl text-center" : "max-w-3xl"]}>
   {eyebrow && <p class="eyebrow">{eyebrow}</p>}
-  <h2 class="section-title mt-4 text-balance">{title}</h2>
-  {description && <p class="mt-4 text-lg leading-8 text-ink-700">{description}</p>}
+  <h2 class="section-title zh-heading mt-4">{title}</h2>
+  {description && <p class="mt-4 text-base leading-7 text-secondary-600 md:text-[1.0625rem]">{description}</p>}
 </div>
