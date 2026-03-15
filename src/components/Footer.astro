@@ -2,31 +2,30 @@
 import { siteData } from "../data/site";
 ---
 
-<footer class="page-wrap pb-8 pt-14">
-  <div class="section-frame px-6 py-9 md:px-9">
-    <div class="grid gap-8 lg:grid-cols-[1.4fr_1fr] lg:items-end">
+<footer class="bg-surface-alt border-t border-border mt-12 pb-10 pt-16">
+  <div class="page-wrap">
+    <div class="grid gap-10 lg:grid-cols-[1.4fr_1fr] lg:items-start">
       <div>
-        <p class="eyebrow">SANI Network</p>
-        <h2 class="zh-heading mt-5 max-w-3xl font-serif text-[2rem] leading-[2.5rem] font-bold text-primary-900">
-          以标准化、可复现和多中心协作为核心，建设更可信的成瘾神经影像研究基础设施。
+        <h2 class="font-serif text-[22px] lg:text-[26px] leading-snug font-bold text-ink-deep">
+          Sino-Addiction Neuroimaging Initiatives
         </h2>
-        <p class="mt-4 max-w-2xl text-base leading-7 text-secondary-600">
-          站点提供联盟机制、项目流程、研究成果和加入方式的公开信息，后续将持续更新数据治理与协作资源。
+        <p class="mt-4 max-w-2xl text-[15px] leading-[1.7] text-text-secondary">
+          {siteData.description}
         </p>
       </div>
 
-      <div class="space-y-5">
-        <div class="surface-card p-5">
-          <p class="text-sm font-semibold text-muted-500">联系邮箱</p>
-          <a href={`mailto:${siteData.contact.email}`} class="mt-2 block text-lg font-semibold text-accent-700 hover:text-accent-600">
+      <div class="space-y-6">
+        <div class="flex flex-col">
+          <p class="text-[13px] font-semibold text-text-muted uppercase tracking-wider mb-2">公共联络邮箱</p>
+          <a href={`mailto:${siteData.contact.email}`} class="text-[18px] font-semibold text-accent hover:text-accent-hover transition-colors">
             {siteData.contact.email}
           </a>
-          <p class="mt-2 text-sm leading-6 text-secondary-600">{siteData.contact.note}</p>
+          <p class="mt-2 text-[14px] leading-relaxed text-text-secondary opacity-90">{siteData.contact.note}</p>
         </div>
 
-        <div class="flex flex-wrap gap-2">
+        <div class="flex flex-wrap gap-4 pt-4 border-t border-border/70">
           {siteData.footerLinks.map((link) => (
-            <a href={link.href} class="btn-secondary !h-10 !px-4" target={link.external ? "_blank" : undefined} rel={link.external ? "noreferrer" : undefined}>
+            <a href={link.href} class="text-[14px] font-medium text-text-secondary hover:text-ink-deep transition-colors" target={link.external ? "_blank" : undefined} rel={link.external ? "noreferrer" : undefined}>
               {link.label}
             </a>
           ))}
@@ -34,9 +33,9 @@ import { siteData } from "../data/site";
       </div>
     </div>
 
-    <div class="mt-8 flex flex-col gap-3 border-t border-border-200 pt-5 text-sm text-muted-500 md:flex-row md:items-center md:justify-between">
-      <p>&copy; 2026 {siteData.siteName} ({siteData.siteShortName}).</p>
-      <p>Static site powered by Astro.</p>
+    <div class="mt-14 flex flex-col gap-3 border-t border-border/70 pt-6 text-[13px] text-text-muted md:flex-row md:items-center md:justify-between">
+      <p>&copy; {new Date().getFullYear()} {siteData.siteName} ({siteData.siteShortName}).</p>
+      <p>Powered by Astro.</p>
     </div>
   </div>
 </footer>

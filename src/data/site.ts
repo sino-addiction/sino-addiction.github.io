@@ -54,10 +54,10 @@ export const siteData: SiteData = {
   navigation: [
     { label: "首页", href: "/" },
     { label: "协作模式", href: "/collaboration" },
+    { label: "数据看板", href: "/dashboard" },
     { label: "项目管理", href: "/working-groups" },
     { label: "研究成果", href: "/publications" },
     { label: "关于我们", href: "/about" },
-    { label: "加入我们", href: "/join-us" },
   ],
   footerLinks: [
     { label: "隐私政策", href: "mailto:sani@placeholder.org", external: true },
@@ -76,7 +76,7 @@ export const siteData: SiteData = {
     stats: [
       { label: "参与站点", value: "10+", note: "覆盖多家高校与医疗机构，持续扩展中。" },
       { label: "被试人数", value: "2,000+", note: "多中心纳入样本，含不同成瘾类型与健康对照。" },
-      { label: "在研项目", value: "4", note: "涉及脑网络、纵向随访、亚型识别与复发预测。" },
+      { label: "已有项目", value: "4", note: "涉及脑网络、纵向随访、亚型识别与复发预测。" },
     ],
     modalities: [
       { name: "结构 MRI", status: "integrating", note: "正在进行跨中心参数清洗与一致化整理。" },

@@ -19,12 +19,12 @@ const isActive = (href: string) => {
 <header class="site-header" data-site-header>
   <div class="nav-frame">
     <div class="hidden h-full w-full items-center justify-between lg:flex lg:gap-8">
-      <a href="/" class="inline-flex items-center gap-4 shrink-0">
+      <a href="/" class="inline-flex items-center gap-4 shrink-0 hover:opacity-90 transition-opacity">
         <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-ink-deep text-sm font-bold text-white shadow-sm">SA</span>
         <span class="min-w-0 flex flex-col justify-center">
           <span class="block font-serif text-[20px] font-bold leading-tight text-ink-deep">{siteData.siteShortName}</span>
           <span class="block text-[11px] font-[600] uppercase tracking-[0.06em] text-text-muted mt-[2px] leading-[1.2] whitespace-nowrap">
-            Sino Addiction<br/>Neuroimaging Initiative
+            Sino-Addiction<br/>Neuroimaging Initiatives
           </span>
         </span>
       </a>
@@ -42,15 +42,9 @@ const isActive = (href: string) => {
       </nav>
 
       <div class="flex justify-end shrink-0">
-        {siteData.portal.available && siteData.portal.href ? (
-          <a href={siteData.portal.href} class="btn-secondary whitespace-nowrap">
-            {siteData.portal.label}
-          </a>
-        ) : (
-          <span class="btn-secondary whitespace-nowrap opacity-80 cursor-not-allowed">
-            {siteData.portal.label} · 即将开放
-          </span>
-        )}
+        <a href="/join-us" class="btn-primary whitespace-nowrap">
+          加入我们
+        </a>
       </div>
     </div>
 
@@ -81,9 +75,11 @@ const isActive = (href: string) => {
                 </a>
               </li>
             ))}
+            <li>
+                <a href="/join-us" class="flex mt-3 justify-center items-center w-full btn-primary h-11 text-sm">加入我们</a>
+            </li>
           </ul>
         </nav>
-        <p class="mt-4 rounded-lg border border-border bg-surface-alt px-4 py-3 text-sm leading-6 text-text-secondary">{siteData.portal.note}</p>
       </div>
     </details>
   </div>
