@@ -1,0 +1,10 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="320" viewBox="0 0 1200 320" role="img" aria-label="协作模式示意图占位">
+  <rect x="2" y="2" width="1196" height="316" rx="18" fill="#f8fafc" stroke="#d1d5db" stroke-width="2" stroke-dasharray="8 6" />
+  <line x1="306" y1="160" x2="594" y2="160" stroke="#9ca3af" stroke-width="2" />
+  <line x1="606" y1="160" x2="894" y2="160" stroke="#9ca3af" stroke-width="2" />
+  <circle cx="300" cy="160" r="6" fill="#2563eb" />
+  <circle cx="600" cy="160" r="6" fill="#9ca3af" />
+  <circle cx="900" cy="160" r="6" fill="#9ca3af" />
+  <text x="600" y="110" text-anchor="middle" font-family="Noto Sans SC, sans-serif" font-size="18" fill="#6b7280">协作模式示意图占位</text>
+  <text x="600" y="140" text-anchor="middle" font-family="Noto Sans SC, sans-serif" font-size="12" fill="#9ca3af">替换此图片即可</text>
+</svg>

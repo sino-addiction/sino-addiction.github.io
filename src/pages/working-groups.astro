@@ -1,0 +1,50 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import Timeline from "../components/Timeline.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import CtaPanel from "../components/CtaPanel.astro";
+import { requirePage, sortFeaturedFirst } from "../lib/content";
+
+const page = await requirePage("working-groups");
+const { Content } = await render(page);
+const projects = sortFeaturedFirst(await getCollection("projects"));
+---
+
+<BaseLayout title={page.data.title} description={page.data.description}>
+  <Hero {...page.data.hero} compact={true} />
+
+  <section class="mx-auto mt-8 max-w-7xl px-4 md:px-6">
+    <div class="section-frame px-6 py-12 md:px-10">
+      <SectionHeading eyebrow="Workflow" title="项目申请流程" description="先明确问题，再评估可行性、资源边界与复现要求，让协作从一开始就可追踪。" />
+      {page.data.steps && <Timeline steps={page.data.steps} />}
+    </div>
+  </section>
+
+  <section class="mx-auto mt-8 max-w-7xl px-4 md:px-6">
+    <div class="grid gap-8 xl:grid-cols-[1.05fr_0.95fr]">
+      <div class="section-frame px-6 py-12 md:px-10">
+        <SectionHeading eyebrow="Current Projects" title="当前项目" description="展示示例项目与阶段进展，后续可以直接通过 Markdown 新增或更新。" />
+        <div class="prose-shell mt-6">
+          <Content />
+        </div>
+      </div>
+
+      {page.data.cta && <CtaPanel {...page.data.cta} />}
+    </div>
+  </section>
+
+  <section id="current-projects" class="mx-auto mt-8 max-w-7xl px-4 md:px-6">
+    <div class="section-frame px-6 py-12 md:px-10">
+      <div class="grid gap-5 md:grid-cols-2">
+        {projects.map((entry, index) => (
+          <div class:list={[index % 2 === 1 ? "delay-1" : ""]}>
+            <ProjectCard entry={entry} />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

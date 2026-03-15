@@ -1,0 +1,21 @@
+---
+type Stat = {
+  label: string;
+  value: string;
+};
+
+type Props = {
+  items: Stat[];
+};
+
+const { items } = Astro.props;
+---
+
+<div class="grid gap-5 md:grid-cols-3">
+  {items.map((item, index) => (
+    <article class:list={["surface-card reveal p-6 text-center md:p-8", index === 1 ? "delay-1" : index === 2 ? "delay-2" : ""]}>
+      <p class="font-serif text-5xl font-semibold tracking-tight text-ink-950">{item.value}</p>
+      <p class="mt-3 text-sm font-semibold uppercase tracking-[0.22em] text-ink-700">{item.label}</p>
+    </article>
+  ))}
+</div>

@@ -1,0 +1,61 @@
+---
+import { render } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import FeatureGrid from "../components/FeatureGrid.astro";
+import Timeline from "../components/Timeline.astro";
+import CtaPanel from "../components/CtaPanel.astro";
+import { siteData } from "../data/site";
+import { requirePage } from "../lib/content";
+
+const page = await requirePage("join-us");
+const { Content } = await render(page);
+---
+
+<BaseLayout title={page.data.title} description={page.data.description}>
+  <Hero {...page.data.hero} compact={true} />
+
+  {page.data.highlights && (
+    <section class="mx-auto mt-8 max-w-7xl px-4 md:px-6">
+      <div class="section-frame px-6 py-12 md:px-10">
+        <SectionHeading eyebrow="Why Join" title="为什么加入 SANI" description="在保持联盟规则清晰的前提下，让更多机构能够共享资源、问题与方法。" center={true} />
+        <div class="mt-10">
+          <FeatureGrid items={page.data.highlights} />
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="mx-auto mt-8 max-w-7xl px-4 md:px-6">
+    <div class="grid gap-8 xl:grid-cols-[1.02fr_0.98fr]">
+      <div class="section-frame px-6 py-12 md:px-10">
+        <SectionHeading eyebrow="How To Join" title="加入流程" description="当前阶段重点是通过邮件把合作意向、数据边界与角色预期说明清楚。" />
+        {page.data.steps && <Timeline steps={page.data.steps} />}
+      </div>
+      {page.data.cta && <CtaPanel {...page.data.cta} />}
+    </div>
+  </section>
+
+  <section class="mx-auto mt-8 max-w-7xl px-4 md:px-6">
+    <div class="section-frame px-6 py-12 md:px-10">
+      <SectionHeading eyebrow="Current Contact Mode" title="静态站点的联系方式" description="这次升级保留纯静态部署，不引入假表单或后端占位逻辑。" />
+      <div class="mt-8 grid gap-8 lg:grid-cols-[1fr_0.9fr]">
+        <div class="prose-shell">
+          <Content />
+        </div>
+        <div class="surface-card p-7">
+          <p class="text-sm font-semibold uppercase tracking-[0.22em] text-sage-500">Contact</p>
+          <h3 class="mt-4 font-serif text-3xl font-semibold text-ink-950">{siteData.contact.email}</h3>
+          <p class="mt-4 text-base leading-7 text-ink-700">{siteData.contact.note}</p>
+          <div class="mt-8">
+            <a href={`mailto:${siteData.contact.email}`} class="inline-flex items-center gap-2 rounded-full bg-ink-950 px-6 py-3 text-sm font-semibold text-white hover:-translate-y-0.5 hover:bg-ink-800">
+              发送合作邮件
+              <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

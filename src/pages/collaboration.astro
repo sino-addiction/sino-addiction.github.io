@@ -1,0 +1,52 @@
+---
+import { render } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import FeatureGrid from "../components/FeatureGrid.astro";
+import { siteData } from "../data/site";
+import { requirePage } from "../lib/content";
+
+const page = await requirePage("collaboration");
+const { Content } = await render(page);
+---
+
+<BaseLayout title={page.data.title} description={page.data.description}>
+  <Hero {...page.data.hero} compact={true} accentLabel={siteData.collaborationFlow} />
+
+  <section class="mx-auto mt-8 max-w-7xl px-4 md:px-6">
+    <div class="section-frame px-6 py-12 md:px-10">
+      <SectionHeading eyebrow="System Design" title="从数据到成果的协作链路" description="SANI 的协作重点不是单次数据汇总，而是让治理、处理、分析和成果沉淀形成可持续复用的机制。" />
+      <div class="mt-8 grid gap-10 lg:grid-cols-[1.05fr_0.95fr]">
+        <div class="prose-shell">
+          <Content />
+        </div>
+        <div class="grid gap-4">
+          {siteData.collaborationFlow.map((item, index) => (
+            <div class:list={["surface-card reveal p-5", index === 1 ? "delay-1" : index === 2 ? "delay-2" : index === 3 ? "delay-3" : ""]}>
+              <p class="text-xs font-semibold uppercase tracking-[0.22em] text-sage-500">Phase {index + 1}</p>
+              <h3 class="mt-3 font-serif text-2xl font-semibold text-ink-950">{item}</h3>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {page.data.sections && (
+    <section class="mx-auto mt-8 max-w-7xl px-4 md:px-6">
+      <div class="section-frame px-6 py-12 md:px-10">
+        <SectionHeading eyebrow="Governance Details" title="协作原则" description="把角色分工、工作流与署名规则写清楚，是联盟持续运行的前提。" />
+        <div class="mt-8">
+          <FeatureGrid
+            items={page.data.sections.map((section) => ({
+              label: "SANI",
+              title: section.title,
+              description: section.body,
+            }))}
+          />
+        </div>
+      </div>
+    </section>
+  )}
+</BaseLayout>

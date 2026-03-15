@@ -1,0 +1,45 @@
+---
+import { getCollection, render, type CollectionEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Hero from "../../components/Hero.astro";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("news", ({ data }) => !data.draft);
+
+  return entries.map((entry) => ({
+    params: { slug: entry.data.slug },
+    props: { entry },
+  }));
+}
+
+type Props = {
+  entry: CollectionEntry<"news">;
+};
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const formattedDate = entry.data.date.toLocaleDateString("zh-CN", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+---
+
+<BaseLayout title={`${entry.data.title} - SANI`} description={entry.data.summary}>
+  <Hero
+    kicker={`News · ${formattedDate}`}
+    title={entry.data.title}
+    subtitle={entry.data.summary}
+    primaryCta={{ label: "返回首页", href: "/#news" }}
+    secondaryCta={{ label: "浏览研究成果", href: "/publications" }}
+    compact={true}
+  />
+
+  <section class="mx-auto mt-8 max-w-5xl px-4 md:px-6">
+    <article class="section-frame px-6 py-12 md:px-10 md:py-14">
+      <div class="prose-shell">
+        <Content />
+      </div>
+    </article>
+  </section>
+</BaseLayout>

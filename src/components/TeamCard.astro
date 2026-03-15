@@ -1,0 +1,20 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+type Props = {
+  entry: CollectionEntry<"team">;
+};
+
+const { entry } = Astro.props;
+---
+
+<article class="surface-card reveal p-6 text-center">
+  <div class="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-linear-to-br from-sage-500/18 to-ink-900/12 text-2xl font-semibold text-ink-900">
+    {entry.data.name.slice(0, 1)}
+  </div>
+  <h3 class="mt-5 font-serif text-2xl font-semibold tracking-tight text-ink-950">{entry.data.name}</h3>
+  <p class="mt-2 text-sm font-semibold uppercase tracking-[0.2em] text-sage-500">{entry.data.role}</p>
+  <p class="mt-3 text-base leading-7 text-ink-800">{entry.data.institution}</p>
+  <p class="mt-1 text-sm text-ink-700">{entry.data.city}</p>
+  {entry.body && <p class="mt-4 text-sm leading-6 text-ink-700">{entry.body}</p>}
+</article>

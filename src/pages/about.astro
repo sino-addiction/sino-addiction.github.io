@@ -1,0 +1,77 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import FeatureGrid from "../components/FeatureGrid.astro";
+import TeamCard from "../components/TeamCard.astro";
+import NetworkMap from "../components/NetworkMap.astro";
+import { requirePage } from "../lib/content";
+
+const page = await requirePage("about");
+const { Content } = await render(page);
+const team = (await getCollection("team")).sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout title={page.data.title} description={page.data.description}>
+  <Hero {...page.data.hero} compact={true} />
+
+  <section class="mx-auto mt-8 max-w-7xl px-4 md:px-6">
+    <div class="section-frame px-6 py-12 md:px-10">
+      <div class="grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
+        <div>
+          <SectionHeading eyebrow="Identity" title="组织定位与协作边界" />
+          <div class="prose-shell mt-6">
+            <Content />
+          </div>
+        </div>
+
+        {page.data.sections && (
+          <FeatureGrid
+            items={page.data.sections.map((section) => ({
+              label: "About",
+              title: section.title,
+              description: section.body,
+            }))}
+          />
+        )}
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto mt-8 max-w-7xl px-4 md:px-6">
+    <div class="section-frame px-6 py-12 md:px-10">
+      <SectionHeading eyebrow="Core Team" title="核心团队" description="团队成员与简介来自独立内容文件，便于持续增补与维护。" center={true} />
+      <div class="mt-10 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+        {team.map((entry, index) => (
+          <div class:list={[index % 4 === 1 ? "delay-1" : index % 4 === 2 ? "delay-2" : index % 4 === 3 ? "delay-3" : ""]}>
+            <TeamCard entry={entry} />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto mt-8 max-w-7xl px-4 md:px-6">
+    <div class="section-frame px-6 py-12 md:px-10">
+      <SectionHeading eyebrow="Network" title="协作网络示意" description="示意图用于展示当前主要节点分布，后续可替换为更精确的机构地图或区域视图。" />
+      <div class="mt-8 grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+        <NetworkMap />
+        <div class="grid gap-4">
+          {team.map((entry, index) => (
+            <article class:list={["surface-card reveal flex items-start gap-4 p-5", index % 2 === 1 ? "delay-1" : ""]}>
+              <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-sage-500/12 font-semibold text-sage-500">
+                {entry.data.name.slice(0, 1)}
+              </div>
+              <div>
+                <h3 class="font-semibold text-ink-950">{entry.data.name}</h3>
+                <p class="mt-1 text-sm text-ink-700">{entry.data.institution}</p>
+                <p class="mt-1 text-sm text-ink-700">{entry.data.city}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

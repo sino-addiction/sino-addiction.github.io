@@ -1,0 +1,101 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import FeatureGrid from "../components/FeatureGrid.astro";
+import StatsGrid from "../components/StatsGrid.astro";
+import MetricGrid from "../components/MetricGrid.astro";
+import NewsCard from "../components/NewsCard.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import CtaPanel from "../components/CtaPanel.astro";
+import { siteData } from "../data/site";
+import { listPublishedNews, requirePage, sortFeaturedFirst } from "../lib/content";
+
+const page = await requirePage("index");
+const { Content } = await render(page);
+const news = (await listPublishedNews()).slice(0, 3);
+const projects = sortFeaturedFirst(await getCollection("projects")).slice(0, 2);
+---
+
+<BaseLayout title={page.data.title} description={page.data.description}>
+  <Hero {...page.data.hero} accentLabel={siteData.collaborationFlow} />
+
+  <section class="mx-auto mt-8 max-w-7xl px-4 md:px-6">
+    <div class="section-frame px-6 py-12 md:px-10 md:py-14">
+      <div class="grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:items-start">
+        <div>
+          <SectionHeading eyebrow="Core Value" title="合作与参与方式" description="用更清晰的协作路径，把多中心数据、标准化处理与研究产出连成稳定工作流。" />
+          {page.data.sections && (
+            <div class="prose-shell mt-8">
+              <Content />
+            </div>
+          )}
+        </div>
+
+        {page.data.highlights && <FeatureGrid items={page.data.highlights} numbered={true} />}
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto mt-8 max-w-7xl px-4 md:px-6">
+    <div class="section-frame px-6 py-12 md:px-10">
+      <SectionHeading eyebrow="Scale" title="当前协作规模" description="下列指标为当前示例值，可持续在站点级配置中更新，而不需要改任何页面模板。" center={true} />
+      <div class="mt-10">
+        <StatsGrid items={siteData.homepage.stats} />
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto mt-8 max-w-7xl px-4 md:px-6">
+    <div class="grid gap-8 xl:grid-cols-[1fr_1fr]">
+      <div class="section-frame px-6 py-12 md:px-10">
+        <SectionHeading eyebrow="Data Coverage" title="数据模态" description="可根据真实项目统计持续更新。" />
+        <div class="mt-8">
+          <MetricGrid items={siteData.homepage.modalities} />
+        </div>
+      </div>
+      <div class="section-frame px-6 py-12 md:px-10">
+        <SectionHeading eyebrow="Cohorts" title="成瘾类型" description="包含健康对照，按项目口径统计。" />
+        <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {siteData.homepage.addictionTypes.map((item, index) => (
+            <article class:list={["surface-card reveal p-5", index % 3 === 1 ? "delay-1" : index % 3 === 2 ? "delay-2" : ""]}>
+              <p class="font-serif text-3xl font-semibold text-ink-950">{item.value}</p>
+              <p class="mt-3 text-base leading-7 text-ink-800">{item.label}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="news" class="mx-auto mt-8 max-w-7xl px-4 md:px-6">
+    <div class="section-frame px-6 py-12 md:px-10">
+      <SectionHeading eyebrow="Latest" title="新闻与动态" description="联盟最新进展、研究发布与平台建设更新。" center={true} />
+      <div class="mt-10 grid gap-5 md:grid-cols-3">
+        {news.map((entry, index) => (
+          <div class:list={[index === 1 ? "delay-1" : index === 2 ? "delay-2" : ""]}>
+            <NewsCard entry={entry} />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto mt-8 max-w-7xl px-4 md:px-6">
+    <div class="grid gap-8 xl:grid-cols-[0.9fr_1.1fr]">
+      {page.data.cta && <CtaPanel {...page.data.cta} />}
+
+      <div class="section-frame px-6 py-12 md:px-10">
+        <SectionHeading eyebrow="Featured Projects" title="重点在研项目" description="项目条目来自内容集合，新增项目时只需要补一份 Markdown 文件。" />
+        <div class="mt-8 grid gap-5 lg:grid-cols-2">
+          {projects.map((entry, index) => (
+            <div class:list={[index === 1 ? "delay-1" : ""]}>
+              <ProjectCard entry={entry} />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

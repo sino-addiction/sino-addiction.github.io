@@ -1,0 +1,53 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import PublicationCard from "../components/PublicationCard.astro";
+import { requirePage, sortFeaturedFirst } from "../lib/content";
+
+const page = await requirePage("publications");
+const { Content } = await render(page);
+const publications = sortFeaturedFirst(await getCollection("publications")).sort((a, b) => {
+  if (a.data.featured !== b.data.featured) {
+    return Number(b.data.featured) - Number(a.data.featured);
+  }
+
+  return b.data.year - a.data.year;
+});
+---
+
+<BaseLayout title={page.data.title} description={page.data.description}>
+  <Hero {...page.data.hero} compact={true} />
+
+  <section class="mx-auto mt-8 max-w-7xl px-4 md:px-6">
+    <div class="section-frame px-6 py-12 md:px-10">
+      <SectionHeading eyebrow="Output Philosophy" title="研究产出" description="示例条目已经改为内容集合驱动，新增论文时只需增加 Markdown 文件即可。" />
+      <div class="prose-shell mt-6">
+        <Content />
+      </div>
+      {page.data.sections && (
+        <div class="mt-8 grid gap-5 lg:grid-cols-1">
+          {page.data.sections.map((section) => (
+            <article class="surface-card p-6">
+              <h3 class="font-serif text-2xl font-semibold text-ink-950">{section.title}</h3>
+              <p class="mt-3 text-base leading-7 text-ink-700">{section.body}</p>
+            </article>
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+
+  <section class="mx-auto mt-8 max-w-7xl px-4 md:px-6">
+    <div class="section-frame px-6 py-12 md:px-10">
+      <div class="grid gap-5">
+        {publications.map((entry, index) => (
+          <div class:list={[index % 3 === 1 ? "delay-1" : index % 3 === 2 ? "delay-2" : ""]}>
+            <PublicationCard entry={entry} />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
