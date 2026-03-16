@@ -88,21 +88,21 @@ publications.forEach(p => {
   </section>
 
   <!-- Network Map Hub - Natural Transition -->
-  <section class="relative py-24 md:py-32 bg-surface-alt/40">
+  <section class="relative pt-20 pb-10 md:pt-24 md:pb-8 bg-surface-alt/35">
      <div class="page-wrap flex flex-col items-center">
-       <div class="w-full max-w-4xl mb-16 text-center">
+       <div class="w-full max-w-4xl mb-10 md:mb-12 text-center">
          <SectionHeading title="多中心协作版图" description="立足规模化建设的样本枢纽，实现分布式站点间的高度方法论一致性。" center={true} />
        </div>
        <!-- Map without white box -->
-       <div class="w-full max-w-[1120px]">
-         <NetworkMap />
+       <div class="w-full max-w-[1240px]">
+         <NetworkMap variant="home" />
        </div>
      </div>
   </section>
 
   <!-- Featured Carousel - Soft Background Shift -->
   {carouselItems.length > 0 && (
-    <section class="page-wrap py-24 md:py-40">
+    <section class="page-wrap pt-12 pb-24 md:pt-14 md:pb-28">
        <div class="max-w-5xl mx-auto">
          <div class="mb-16">
             <SectionHeading eyebrow="Alliance Updates" title="联盟动态" description="最新的科研项目进展、学术成果沉淀与机构新闻。" center={true} />

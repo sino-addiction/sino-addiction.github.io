@@ -6,131 +6,145 @@ import {
   southSeaPaths,
   taiwanPath,
 } from "../data/networkMap";
+
+type Props = {
+  variant?: "home" | "compact";
+};
+
+const { variant = "home" } = Astro.props;
+const isHome = variant === "home";
+
+const toPercent = (value: number, total: number) => `${(value / total) * 100}%`;
 ---
 
 <div class="network-map relative isolate w-full">
-  <div class="pointer-events-none absolute inset-x-[10%] top-[12%] h-[58%] rounded-[50%] bg-[radial-gradient(circle_at_center,rgba(31,138,132,0.08),transparent_72%)] blur-3xl"></div>
-  <div class="pointer-events-none absolute inset-x-[18%] bottom-[10%] h-[28%] rounded-[50%] bg-[radial-gradient(circle_at_center,rgba(16,33,50,0.06),transparent_78%)] blur-[120px]"></div>
+  {isHome ? (
+    <>
+      <div class="pointer-events-none absolute inset-x-[8%] top-[8%] h-[64%] rounded-[50%] bg-[radial-gradient(circle_at_center,rgba(31,138,132,0.09),transparent_70%)] blur-[110px]"></div>
+      <div class="pointer-events-none absolute inset-x-[16%] bottom-[6%] h-[26%] rounded-[50%] bg-[radial-gradient(circle_at_center,rgba(16,33,50,0.06),transparent_78%)] blur-[120px]"></div>
 
-  <div class="hidden md:block">
-    <div class="relative aspect-[1.25/1] w-full overflow-visible">
-      <svg
-        viewBox="0 0 1000 800"
-        class="h-full w-full overflow-visible"
-        role="img"
-        aria-labelledby="network-map-title network-map-desc"
-      >
-        <title id="network-map-title">SANI 多中心协作版图</title>
-        <desc id="network-map-desc">
-          中国协作中心分布示意，展示北京、上海、广州、武汉、西安与成都六个核心协作站点及其样本规模。
-        </desc>
-
-        <defs>
-          <linearGradient id="network-map-fill" x1="0%" x2="100%" y1="8%" y2="90%">
-            <stop offset="0%" stop-color="#F8FBF9"></stop>
-            <stop offset="62%" stop-color="#EFF5F2"></stop>
-            <stop offset="100%" stop-color="#E7EFEB"></stop>
-          </linearGradient>
-          <linearGradient id="network-map-stroke" x1="18%" x2="88%" y1="0%" y2="100%">
-            <stop offset="0%" stop-color="#1F8A84" stop-opacity="0.34"></stop>
-            <stop offset="100%" stop-color="#102132" stop-opacity="0.42"></stop>
-          </linearGradient>
-          <filter id="network-map-shadow" x="-8%" y="-8%" width="116%" height="116%">
-            <feDropShadow dx="0" dy="18" stdDeviation="20" flood-color="#102132" flood-opacity="0.05"></feDropShadow>
-          </filter>
-        </defs>
-
-        <path
-          d={chinaOutlinePath}
-          fill="url(#network-map-fill)"
-          stroke="url(#network-map-stroke)"
-          stroke-width="2"
-          vector-effect="non-scaling-stroke"
-          filter="url(#network-map-shadow)"
-        ></path>
-        <path
-          d={chinaOutlinePath}
-          fill="none"
-          stroke="#1F8A84"
-          stroke-opacity="0.14"
-          stroke-width="10"
-          vector-effect="non-scaling-stroke"
-        ></path>
-        <path
-          d={hainanPath}
-          fill="#F6FAF8"
-          stroke="#6C828E"
-          stroke-opacity="0.8"
-          stroke-width="1.6"
-          vector-effect="non-scaling-stroke"
-        ></path>
-        <path
-          d={taiwanPath}
-          fill="#F6FAF8"
-          stroke="#6C828E"
-          stroke-opacity="0.85"
-          stroke-width="1.6"
-          vector-effect="non-scaling-stroke"
-        ></path>
-        {southSeaPaths.map((path) => (
-          <path
-            d={path}
-            fill="none"
-            stroke="#708491"
-            stroke-opacity="0.6"
-            stroke-width="1.6"
-            stroke-dasharray="5 7"
-            stroke-linecap="round"
-            vector-effect="non-scaling-stroke"
-          ></path>
-        ))}
-
-        {networkSites.map((site) => (
-          <g
-            class="map-site"
-            tabindex="0"
-            role="group"
-            aria-label={`${site.institution}，${site.city}，贡献样本 ${site.sampleCount} 例`}
+      <div class="hidden md:block">
+        <div class="relative aspect-[1.58/1] w-full overflow-visible">
+          <svg
+            viewBox="0 0 1000 800"
+            class="absolute inset-0 h-full w-full overflow-visible"
+            role="img"
+            aria-labelledby="network-map-title network-map-desc"
           >
+            <title id="network-map-title">SANI 多中心协作版图</title>
+            <desc id="network-map-desc">
+              中国协作中心分布示意，展示北京、上海、广州、武汉、西安与成都六个核心协作站点及其样本规模。
+            </desc>
+
+            <defs>
+              <linearGradient id="network-map-fill" x1="8%" x2="88%" y1="10%" y2="86%">
+                <stop offset="0%" stop-color="#FAFCFA"></stop>
+                <stop offset="58%" stop-color="#EEF5F2"></stop>
+                <stop offset="100%" stop-color="#E3EEEA"></stop>
+              </linearGradient>
+              <linearGradient id="network-map-stroke" x1="16%" x2="92%" y1="0%" y2="100%">
+                <stop offset="0%" stop-color="#7CA9A5" stop-opacity="0.88"></stop>
+                <stop offset="100%" stop-color="#5F7E8A" stop-opacity="0.9"></stop>
+              </linearGradient>
+              <filter id="network-map-shadow" x="-10%" y="-10%" width="120%" height="120%">
+                <feDropShadow dx="0" dy="24" stdDeviation="20" flood-color="#102132" flood-opacity="0.04"></feDropShadow>
+              </filter>
+            </defs>
+
             <path
-              class="map-leader"
-              d={site.leaderPath}
+              d={chinaOutlinePath}
+              fill="url(#network-map-fill)"
+              stroke="url(#network-map-stroke)"
+              stroke-width="2.3"
+              stroke-linejoin="round"
+              vector-effect="non-scaling-stroke"
+              filter="url(#network-map-shadow)"
+            ></path>
+            <path
+              d={chinaOutlinePath}
               fill="none"
               stroke="#1F8A84"
-              stroke-opacity="0.6"
-              stroke-width="1.8"
-              stroke-linecap="round"
+              stroke-opacity="0.11"
+              stroke-width="12"
               stroke-linejoin="round"
               vector-effect="non-scaling-stroke"
             ></path>
+            <path
+              d={hainanPath}
+              fill="#F8FBF9"
+              stroke="#6C828E"
+              stroke-opacity="0.8"
+              stroke-width="1.8"
+              stroke-linejoin="round"
+              vector-effect="non-scaling-stroke"
+            ></path>
+            <path
+              d={taiwanPath}
+              fill="#F8FBF9"
+              stroke="#6C828E"
+              stroke-opacity="0.82"
+              stroke-width="1.7"
+              vector-effect="non-scaling-stroke"
+            ></path>
+            {southSeaPaths.map((path) => (
+              <path
+                d={path}
+                fill="none"
+                stroke="#708491"
+                stroke-opacity="0.72"
+                stroke-width="1.6"
+                stroke-linecap="round"
+                vector-effect="non-scaling-stroke"
+              ></path>
+            ))}
+          </svg>
 
-            <circle class="map-node-halo" cx={site.x} cy={site.y} r="16"></circle>
-            <circle class="map-node-ring" cx={site.x} cy={site.y} r="8.5"></circle>
-            <circle class="map-node-core" cx={site.x} cy={site.y} r="4.5"></circle>
-
-            <text
-              class="map-label"
-              x={site.labelX}
-              y={site.labelY}
-              text-anchor={site.labelAnchor}
-            >
-              {site.city}
-            </text>
-
-            <foreignObject
-              x={site.cardX}
-              y={site.cardY}
-              width="220"
-              height="112"
-              class:list={[
-                "map-callout",
-                site.cardSide === "left" ? "map-callout-left" : "map-callout-right",
-              ]}
-            >
-              <div
-                class="flex h-full flex-col rounded-[22px] border border-border/90 bg-white/98 px-5 py-4 shadow-[0_18px_40px_rgba(16,33,50,0.08)]"
+          {networkSites.map((site) => (
+            <div class="map-site absolute inset-0" data-site={site.id}>
+              <svg
+                viewBox="0 0 1000 800"
+                class="pointer-events-none absolute inset-0 h-full w-full overflow-visible"
+                aria-hidden="true"
               >
-                <div class="mb-3 flex items-center justify-between gap-4">
+                <path
+                  class="map-leader"
+                  d={site.leaderPath}
+                  fill="none"
+                  stroke="#1F8A84"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  vector-effect="non-scaling-stroke"
+                ></path>
+              </svg>
+
+              <button
+                type="button"
+                class="map-node"
+                style={`left:${toPercent(site.x, 1000)}; top:${toPercent(site.y, 800)};`}
+                aria-label={`${site.institution}，${site.city}，贡献样本 ${site.sampleCount} 例`}
+              >
+                <span class="map-node__halo"></span>
+                <span class="map-node__ring"></span>
+                <span class="map-node__core"></span>
+              </button>
+
+              <span
+                class="map-city"
+                style={`left:${toPercent(site.labelX, 1000)}; top:${toPercent(site.labelY, 800)};`}
+                data-anchor={site.labelAnchor}
+              >
+                {site.city}
+              </span>
+
+              <article
+                class:list={[
+                  "map-card",
+                  site.cardSide === "left" ? "map-card-left" : "map-card-right",
+                ]}
+                style={`left:${toPercent(site.cardX, 1000)}; top:${toPercent(site.cardY, 800)};`}
+              >
+                <div class="mb-3 flex items-center justify-between gap-3">
                   <span class="inline-flex h-6 items-center rounded-full bg-accent/8 px-3 text-[11px] font-semibold tracking-[0.04em] text-accent">
                     {site.label}
                   </span>
@@ -145,17 +159,78 @@ import {
                   <span class="text-[12px] leading-none text-text-muted">
                     贡献样本
                   </span>
-                  <span class="text-[18px] leading-none font-bold text-accent">
+                  <span class="text-[20px] leading-none font-bold text-accent">
                     {site.sampleCount}
                   </span>
                 </div>
-              </div>
-            </foreignObject>
-          </g>
-        ))}
-      </svg>
+              </article>
+            </div>
+          ))}
+        </div>
+      </div>
+    </>
+  ) : (
+    <div class="hidden md:block">
+      <div class="relative aspect-[1.18/1] rounded-[30px] border border-border/80 bg-surface/72 px-4 py-5 shadow-sm">
+        <svg viewBox="0 0 1000 800" class="h-full w-full" role="img" aria-labelledby="network-map-compact-title">
+          <title id="network-map-compact-title">SANI 协作版图</title>
+          <path
+            d={chinaOutlinePath}
+            fill="#F8FBF9"
+            stroke="#6C828E"
+            stroke-opacity="0.82"
+            stroke-width="2.2"
+            stroke-linejoin="round"
+            vector-effect="non-scaling-stroke"
+          ></path>
+          <path
+            d={hainanPath}
+            fill="#F8FBF9"
+            stroke="#6C828E"
+            stroke-opacity="0.82"
+            stroke-width="1.8"
+            stroke-linejoin="round"
+            vector-effect="non-scaling-stroke"
+          ></path>
+          <path
+            d={taiwanPath}
+            fill="#F8FBF9"
+            stroke="#6C828E"
+            stroke-opacity="0.82"
+            stroke-width="1.7"
+            vector-effect="non-scaling-stroke"
+          ></path>
+          {southSeaPaths.map((path) => (
+            <path
+              d={path}
+              fill="none"
+              stroke="#708491"
+              stroke-opacity="0.68"
+              stroke-width="1.4"
+              stroke-linecap="round"
+              vector-effect="non-scaling-stroke"
+            ></path>
+          ))}
+          {networkSites.map((site) => (
+            <g>
+              <circle cx={site.x} cy={site.y} r="10" fill="#1F8A84" fill-opacity="0.1"></circle>
+              <circle cx={site.x} cy={site.y} r="5.2" fill="#1F8A84"></circle>
+              <text
+                x={site.labelX}
+                y={site.labelY}
+                text-anchor={site.labelAnchor}
+                fill="#486173"
+                font-size="18"
+                font-weight="600"
+              >
+                {site.city}
+              </text>
+            </g>
+          ))}
+        </svg>
+      </div>
     </div>
-  </div>
+  )}
 
   <div class="md:hidden">
     <div class="rounded-[26px] border border-border/80 bg-surface/70 px-4 py-5 shadow-sm">
@@ -164,24 +239,26 @@ import {
           d={chinaOutlinePath}
           fill="#F8FBF9"
           stroke="#6C828E"
-          stroke-opacity="0.75"
+          stroke-opacity="0.78"
           stroke-width="2.2"
+          stroke-linejoin="round"
           vector-effect="non-scaling-stroke"
         ></path>
         <path
           d={hainanPath}
           fill="#F8FBF9"
           stroke="#6C828E"
-          stroke-opacity="0.75"
-          stroke-width="1.6"
+          stroke-opacity="0.78"
+          stroke-width="1.8"
+          stroke-linejoin="round"
           vector-effect="non-scaling-stroke"
         ></path>
         <path
           d={taiwanPath}
           fill="#F8FBF9"
           stroke="#6C828E"
-          stroke-opacity="0.75"
-          stroke-width="1.6"
+          stroke-opacity="0.78"
+          stroke-width="1.7"
           vector-effect="non-scaling-stroke"
         ></path>
         {southSeaPaths.map((path) => (
@@ -189,9 +266,8 @@ import {
             d={path}
             fill="none"
             stroke="#708491"
-            stroke-opacity="0.55"
-            stroke-width="1.6"
-            stroke-dasharray="5 7"
+            stroke-opacity="0.68"
+            stroke-width="1.5"
             stroke-linecap="round"
             vector-effect="non-scaling-stroke"
           ></path>
@@ -242,107 +318,163 @@ import {
   }
 
   .map-site {
-    cursor: default;
-    outline: none;
+    pointer-events: none;
   }
 
-  .map-leader,
-  .map-callout {
-    opacity: 0;
+  .map-node,
+  .map-card {
+    pointer-events: auto;
+  }
+
+  .map-node {
+    position: absolute;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    transform: translate(-50%, -50%);
+    border: 0;
+    padding: 0;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .map-node__halo,
+  .map-node__ring,
+  .map-node__core {
+    position: absolute;
+    border-radius: 999px;
+    transition:
+      transform 220ms ease,
+      opacity 220ms ease,
+      background-color 220ms ease,
+      border-color 220ms ease;
+  }
+
+  .map-node__halo {
+    width: 2rem;
+    height: 2rem;
+    background: rgba(31, 138, 132, 0.14);
+  }
+
+  .map-node__ring {
+    width: 1rem;
+    height: 1rem;
+    background: #ffffff;
+    border: 2px solid rgba(31, 138, 132, 0.92);
+  }
+
+  .map-node__core {
+    width: 0.45rem;
+    height: 0.45rem;
+    background: #1f8a84;
+  }
+
+  .map-city {
+    position: absolute;
+    font-size: 13px;
+    line-height: 1;
+    font-weight: 650;
+    color: #486173;
+    letter-spacing: 0.02em;
     pointer-events: none;
+    transition: color 220ms ease;
+  }
+
+  .map-city[data-anchor="middle"] {
+    transform: translate(-50%, -50%);
+  }
+
+  .map-city[data-anchor="start"] {
+    transform: translate(0, -50%);
+  }
+
+  .map-city[data-anchor="end"] {
+    transform: translate(-100%, -50%);
+  }
+
+  .map-card {
+    position: absolute;
+    width: 13.25rem;
+    min-height: 6.75rem;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 1rem 0.95rem;
+    border-radius: 22px;
+    border: 1px solid rgba(215, 224, 220, 0.88);
+    background: rgba(255, 255, 255, 0.94);
+    box-shadow: 0 12px 30px rgba(16, 33, 50, 0.06);
+    backdrop-filter: blur(8px);
+    transform: translate3d(0, 0, 0);
+    transition:
+      border-color 220ms ease,
+      box-shadow 220ms ease,
+      background-color 220ms ease,
+      transform 220ms ease;
+  }
+
+  .map-card-left {
+    transform-origin: right center;
+  }
+
+  .map-card-right {
+    transform-origin: left center;
+  }
+
+  .map-leader {
+    opacity: 0.24;
     transition:
       opacity 220ms ease,
-      transform 240ms ease;
+      stroke 220ms ease,
+      stroke-width 220ms ease;
   }
 
-  .map-callout-left {
-    transform: translate3d(-10px, 6px, 0);
-  }
-
-  .map-callout-right {
-    transform: translate3d(10px, 6px, 0);
+  .map-site:hover .map-card,
+  .map-site:focus-within .map-card {
+    border-color: rgba(31, 138, 132, 0.42);
+    background: rgba(255, 255, 255, 0.99);
+    box-shadow: 0 18px 42px rgba(16, 33, 50, 0.09);
+    transform: translateY(-2px);
   }
 
   .map-site:hover .map-leader,
-  .map-site:hover .map-callout,
-  .map-site:focus .map-leader,
-  .map-site:focus .map-callout,
-  .map-site:focus-within .map-leader,
-  .map-site:focus-within .map-callout {
-    opacity: 1;
-    pointer-events: auto;
-    transform: translate3d(0, 0, 0);
+  .map-site:focus-within .map-leader {
+    opacity: 0.72;
+    stroke: #176e69;
+    stroke-width: 2.1;
   }
 
-  .map-node-halo,
-  .map-node-ring,
-  .map-node-core {
-    transform-box: fill-box;
-    transform-origin: center;
-    transition:
-      transform 220ms ease,
-      fill 220ms ease,
-      stroke 220ms ease,
-      opacity 220ms ease;
-  }
-
-  .map-node-halo {
-    fill: rgba(31, 138, 132, 0.12);
-  }
-
-  .map-node-ring {
-    fill: #ffffff;
-    stroke: rgba(31, 138, 132, 0.92);
-    stroke-width: 2.4;
-    vector-effect: non-scaling-stroke;
-  }
-
-  .map-node-core {
-    fill: #1f8a84;
-  }
-
-  .map-label {
-    fill: #486173;
-    font-size: 14px;
-    font-weight: 650;
-    letter-spacing: 0.02em;
-    transition: fill 220ms ease;
-  }
-
-  .map-site:hover .map-node-halo,
-  .map-site:focus .map-node-halo,
-  .map-site:focus-within .map-node-halo {
+  .map-site:hover .map-node__halo,
+  .map-site:focus-within .map-node__halo {
     transform: scale(1.75);
-    opacity: 0.9;
+    opacity: 0.95;
   }
 
-  .map-site:hover .map-node-ring,
-  .map-site:focus .map-node-ring,
-  .map-site:focus-within .map-node-ring {
-    transform: scale(1.18);
-    stroke: rgba(16, 33, 50, 0.82);
+  .map-site:hover .map-node__ring,
+  .map-site:focus-within .map-node__ring {
+    transform: scale(1.22);
+    border-color: rgba(16, 33, 50, 0.82);
   }
 
-  .map-site:hover .map-node-core,
-  .map-site:focus .map-node-core,
-  .map-site:focus-within .map-node-core {
-    transform: scale(1.4);
-    fill: #102132;
+  .map-site:hover .map-node__core,
+  .map-site:focus-within .map-node__core {
+    transform: scale(1.42);
+    background: #102132;
   }
 
-  .map-site:hover .map-label,
-  .map-site:focus .map-label,
-  .map-site:focus-within .map-label {
-    fill: #102132;
+  .map-site:hover .map-city,
+  .map-site:focus-within .map-city {
+    color: #102132;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .map-leader,
-    .map-callout,
-    .map-node-halo,
-    .map-node-ring,
-    .map-node-core,
-    .map-label {
+    .map-node__halo,
+    .map-node__ring,
+    .map-node__core,
+    .map-city,
+    .map-card,
+    .map-leader {
       transition: none;
     }
   }
