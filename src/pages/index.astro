@@ -20,7 +20,7 @@ news.forEach(n => {
     type: "新闻",
     title: n.data.title,
     description: n.data.summary,
-    url: `/news/${n.slug}/`,
+    url: `/news/${n.data.slug}/`,
     meta: dateStr
   });
 });
@@ -29,7 +29,7 @@ projects.forEach(p => {
   carouselItems.push({
     type: "项目",
     title: p.data.title,
-    description: p.body,
+    description: p.body ?? "",
     url: "/working-groups",
     meta: p.data.lead || "SANI Team"
   });
@@ -94,7 +94,7 @@ publications.forEach(p => {
          <SectionHeading title="多中心协作版图" description="立足规模化建设的样本枢纽，实现分布式站点间的高度方法论一致性。" center={true} />
        </div>
        <!-- Map without white box -->
-       <div class="w-full max-w-[1000px] aspect-[5/3.2] flex items-center justify-center">
+       <div class="w-full max-w-[1120px]">
          <NetworkMap />
        </div>
      </div>
