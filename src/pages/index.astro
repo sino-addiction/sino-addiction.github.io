@@ -48,66 +48,66 @@ publications.forEach(p => {
 
 <BaseLayout title={siteData.siteName} description={siteData.description}>
   
-  <!-- Hero Section & Stats Block -->
-  <section class="page-wrap pt-16 md:pt-28 pb-16 border-b border-border/60">
-    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-16 lg:gap-12">
+  <!-- Hero Section -->
+  <section class="page-wrap pt-20 pb-24 md:pt-32 md:pb-32 overflow-hidden">
+    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-16 lg:gap-24 relative">
       <!-- Left Hero Text -->
-      <div class="flex-1 max-w-3xl flex flex-col items-start text-left">
-        <h1 class="text-[38px] md:text-[50px] lg:text-[54px] font-serif font-bold text-ink-deep leading-[1.18] mb-4 text-balance">
+      <div class="flex-1 max-w-2xl flex flex-col items-start text-left">
+        <h1 class="text-[42px] md:text-[52px] lg:text-[58px] font-serif font-bold text-ink-deep leading-[1.15] mb-4">
           中国成瘾神经影像协作计划
         </h1>
-        <h2 class="text-[18px] md:text-[20px] font-bold text-accent tracking-[0.05em] mb-8">
+        <h2 class="text-[18px] md:text-[22px] font-bold text-accent mb-10 font-sans tracking-wide">
           Sino-Addiction Neuroimaging Initiatives
         </h2>
-        <p class="text-[16px] md:text-[18px] leading-[1.8] text-text-secondary max-w-2xl text-balance mb-10">
-          致力于构建标准化、可复现的多中心成瘾神经影像网络，通过规范化数据治理与透明的协作机制，推动高转化价值的成瘾基质与客观生物标志物研究。
+        <p class="text-[17px] md:text-[19px] leading-[1.85] text-text-secondary w-full text-balance mb-12">
+          致力于构建标准化、可复现的多中心成瘾神经影像网络。通过透明的数据治理与跨站点协作逻辑，深耕具有临床转化价值的生物标志物发现与验证。
         </p>
-        <div class="flex flex-wrap gap-4 items-center">
-          <a href="/about" class="btn-primary">了解更多</a>
-          <a href="/join-us" class="btn-secondary">加入我们</a>
+        <div class="flex flex-wrap gap-6 items-center">
+           <a href="/join-us" class="btn-primary px-10 shadow-lg shadow-accent/20">加入我们</a>
+           <a href="/about" class="btn-link text-[16px] font-bold group">
+             了解更多联盟使命 
+             <span class="ml-2 group-hover:translate-x-1 transition-transform inline-block">→</span>
+           </a>
         </div>
       </div>
       
-      <!-- Right Stats KPIs -->
-      <div class="w-full lg:w-auto shrink-0 flex hidden lg:flex flex-col gap-6 p-8 bg-surface-alt border border-border shadow-sm rounded-xl min-w-[280px]">
+      <!-- Right Stats KPIs Pane -->
+      <div class="w-full lg:w-[360px] shrink-0 flex flex-col gap-10 lg:pl-12 lg:border-l border-border/80 relative">
         {siteData.homepage.stats.map((stat) => (
-          <div class="flex flex-col">
-            <span class="text-[13px] font-semibold text-text-muted uppercase tracking-wider mb-1">{stat.label}</span>
-            <span class="text-[36px] font-serif font-bold text-ink-deep leading-none">{stat.value}</span>
-          </div>
-        ))}
-      </div>
-
-      <!-- Mobile/Tablet Side-by-side stats -->
-      <div class="w-full lg:hidden grid grid-cols-3 gap-4 border-t border-border pt-10">
-         {siteData.homepage.stats.map((stat) => (
-          <div class="flex flex-col border-l-2 border-accent pl-4">
-            <span class="text-[12px] font-semibold text-text-muted uppercase tracking-wider mb-2">{stat.label}</span>
-            <span class="text-[28px] md:text-[36px] font-serif font-bold text-ink-deep leading-none">{stat.value}</span>
+          <div class="flex flex-col items-start">
+            <span class="text-[13px] font-[750] text-text-muted uppercase tracking-[0.2em] mb-3 flex items-center gap-3">
+              <span class="w-2 h-2 bg-accent/40 rounded-full block"></span>
+              {stat.label}
+            </span>
+            <span class="text-[56px] xl:text-[68px] font-serif font-bold text-ink-deep leading-none tracking-tighter">{stat.value}</span>
+            <p class="mt-3 text-[14px] text-text-muted/80 leading-relaxed max-w-[240px]">{stat.note}</p>
           </div>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- Network Map Hub -->
-  <section class="page-wrap py-16 md:py-24 border-b border-border/60">
-     <div class="max-w-6xl mx-auto flex flex-col items-center">
-       <SectionHeading title="协作版图" description="立足多中心规模化建设的样本与研究枢纽" center={true} />
-       <div class="w-full mt-12 bg-surface border border-border rounded-xl overflow-hidden min-h-[400px]">
+  <!-- Network Map Hub - Natural Transition -->
+  <section class="relative py-24 md:py-32 bg-surface-alt/40">
+     <div class="page-wrap flex flex-col items-center">
+       <div class="w-full max-w-4xl mb-16 text-center">
+         <SectionHeading title="多中心协作版图" description="立足规模化建设的样本枢纽，实现分布式站点间的高度方法论一致性。" center={true} />
+       </div>
+       <!-- Map without white box -->
+       <div class="w-full max-w-[1000px] aspect-[5/3.2] flex items-center justify-center">
          <NetworkMap />
        </div>
      </div>
   </section>
 
-  <!-- Featured Carousel -->
+  <!-- Featured Carousel - Soft Background Shift -->
   {carouselItems.length > 0 && (
-    <section class="page-wrap py-16 md:py-24">
+    <section class="page-wrap py-24 md:py-40">
        <div class="max-w-5xl mx-auto">
-         <SectionHeading title="联盟动态" center={true} />
-         <div class="mt-12">
-           <FeaturedCarousel items={carouselItems} />
+         <div class="mb-16">
+            <SectionHeading eyebrow="Alliance Updates" title="联盟动态" description="最新的科研项目进展、学术成果沉淀与机构新闻。" center={true} />
          </div>
+         <FeaturedCarousel items={carouselItems} />
        </div>
     </section>
   )}

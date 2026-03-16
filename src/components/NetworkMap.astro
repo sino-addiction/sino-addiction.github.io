@@ -3,49 +3,54 @@ import { siteData } from "../data/site";
 ---
 
 <div class="w-full h-full relative p-4 flex items-center justify-center">
-  <div class="relative w-full aspect-[5/3] max-w-3xl mx-auto">
-    <!-- Abstract contour/grid representation of map -->
-    <svg viewBox="0 0 800 480" class="w-full h-full drop-shadow-sm" xmlns="http://www.w3.org/2000/svg" aria-label="中国成瘾神经影像网络分布图" role="img">
-      <!-- Background subtle grid -->
-      <pattern id="dotGrid" width="20" height="20" patternUnits="userSpaceOnUse">
-        <circle cx="2" cy="2" r="1.5" fill="var(--color-border)" opacity="0.4" />
-      </pattern>
-      <rect width="100%" height="100%" fill="url(#dotGrid)" />
-
-      <!-- Schematic Connection Lines -->
-      <g stroke="var(--color-border)" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.6">
-        <path d="M 520 180 Q 450 200 400 300" fill="none" />
-        <path d="M 520 180 Q 550 260 560 350" fill="none" />
-        <path d="M 520 180 Q 350 250 220 280" fill="none" />
-        <path d="M 520 180 Q 550 200 600 240" fill="none" />
-        <path d="M 520 180 Q 480 220 450 250" fill="none" />
-      </g>
+  <div class="relative w-full aspect-[5/3.5] max-w-4xl mx-auto flex items-center justify-center">
+    
+    <!-- More recognizable simplified China silhouette -->
+    <svg viewBox="0 0 850 650" class="w-full h-full text-border drop-shadow-sm opacity-40 shrink-0" fill="currentColor">
+      <path d="M685 105 Q705 95 725 110 T745 135 T760 170 T775 220 Q785 260 760 290 Q770 330 755 365 Q740 390 715 415 Q700 435 680 445 Q670 470 650 495 Q630 510 600 525 Q570 550 540 575 Q515 600 480 595 Q450 605 420 595 Q380 600 340 585 Q310 575 290 545 Q260 550 220 535 Q190 520 170 500 Q140 475 125 435 Q120 405 100 380 Q90 350 110 320 Q130 285 170 260 Q190 245 220 250 Q255 255 290 220 Q315 195 340 210 Q370 225 395 200 Q420 180 445 185 Q470 190 495 180 Q520 170 545 185 Q570 195 595 175 Q620 155 645 145 Q665 135 675 140 Q685 125 685 105 Z" />
     </svg>
 
-    <!-- Overlay Nodes -->
+    <!-- Overlay Nodes & Hover Tooltips -->
     {siteData.networkMap.map((point) => (
-      <!-- We scale original 520x360 coordinates into CSS absolute % roughly -->
       <div 
-        class="group absolute flex flex-col items-center justify-center -translate-x-1/2 -translate-y-1/2 z-10 cursor-pointer"
-        style={`left: ${point.x / 520 * 100}%; top: ${point.y / 360 * 100}%;`}
+        class="absolute z-10 flex items-center justify-center -translate-x-1/2 -translate-y-1/2"
+        style={`left: ${point.x}%; top: ${point.y}%;`}
       >
-        <div class="relative flex items-center justify-center">
-          <div class="absolute w-8 h-8 rounded-full bg-accent opacity-10 group-hover:opacity-20 group-hover:scale-125 transition-all duration-300"></div>
-          <div class="w-3 h-3 rounded-full bg-accent border-[2px] border-surface"></div>
-        </div>
-        <div class="mt-2 text-[13px] font-bold text-ink-deep bg-surface/80 backdrop-blur-sm px-2 py-0.5 rounded-sm drop-shadow-sm transition-opacity group-hover:opacity-0 whitespace-nowrap">
-          {point.city}
-        </div>
+        <!-- The Node Dot -->
+        <div class="relative w-6 h-6 group">
+          <div class="absolute inset-0 m-auto w-3 h-3 bg-accent rounded-full border-2 border-surface shadow-sm cursor-pointer group-hover:scale-[1.6] group-hover:bg-ink-deep transition-all duration-300 z-20 peer"></div>
 
-        <!-- Tooltip -->
-        <div class="absolute bottom-full mb-3 pointer-events-none opacity-0 group-hover:opacity-100 transition-all duration-200 translate-y-2 group-hover:translate-y-0 z-50 flex flex-col items-center">
-          <div class="bg-ink-deep text-white px-4 py-3 rounded-lg shadow-lg whitespace-nowrap min-w-[140px]">
-            <p class="text-[13px] font-bold tracking-wider text-white/50 mb-1 uppercase text-center">{point.city}</p>
-            <p class="text-[15px] font-semibold text-white text-center">{point.institution}</p>
-            <hr class="border-white/10 my-2" />
-            <p class="text-[14px] font-medium text-accent-soft text-center">{point.count}</p>
+          <!-- Vertical/Horizontal Leader Line + Tooltip -->
+          <div class:list={[
+            "absolute opacity-0 pointer-events-none peer-hover:opacity-100 group-hover:opacity-100 transition-all duration-500 flex z-30",
+            point.dir === "left" && "right-full mr-0 top-1/2 -translate-y-1/2 flex-row-reverse",
+            point.dir === "right" && "left-full ml-0 top-1/2 -translate-y-1/2 flex-row",
+            point.dir === "top" && "bottom-full mb-0 left-1/2 -translate-x-1/2 flex-col-reverse",
+            point.dir === "bottom" && "top-full mt-0 left-1/2 -translate-x-1/2 flex-col",
+          ]}>
+            
+            <!-- Thin Leader Line -->
+            <div class:list={[
+              "bg-accent/40 shrink-0 z-0 transition-all duration-500",
+              (point.dir === "left" || point.dir === "right") && "w-12 h-[1px] my-auto",
+              (point.dir === "top" || point.dir === "bottom") && "h-12 w-[1px] mx-auto"
+            ]}></div>
+
+            <!-- Content Card (Fixed Outward) -->
+            <div class="bg-surface/95 backdrop-blur-md border border-border/80 shadow-[0_8px_32px_rgba(16,33,50,0.12)] p-4 rounded-xl w-[240px] flex flex-col shrink-0 z-10 scale-95 group-hover:scale-100 transition-transform duration-300">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-[11px] font-bold text-accent uppercase tracking-[0.1em]">{point.city}</span>
+                <div class="h-[1px] bg-border/50 flex-1"></div>
+                <span class="text-[10px] font-bold text-text-muted/60 uppercase">{point.label}</span>
+              </div>
+              <span class="text-[15px] font-[700] text-ink-deep leading-snug mb-3">{point.institution}</span>
+              <div class="mt-auto pt-3 border-t border-border/40 flex items-center justify-between">
+                <span class="text-[12px] font-medium text-text-secondary">贡献样本数</span>
+                <span class="text-[13px] font-bold text-accent">{point.count}</span>
+              </div>
+            </div>
+            
           </div>
-          <div class="w-3 h-3 bg-ink-deep rotate-45 -mt-2"></div>
         </div>
       </div>
     ))}

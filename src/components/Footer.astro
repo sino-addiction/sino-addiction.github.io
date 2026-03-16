@@ -2,41 +2,52 @@
 import { siteData } from "../data/site";
 ---
 
-<footer class="bg-surface border-t border-border mt-16 pb-12 pt-16 relative">
-  <div class="absolute inset-0 bg-ink-deep/5 pointer-events-none"></div>
-  <div class="page-wrap relative z-10">
-    <div class="grid gap-10 lg:grid-cols-[1.4fr_1fr] lg:items-start">
-      <div>
-        <h2 class="font-serif text-[22px] lg:text-[26px] leading-snug font-bold text-ink-deep">
+<footer class="bg-[#f0f2f1] border-t border-border mt-20 pb-16 pt-20">
+  <div class="page-wrap">
+    <div class="grid gap-16 lg:grid-cols-[1.6fr_1fr] items-start">
+      <div class="max-w-3xl">
+        <h2 class="font-serif text-[26px] lg:text-[32px] font-bold text-ink-deep leading-tight">
           Sino-Addiction Neuroimaging Initiatives
         </h2>
-        <p class="mt-4 max-w-2xl text-[15px] leading-[1.7] text-text-secondary">
-          {siteData.description}
+        <p class="mt-6 text-[15px] md:text-[16px] leading-[1.8] text-text-secondary opacity-90">
+          中国成瘾神经影像协作计划致力于构建高标准的国产成瘾神经影像数据库生态。通过多中心研究协议与集中式自动化预处理中台，为成瘾预防与治疗提供客观的生物学验证支撑。
         </p>
-      </div>
-
-      <div class="space-y-6">
-        <div class="flex flex-col">
-          <p class="text-[13px] font-semibold text-text-muted uppercase tracking-wider mb-2">公共联络邮箱</p>
-          <a href={`mailto:${siteData.contact.email}`} class="text-[18px] font-semibold text-accent hover:text-accent-hover transition-colors">
-            {siteData.contact.email}
-          </a>
-          <p class="mt-2 text-[14px] leading-relaxed text-text-secondary opacity-90">{siteData.contact.note}</p>
-        </div>
-
-        <div class="flex flex-wrap gap-4 pt-4 border-t border-border/70">
-          {siteData.footerLinks.map((link) => (
-            <a href={link.href} class="text-[14px] font-medium text-text-secondary hover:text-ink-deep transition-colors" target={link.external ? "_blank" : undefined} rel={link.external ? "noreferrer" : undefined}>
-              {link.label}
-            </a>
-          ))}
+        
+        <div class="mt-12 flex flex-wrap gap-8 py-6 border-y border-border/60">
+           <div>
+              <p class="text-[11px] font-bold text-text-muted uppercase tracking-[0.2em] mb-2">公共邮箱</p>
+              <a href={`mailto:${siteData.contact.email}`} class="text-[16px] font-bold text-ink-deep hover:text-accent transition-colors">
+                {siteData.contact.email}
+              </a>
+           </div>
+           <div>
+              <p class="text-[11px] font-bold text-text-muted uppercase tracking-[0.2em] mb-2">更新频率</p>
+              <span class="text-[16px] font-bold text-ink-deep">每季度 / 季度滚动</span>
+           </div>
         </div>
       </div>
-    </div>
 
-    <div class="mt-14 flex flex-col gap-3 border-t border-border/70 pt-6 text-[13px] text-text-muted md:flex-row md:items-center md:justify-between">
-      <p>&copy; {new Date().getFullYear()} {siteData.siteName} ({siteData.siteShortName}).</p>
-      <p>Powered by Astro.</p>
+      <div class="flex flex-col lg:items-end">
+        <div class="grid grid-cols-2 gap-x-12 gap-y-10 w-full lg:max-w-xs">
+           <div class="flex flex-col gap-4">
+              <p class="text-[12px] font-bold text-text-muted uppercase tracking-widest">快速跳转</p>
+              {siteData.navigation.slice(0, 4).map(link => (
+                <a href={link.href} class="text-[14px] font-medium text-text-secondary hover:text-ink-deep transition-colors w-fit">{link.label}</a>
+              ))}
+           </div>
+           <div class="flex flex-col gap-4">
+              <p class="text-[12px] font-bold text-text-muted uppercase tracking-widest">法律合规</p>
+              {siteData.footerLinks.map(link => (
+                <a href={link.href} class="text-[14px] font-medium text-text-secondary hover:text-ink-deep transition-colors w-fit">{link.label}</a>
+              ))}
+           </div>
+        </div>
+
+        <div class="mt-16 pt-10 border-t border-border/60 w-full flex flex-col gap-4 lg:items-end text-[13px] text-text-muted/60">
+           <p>&copy; {new Date().getFullYear()} {siteData.siteName} (SANI). All rights reserved.</p>
+           <p>Powered by Astro Static Engine.</p>
+        </div>
+      </div>
     </div>
   </div>
 </footer>

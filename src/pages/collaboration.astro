@@ -3,7 +3,6 @@ import { render } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Hero from "../components/Hero.astro";
 import SectionHeading from "../components/SectionHeading.astro";
-import FeatureGrid from "../components/FeatureGrid.astro";
 import { siteData } from "../data/site";
 import { requirePage } from "../lib/content";
 
@@ -12,75 +11,78 @@ const { Content } = await render(page);
 ---
 
 <BaseLayout title={page.data.title} description={page.data.description}>
-  <Hero {...page.data.hero} compact={true} accentLabel={siteData.collaborationFlow} />
+  <!-- Compact Hero -->
+  <Hero title={page.data.title} subtitle={page.data.description} compact={true} />
 
-  <!-- Core Flow inserted here from old homepage -->
-  <section class="page-wrap section-shell pb-16 md:pb-24 border-b border-border/60">
-    <SectionHeading title="协作与产出链路" description="统一预处理、质量控制和数据汇聚，为科学协作扫除方法壁垒。" center={true} />
+  <!-- The Core Process Flow - Moved from Homepage -->
+  <section class="page-wrap py-20 md:py-32">
+    <SectionHeading eyebrow="Workflow" title="协作与产出链路" description="通过标准化预处理与质量控制，为跨中心协同扫除方法偏差。" center={true} />
     
-    <div class="mt-16 max-w-5xl mx-auto hidden md:block relative">
-      <div class="absolute top-[40px] left-[13%] right-[13%] h-[2px] bg-border z-0"></div>
+    <div class="mt-20 max-w-5xl mx-auto hidden md:block relative">
+      <!-- Horizontal line connector -->
+      <div class="absolute top-[40px] left-[15%] right-[15%] h-[1px] bg-border/60 z-0"></div>
       
-      <div class="grid grid-cols-4 gap-6 relative z-10">
+      <div class="grid grid-cols-4 gap-8 relative z-10">
         {siteData.collaborationFlow.map((step, idx) => (
           <div class="flex flex-col items-center text-center group">
-            <div class="w-[80px] h-[80px] rounded-full bg-surface border-2 border-border flex items-center justify-center text-[24px] font-bold text-ink-deep mb-6 group-hover:border-accent transition-colors shadow-sm relative overflow-hidden">
-               <div class="absolute inset-0 bg-accent/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <div class="w-[82px] h-[82px] rounded-full bg-surface border-border/80 border flex items-center justify-center text-[22px] font-bold text-ink-deep mb-8 group-hover:border-accent group-hover:text-accent transition-all duration-300 shadow-sm relative overflow-hidden">
                <span class="relative z-10">0{idx + 1}</span>
+               <div class="absolute inset-0 bg-accent/5 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
             </div>
-            <h3 class="text-[18px] lg:text-[20px] font-bold text-ink-deep mb-3">{step}</h3>
+            <h3 class="text-[19px] font-bold text-ink-deep mb-4">{step}</h3>
+            <p class="text-[14px] leading-relaxed text-text-secondary px-2 opacity-80 group-hover:opacity-100 transition-opacity">
+              {idx === 0 && "支持多中心影像与量表数据依照规范安全汇聚。"}
+              {idx === 1 && "执行自动化预处理管道，确保数据维度的一致性。"}
+              {idx === 2 && "发起科学假说驱动的联合分析并在联盟审查备案。"}
+              {idx === 3 && "沉淀高复用代码、多中心论著与公共转化成果。"}
+            </p>
           </div>
         ))}
       </div>
-      <div class="grid grid-cols-4 gap-6 mt-4 opacity-80">
-        <p class="text-[14px] leading-relaxed text-text-secondary text-center px-2">中心数据依照协定安全汇聚，物理隔离脱敏并清洗字段。</p>
-        <p class="text-[14px] leading-relaxed text-text-secondary text-center px-2">执行自动化预处理管道与质量检查，校正跨站点信号偏移。</p>
-        <p class="text-[14px] leading-relaxed text-text-secondary text-center px-2">发起假设驱动研究在联盟登记后进入执行分析流程。</p>
-        <p class="text-[14px] leading-relaxed text-text-secondary text-center px-2">提炼可复用代码，沉淀多中心协作规范论著与公共基质。</p>
-      </div>
     </div>
 
-    <!-- Mobile view -->
-    <div class="mt-12 md:hidden flex flex-col gap-10 relative">
-      <div class="absolute left-[31px] top-4 bottom-4 w-[2px] bg-border z-0"></div>
+    <!-- Mobile Vertical Flow -->
+    <div class="mt-14 md:hidden flex flex-col gap-12 relative">
+      <div class="absolute left-[31px] top-4 bottom-4 w-[1px] bg-border z-0"></div>
       {siteData.collaborationFlow.map((step, idx) => (
-        <div class="flex items-start gap-5 relative z-10">
-          <div class="w-[64px] h-[64px] shrink-0 rounded-full bg-surface border-2 border-border flex items-center justify-center text-[20px] font-bold text-ink-deep shadow-sm">0{idx+1}</div>
+        <div class="flex items-start gap-6 relative z-10">
+          <div class="w-[62px] h-[62px] shrink-0 rounded-full bg-surface border border-border flex items-center justify-center text-[18px] font-bold text-ink-deep shadow-sm">0{idx+1}</div>
           <div class="pt-2">
             <h3 class="text-[18px] font-bold text-ink-deep mb-2">{step}</h3>
-            {idx === 0 && <p class="text-[15px] leading-relaxed text-text-secondary">中心数据依照协定安全汇聚，保证跨中心的清洗一致性。</p>}
-            {idx === 1 && <p class="text-[15px] leading-relaxed text-text-secondary">执行自动化预处理管道，提供开箱即用的分析态数据。</p>}
-            {idx === 2 && <p class="text-[15px] leading-relaxed text-text-secondary">支持研究者提交专项计划，启动深度数据分析工作。</p>}
-            {idx === 3 && <p class="text-[15px] leading-relaxed text-text-secondary">发布科学论著与工具组件，反馈到联盟生态与科研池中。</p>}
+            <p class="text-[15px] leading-relaxed text-text-secondary">
+               {idx === 0 && "支持多中心影像与量表数据依照规范安全汇聚。"}
+               {idx === 1 && "执行自动化预处理管道，确保数据维度的一致性。"}
+               {idx === 2 && "发起科学假说驱动的联合分析并在联盟审查备案。"}
+               {idx === 3 && "沉淀高复用代码、多中心论著与公共转化成果。"}
+            </p>
           </div>
         </div>
       ))}
     </div>
   </section>
 
-  <!-- Content Sections -->
-  <section class="page-wrap section-shell">
-    <div class="grid gap-12 lg:grid-cols-2 lg:items-start max-w-6xl mx-auto">
-      <div class="flex flex-col pt-8">
-        <SectionHeading eyebrow="System Detail" title="平台协作规范" description="为确保所有多中心工作的效率与严谨，联盟遵循公开、透明的工作准则。" />
-        <div class="prose-shell mt-8 surface-card p-8 md:p-10 border-l-4 border-l-status-integrating text-[15px] leading-[1.8]">
-          <Content />
-        </div>
-      </div>
-      <div>
-        {page.data.sections && (
-          <div class="grid gap-6">
-             {page.data.sections.map((section) => (
-              <article class="surface-card p-6 md:p-8 border-t-4 border-t-accent hover:shadow-md transition-shadow">
-                <span class="text-[12px] font-bold text-accent uppercase tracking-wider mb-2 block">Protocol</span>
-                <h3 class="text-[20px] font-bold text-ink-deep mb-3">{section.title}</h3>
-                <p class="text-[15px] leading-relaxed text-text-secondary">{section.body}</p>
+  <!-- Detail Governance Section -->
+  <section class="bg-surface-alt/40 py-24 md:py-32">
+     <div class="page-wrap">
+        <div class="grid gap-16 lg:grid-cols-2 max-w-6xl mx-auto items-start">
+          <div class="sticky top-28">
+            <SectionHeading eyebrow="Governance" title="联盟管理与数据规则" description="构建透明、公平的协作机制是 SANI 长期运行的基石。" />
+            <div class="mt-10 prose-shell surface-card p-10 border-l-4 border-accent text-[15px] leading-[1.85]">
+              <Content />
+            </div>
+          </div>
+          
+          <div class="grid gap-8">
+             {page.data.sections && page.data.sections.map((section) => (
+              <article class="surface-card p-8 border-t-4 border-accent/20 hover:border-accent transition-colors">
+                <span class="inline-block px-2 py-0.5 bg-accent/5 rounded text-[11px] font-bold text-accent uppercase mb-4">Protocol</span>
+                <h3 class="text-[20px] font-bold text-ink-deep mb-4">{section.title}</h3>
+                <p class="text-[15px] leading-[1.7] text-text-secondary">{section.body}</p>
               </article>
             ))}
           </div>
-        )}
-      </div>
-    </div>
+        </div>
+     </div>
   </section>
 
 </BaseLayout>
