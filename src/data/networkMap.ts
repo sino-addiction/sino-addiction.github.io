@@ -15,66 +15,14 @@ export type NetworkSite = {
   leaderPath: string;
 };
 
-const extractPolylinePoints = (path: string): [number, number][] => {
-  const values = path.match(/-?\d+(?:\.\d+)?/g)?.map(Number) ?? [];
-  const points: [number, number][] = [];
-
-  for (let index = 0; index < values.length; index += 2) {
-    const x = values[index];
-    const y = values[index + 1];
-
-    if (Number.isFinite(x) && Number.isFinite(y)) {
-      points.push([x, y]);
-    }
-  }
-
-  return points;
-};
-
-const toClosedSplinePath = (points: [number, number][], smoothness = 0.14) => {
-  if (points.length < 3) {
-    return "";
-  }
-
-  const path = [`M ${points[0][0].toFixed(1)} ${points[0][1].toFixed(1)}`];
-
-  for (let index = 0; index < points.length; index += 1) {
-    const prev = points[(index - 1 + points.length) % points.length];
-    const current = points[index];
-    const next = points[(index + 1) % points.length];
-    const afterNext = points[(index + 2) % points.length];
-
-    const cp1x = current[0] + (next[0] - prev[0]) * smoothness;
-    const cp1y = current[1] + (next[1] - prev[1]) * smoothness;
-    const cp2x = next[0] - (afterNext[0] - current[0]) * smoothness;
-    const cp2y = next[1] - (afterNext[1] - current[1]) * smoothness;
-
-    path.push(
-      `C ${cp1x.toFixed(1)} ${cp1y.toFixed(1)} ${cp2x.toFixed(1)} ${cp2y.toFixed(1)} ${next[0].toFixed(1)} ${next[1].toFixed(1)}`,
-    );
-  }
-
-  path.push("Z");
-  return path.join(" ");
-};
-
 // Mainland outline was projected from a real China multipolygon boundary and
-// normalized to a 1000x800 viewBox before being smoothed for presentation.
-const mainlandPolylinePath =
+// normalized to a 1000x800 viewBox. Keep the original geometry to avoid
+// distorting key map features in the final silhouette.
+export const chinaOutlinePath =
   "M 400.9 457.1 L 399.2 450.0 L 389.9 454.0 L 387.5 446.7 L 379.4 445.4 L 383.4 436.1 L 376.5 433.1 L 376.5 421.7 L 362.8 424.3 L 366.0 408.4 L 374.7 401.3 L 374.7 381.1 L 370.8 381.4 L 364.6 369.8 L 361.0 373.2 L 350.0 371.1 L 353.5 366.7 L 352.6 363.1 L 349.0 365.2 L 348.2 358.6 L 341.7 363.6 L 333.4 359.9 L 312.4 378.1 L 284.4 373.0 L 276.1 384.2 L 272.6 374.4 L 263.5 378.3 L 247.9 373.9 L 246.0 377.0 L 243.1 371.4 L 237.1 372.0 L 237.8 368.3 L 230.8 367.6 L 226.7 360.6 L 221.5 361.9 L 206.6 348.0 L 199.5 347.2 L 196.7 352.0 L 176.4 335.1 L 174.0 337.1 L 169.2 321.8 L 172.5 320.1 L 174.9 324.3 L 180.8 320.4 L 172.2 308.7 L 175.0 300.8 L 167.5 296.3 L 166.0 286.9 L 146.5 282.8 L 143.2 272.8 L 128.9 267.5 L 136.0 263.8 L 133.2 251.0 L 122.3 249.8 L 120.0 242.1 L 123.7 232.9 L 140.6 225.4 L 141.7 230.0 L 148.1 229.0 L 153.5 221.1 L 165.7 220.9 L 188.1 208.8 L 187.0 201.6 L 193.3 195.4 L 190.1 177.0 L 183.7 175.0 L 202.4 169.4 L 210.4 172.4 L 208.3 167.0 L 215.9 147.5 L 233.9 152.1 L 241.3 149.3 L 243.0 134.2 L 252.0 131.7 L 257.5 124.4 L 264.6 124.1 L 266.1 132.1 L 289.9 142.2 L 297.3 153.5 L 295.4 171.5 L 322.1 174.2 L 341.5 182.2 L 351.0 200.9 L 396.2 201.7 L 438.8 214.6 L 463.3 204.0 L 492.5 200.8 L 509.4 188.4 L 503.1 181.6 L 508.2 172.9 L 525.8 176.8 L 536.1 168.7 L 547.0 168.6 L 564.4 155.0 L 580.0 152.2 L 585.4 156.9 L 588.7 147.0 L 575.0 138.1 L 563.8 142.4 L 544.4 138.2 L 556.9 116.2 L 568.6 120.2 L 583.5 113.1 L 581.4 109.8 L 598.3 88.7 L 597.7 84.1 L 590.6 81.4 L 599.2 75.3 L 625.9 72.1 L 647.2 77.8 L 656.8 89.1 L 666.6 116.5 L 698.4 127.8 L 701.8 141.8 L 739.4 134.8 L 739.8 141.9 L 734.0 146.2 L 731.2 158.7 L 717.6 179.1 L 710.8 169.8 L 701.3 175.5 L 704.9 192.8 L 702.9 198.6 L 695.8 200.9 L 697.9 204.4 L 690.7 197.5 L 688.8 204.4 L 672.1 209.7 L 672.5 217.0 L 658.1 212.4 L 651.4 222.6 L 632.5 235.5 L 623.6 235.5 L 602.5 248.5 L 610.1 240.4 L 602.8 238.6 L 614.0 227.6 L 608.7 221.8 L 600.3 223.1 L 580.5 242.9 L 567.4 244.1 L 567.2 252.7 L 582.9 259.2 L 579.2 264.6 L 582.7 268.2 L 597.9 259.0 L 617.8 264.2 L 615.8 270.2 L 605.0 270.8 L 598.4 273.8 L 597.6 279.2 L 591.5 278.6 L 593.4 281.2 L 582.3 292.7 L 593.2 301.1 L 599.5 321.0 L 609.9 331.5 L 601.5 330.9 L 609.8 341.9 L 597.4 349.1 L 612.0 353.5 L 604.8 358.4 L 610.6 356.9 L 610.4 361.4 L 604.9 362.2 L 606.8 372.8 L 597.6 375.5 L 591.6 392.2 L 586.0 390.0 L 589.9 395.3 L 585.4 398.9 L 586.8 407.5 L 583.4 404.9 L 583.3 409.4 L 579.1 408.5 L 576.7 416.9 L 571.8 415.4 L 571.5 420.4 L 554.8 432.3 L 554.9 436.1 L 538.6 440.8 L 537.5 437.3 L 534.8 441.9 L 525.7 437.7 L 522.1 448.7 L 520.4 444.6 L 518.7 449.2 L 496.7 454.6 L 492.3 457.9 L 494.4 460.1 L 490.7 459.4 L 494.5 465.4 L 492.0 468.2 L 488.3 468.4 L 488.4 453.4 L 485.0 450.3 L 480.7 454.5 L 474.5 448.2 L 473.4 452.7 L 462.4 452.1 L 455.6 447.7 L 457.0 437.7 L 447.3 436.4 L 441.7 430.7 L 428.1 441.3 L 421.5 437.6 L 418.9 442.0 L 413.1 438.0 L 410.7 442.4 L 404.9 441.7 L 406.5 456.6 L 400.9 457.1 Z";
 
-const hainanPolylinePath =
+export const hainanPath =
   "M 486.3 491.1 L 475.8 488.9 L 475.5 478.8 L 496.1 469.1 L 499.6 475.3 L 486.3 491.1 Z";
-
-export const chinaOutlinePath = toClosedSplinePath(
-  extractPolylinePoints(mainlandPolylinePath),
-  0.13,
-);
-
-export const hainanPath = toClosedSplinePath(
-  extractPolylinePoints(hainanPolylinePath),
-  0.16,
-);
 
 export const taiwanPath =
   "M 624.5 411.0 C 632.2 415.3 636.7 423.6 636.9 434.4 C 637.1 445.7 633.6 457.0 626.5 466.0 C 619.4 475.2 610.3 478.6 602.6 474.9 C 595.6 471.4 592.0 463.2 592.2 452.5 C 592.6 440.7 596.4 428.7 603.3 420.2 C 609.3 412.7 617.2 408.0 624.5 411.0 Z";
@@ -98,15 +46,15 @@ export const networkSites: NetworkSite[] = [
     city: "北京",
     institution: "北京大学第六医院",
     sampleCount: "450",
-    x: 554.0,
-    y: 234.4,
-    labelX: 556,
-    labelY: 216,
+    x: 563,
+    y: 240,
+    labelX: 567,
+    labelY: 220,
     labelAnchor: "middle",
-    cardX: 774,
-    cardY: 84,
+    cardX: 770,
+    cardY: 88,
     cardSide: "right",
-    leaderPath: "M 554 234 C 612 208 687 168 774 138",
+    leaderPath: "M 563 240 C 620 216 692 168 770 142",
   },
   {
     id: "shanghai",
@@ -114,15 +62,15 @@ export const networkSites: NetworkSite[] = [
     city: "上海",
     institution: "上海市精神卫生中心",
     sampleCount: "320",
-    x: 605.3,
-    y: 337.5,
-    labelX: 623,
-    labelY: 330,
+    x: 624,
+    y: 360,
+    labelX: 640,
+    labelY: 354,
     labelAnchor: "start",
-    cardX: 762,
-    cardY: 208,
+    cardX: 754,
+    cardY: 206,
     cardSide: "right",
-    leaderPath: "M 605 338 C 652 331 708 303 762 260",
+    leaderPath: "M 624 360 C 670 350 715 314 754 258",
   },
   {
     id: "guangzhou",
@@ -130,15 +78,15 @@ export const networkSites: NetworkSite[] = [
     city: "广州",
     institution: "南方医科大学",
     sampleCount: "210",
-    x: 522.2,
-    y: 433.9,
-    labelX: 536,
-    labelY: 453,
+    x: 531,
+    y: 466,
+    labelX: 543,
+    labelY: 486,
     labelAnchor: "start",
-    cardX: 716,
+    cardX: 708,
     cardY: 492,
     cardSide: "right",
-    leaderPath: "M 522 434 C 577 454 645 498 716 544",
+    leaderPath: "M 531 466 C 584 482 647 514 708 544",
   },
   {
     id: "wuhan",
@@ -146,15 +94,15 @@ export const networkSites: NetworkSite[] = [
     city: "武汉",
     institution: "武汉大学人民医院",
     sampleCount: "160",
-    x: 532.7,
-    y: 345.1,
-    labelX: 548,
-    labelY: 365,
+    x: 547,
+    y: 372,
+    labelX: 561,
+    labelY: 392,
     labelAnchor: "start",
-    cardX: 744,
-    cardY: 348,
+    cardX: 740,
+    cardY: 346,
     cardSide: "right",
-    leaderPath: "M 533 345 C 593 350 667 372 744 400",
+    leaderPath: "M 547 372 C 598 378 666 388 740 398",
   },
   {
     id: "xian",
@@ -162,15 +110,15 @@ export const networkSites: NetworkSite[] = [
     city: "西安",
     institution: "空军军医大学",
     sampleCount: "120",
-    x: 478.4,
-    y: 300.5,
-    labelX: 464,
-    labelY: 286,
+    x: 486,
+    y: 323,
+    labelX: 472,
+    labelY: 308,
     labelAnchor: "end",
-    cardX: 34,
-    cardY: 186,
+    cardX: 36,
+    cardY: 188,
     cardSide: "left",
-    leaderPath: "M 478 301 C 414 287 335 256 246 238",
+    leaderPath: "M 486 323 C 424 304 337 270 248 242",
   },
   {
     id: "chengdu",
@@ -178,14 +126,14 @@ export const networkSites: NetworkSite[] = [
     city: "成都",
     institution: "四川大学华西医院",
     sampleCount: "280",
-    x: 429.0,
-    y: 345.4,
-    labelX: 410,
-    labelY: 364,
+    x: 431,
+    y: 369,
+    labelX: 412,
+    labelY: 389,
     labelAnchor: "end",
     cardX: 24,
-    cardY: 374,
+    cardY: 382,
     cardSide: "left",
-    leaderPath: "M 429 345 C 374 364 309 394 236 426",
+    leaderPath: "M 431 369 C 378 382 316 406 236 430",
   },
 ];
