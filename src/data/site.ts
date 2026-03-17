@@ -99,11 +99,11 @@ export const siteData: SiteData = {
   },
   collaborationFlow: ["数据汇聚", "标准化处理", "协作分析", "成果沉淀"],
   networkMap: [
-    { city: "北京", institution: "北京大学第六医院", count: "450 样本", label: "中心节点", x: 72, y: 18, dir: "right" },
-    { city: "上海", institution: "上海市精神卫生中心", count: "320 样本", label: "华东节点", x: 82, y: 43, dir: "right" },
-    { city: "广州", institution: "南方医科大学", count: "210 样本", label: "华南节点", x: 72, y: 68, dir: "right" },
-    { city: "成都", institution: "四川大学华西医院", count: "280 样本", label: "西南节点", x: 45, y: 48, dir: "left" },
-    { city: "武汉", institution: "武汉大学人民医院", count: "160 样本", label: "华中节点", x: 68, y: 48, dir: "right" },
-    { city: "西安", institution: "空军军医大学", count: "120 样本", label: "西北节点", x: 58, y: 38, dir: "left" },
+    { city: "北京", institution: "北京大学第六医院", count: "450 样本", label: "中心节点", x: 68.9, y: 38.7, dir: "top" },
+    { city: "上海", institution: "上海市精神卫生中心", count: "320 样本", label: "华东节点", x: 76.9, y: 60.9, dir: "right" },
+    { city: "广州", institution: "南方医科大学", count: "210 样本", label: "华南节点", x: 63.9, y: 81.7, dir: "bottom" },
+    { city: "成都", institution: "四川大学华西医院", count: "280 样本", label: "西南节点", x: 49.3, y: 62.6, dir: "left" },
+    { city: "武汉", institution: "武汉大学人民医院", count: "160 样本", label: "华中节点", x: 65.6, y: 62.6, dir: "right" },
+    { city: "西安", institution: "空军军医大学", count: "120 样本", label: "西北节点", x: 57, y: 53.2, dir: "left" },
   ],
 };
