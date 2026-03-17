@@ -76,7 +76,10 @@ publications.forEach(p => {
         {siteData.homepage.stats.map((stat) => (
           <div class="flex flex-col items-start">
             <span class="text-[13px] font-[750] text-text-muted uppercase tracking-[0.2em] mb-3 flex items-center gap-3">
-              <span class="w-2 h-2 bg-accent/40 rounded-full block"></span>
+              <span class="relative w-3 h-3 flex items-center justify-center">
+                <span class="absolute inset-0 bg-accent/25 rounded-full animate-ping"></span>
+                <span class="relative w-2 h-2 bg-accent rounded-full"></span>
+              </span>
               {stat.label}
             </span>
             <span class="text-[56px] xl:text-[68px] font-serif font-bold text-ink-deep leading-none tracking-tighter">{stat.value}</span>
