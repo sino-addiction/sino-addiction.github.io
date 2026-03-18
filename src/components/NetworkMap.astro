@@ -9,9 +9,12 @@ const labelOffsets = [
   { dx: 18, dy: 18 },
   { dx: 18, dy: 16 },
 ];
+
+const initialIndex = Math.max(siteData.networkMap.findIndex((point) => point.city === "北京"), 0);
+const initialPoint = siteData.networkMap[initialIndex] ?? siteData.networkMap[0];
 ---
 
-<div class="w-full">
+<div class="w-full" data-network-map-root>
   <div class="w-full h-full relative flex items-center justify-center overflow-visible select-none">
     <div class="relative w-full max-w-5xl mx-auto">
       <!-- Real China Map SVG (generated from DataV GeoJSON with province boundaries + nine-dash line + islands) -->
@@ -26,12 +29,23 @@ const labelOffsets = [
             class="absolute z-10 -translate-x-1/2 -translate-y-1/2"
             style={`left: ${point.x}%; top: ${point.y * 700 / 950}%;`}
           >
-            <div class="relative group">
+            <button
+              type="button"
+              class="relative group cursor-pointer rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+              data-network-map-marker
+              data-network-map-city={point.city}
+              data-network-map-institution={point.institution}
+              data-network-map-count={point.count}
+              data-network-map-index={index}
+              aria-pressed={index === initialIndex ? "true" : "false"}
+              aria-label={`${point.city}，${point.institution}，${point.count}`}
+            >
+              <span class="absolute -inset-4 rounded-full md:hidden" aria-hidden="true"></span>
               <!-- Pulse ring -->
-              <div class="absolute inset-0 m-auto w-5 h-5 bg-accent/20 rounded-full animate-ping pointer-events-none"></div>
+              <div class="network-map-ring absolute inset-0 m-auto w-5 h-5 bg-accent/20 rounded-full animate-ping pointer-events-none"></div>
               <!-- Dot -->
               <div class="relative w-4 h-4 flex items-center justify-center cursor-pointer z-20 peer">
-                <div class="w-3 h-3 bg-accent rounded-full border-2 border-white shadow-md group-hover:scale-[2] group-hover:bg-ink-deep transition-all duration-300"></div>
+                <div class="network-map-dot w-3 h-3 bg-accent rounded-full border-2 border-white shadow-md group-hover:scale-[2] group-hover:bg-ink-deep transition-all duration-300"></div>
               </div>
 
               <!-- City label -->
@@ -75,7 +89,7 @@ const labelOffsets = [
               <!-- Connection lines to center (Beijing) -->
               {point.city !== "北京" && (
                 <svg
-                  class="absolute top-1/2 left-1/2 pointer-events-none z-0 opacity-[0.12] group-hover:opacity-30 transition-opacity duration-500"
+                  class="hidden md:block absolute top-1/2 left-1/2 pointer-events-none z-0 opacity-[0.12] group-hover:opacity-30 transition-opacity duration-500"
                   style={`width: 1px; height: 1px; overflow: visible;`}
                 >
                   <line
@@ -89,30 +103,79 @@ const labelOffsets = [
                   />
                 </svg>
               )}
-            </div>
+            </button>
           </div>
         );
       })}
     </div>
   </div>
 
-  <div class="mt-6 grid gap-3 md:hidden">
-    {siteData.networkMap.map((point) => (
-      <article class="rounded-2xl border border-border/70 bg-white/90 p-4 shadow-[0_10px_30px_rgba(16,33,50,0.08)] backdrop-blur-sm">
-        <div class="flex items-start justify-between gap-4">
-          <div class="min-w-0">
-            <span class="inline-flex rounded-full bg-accent/8 px-2 py-0.5 text-[11px] font-bold tracking-[0.08em] text-accent">
-              {point.city}
-            </span>
-            <h4 class="mt-2 text-[15px] font-[800] leading-snug text-ink-deep">
-              {point.institution}
-            </h4>
-          </div>
-          <span class="shrink-0 text-[13px] font-bold text-accent">
-            {point.count}
-          </span>
-        </div>
-      </article>
-    ))}
+  <div class="mt-6 space-y-3 md:hidden" data-network-map-mobile>
+    <div class="rounded-3xl border border-border/70 bg-white/90 p-4 shadow-[0_10px_30px_rgba(16,33,50,0.08)] backdrop-blur-sm" aria-live="polite">
+      <div class="flex items-start justify-between gap-3">
+        <p class="text-[12px] font-semibold text-text-muted">点击地图上的圆点查看站点信息</p>
+        <span class="shrink-0 text-[13px] font-bold text-accent" data-network-map-active-count>{initialPoint.count}</span>
+      </div>
+      <div class="mt-3">
+        <span class="inline-flex rounded-full bg-accent/8 px-2 py-0.5 text-[11px] font-bold tracking-[0.08em] text-accent" data-network-map-active-city>
+          {initialPoint.city}
+        </span>
+        <h4 class="mt-2 text-[16px] font-[800] leading-snug text-ink-deep" data-network-map-active-institution>
+          {initialPoint.institution}
+        </h4>
+      </div>
+    </div>
   </div>
+
+  <script>
+    const roots = document.querySelectorAll("[data-network-map-root]");
+
+    roots.forEach((root) => {
+      const markers = Array.from(root.querySelectorAll<HTMLElement>("[data-network-map-marker]"));
+      const activeCity = root.querySelector<HTMLElement>("[data-network-map-active-city]");
+      const activeInstitution = root.querySelector<HTMLElement>("[data-network-map-active-institution]");
+      const activeCount = root.querySelector<HTMLElement>("[data-network-map-active-count]");
+
+      const setActive = (marker: HTMLElement) => {
+        const city = marker.dataset.networkMapCity ?? "";
+        const institution = marker.dataset.networkMapInstitution ?? "";
+        const count = marker.dataset.networkMapCount ?? "";
+
+        markers.forEach((item) => {
+          item.setAttribute("aria-pressed", item === marker ? "true" : "false");
+        });
+
+        if (activeCity) activeCity.textContent = city;
+        if (activeInstitution) activeInstitution.textContent = institution;
+        if (activeCount) activeCount.textContent = count;
+      };
+
+      markers.forEach((marker) => {
+        marker.addEventListener("click", () => setActive(marker));
+      });
+
+      const initialMarker = markers.find((marker) => marker.getAttribute("aria-pressed") === "true") ?? markers[0];
+      if (initialMarker) {
+        setActive(initialMarker);
+      }
+    });
+  </script>
+
+  <style>
+    [data-network-map-marker][aria-pressed="true"] .network-map-dot {
+      transform: scale(1.85);
+      filter: drop-shadow(0 0 8px rgba(29, 113, 108, 0.35));
+    }
+
+    [data-network-map-marker][aria-pressed="true"] .network-map-ring {
+      opacity: 0.9;
+    }
+
+    @media (max-width: 767px) {
+      [data-network-map-marker] {
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+      }
+    }
+  </style>
 </div>
