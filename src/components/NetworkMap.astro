@@ -1,71 +1,118 @@
 ---
 import { siteData } from "../data/site";
+
+const labelOffsets = [
+  { dx: 24, dy: 18 },
+  { dx: 22, dy: 16 },
+  { dx: 0, dy: 24 },
+  { dx: 0, dy: 20 },
+  { dx: 18, dy: 18 },
+  { dx: 18, dy: 16 },
+];
 ---
 
-<div class="w-full h-full relative flex items-center justify-center overflow-visible select-none">
-  <div class="relative w-full max-w-5xl mx-auto">
-    
-    <!-- Real China Map SVG (generated from DataV GeoJSON with province boundaries + nine-dash line + islands) -->
-    <img src="/assets/china-map.svg" alt="中国地图" class="w-full h-auto opacity-70" draggable="false" />
+<div class="w-full">
+  <div class="w-full h-full relative flex items-center justify-center overflow-visible select-none">
+    <div class="relative w-full max-w-5xl mx-auto">
+      <!-- Real China Map SVG (generated from DataV GeoJSON with province boundaries + nine-dash line + islands) -->
+      <img src="/assets/china-map.svg" alt="中国地图" class="w-full h-auto opacity-70" draggable="false" />
 
-    <!-- City nodes overlay - positioned using accurate geographic coordinates -->
-    {siteData.networkMap.map((point) => (
-      <div 
-        class="absolute z-10 -translate-x-1/2 -translate-y-1/2"
-        style={`left: ${point.x}%; top: ${point.y * 700 / 950}%;`}
-      >
-        <div class="relative group">
-          <!-- Pulse ring -->
-          <div class="absolute inset-0 m-auto w-5 h-5 bg-accent/20 rounded-full animate-ping pointer-events-none"></div>
-          <!-- Dot -->
-          <div class="relative w-4 h-4 flex items-center justify-center cursor-pointer z-20 peer">
-            <div class="w-3 h-3 bg-accent rounded-full border-2 border-white shadow-md group-hover:scale-[2] group-hover:bg-ink-deep transition-all duration-300"></div>
-          </div>
-          
-          <!-- City label (always visible, subtle) -->
-          <div class="absolute left-1/2 -translate-x-1/2 top-full mt-1 whitespace-nowrap text-[11px] font-bold text-ink-deep/50 pointer-events-none group-hover:opacity-0 transition-opacity">
-            {point.city}
-          </div>
+      <!-- City nodes overlay - positioned using accurate geographic coordinates -->
+      {siteData.networkMap.map((point, index) => {
+        const labelOffset = labelOffsets[index] ?? { dx: 0, dy: 18 };
 
-          <!-- Hover tooltip card -->
-          <div class:list={[
-            "absolute opacity-0 pointer-events-none group-hover:opacity-100 peer-hover:opacity-100 transition-all duration-400 flex z-50",
-            point.dir === "left" && "right-full mr-3 top-1/2 -translate-y-1/2 flex-row-reverse",
-            point.dir === "right" && "left-full ml-3 top-1/2 -translate-y-1/2 flex-row",
-            point.dir === "top" && "bottom-full mb-3 left-1/2 -translate-x-1/2 flex-col-reverse",
-            point.dir === "bottom" && "top-full mt-3 left-1/2 -translate-x-1/2 flex-col",
-          ]}>
-            
-            <!-- Leader line -->
-            <div class:list={[
-              "bg-accent/50 shrink-0",
-              (point.dir === "left" || point.dir === "right") && "w-10 h-[1.5px] my-auto",
-              (point.dir === "top" || point.dir === "bottom") && "h-10 w-[1.5px] mx-auto"
-            ]}></div>
-
-            <!-- Card (no label field, just city + institution + count) -->
-            <div class="bg-white/95 backdrop-blur-lg border border-border shadow-[0_12px_48px_rgba(16,33,50,0.16)] p-4 rounded-xl w-[250px] flex flex-col shrink-0 z-10 scale-95 group-hover:scale-100 transition-all duration-300">
-              <span class="text-[11px] font-bold text-accent px-1.5 py-0.5 bg-accent/8 rounded tracking-widest w-fit mb-2">{point.city}</span>
-              <h4 class="text-[15px] font-[800] text-ink-deep leading-snug mb-3">{point.institution}</h4>
-              <div class="flex items-center justify-between pt-3 border-t border-border/40">
-                <span class="text-[12px] font-medium text-text-secondary">贡献样本</span>
-                <span class="text-[13px] font-bold text-accent">{point.count}</span>
+        return (
+          <div
+            class="absolute z-10 -translate-x-1/2 -translate-y-1/2"
+            style={`left: ${point.x}%; top: ${point.y * 700 / 950}%;`}
+          >
+            <div class="relative group">
+              <!-- Pulse ring -->
+              <div class="absolute inset-0 m-auto w-5 h-5 bg-accent/20 rounded-full animate-ping pointer-events-none"></div>
+              <!-- Dot -->
+              <div class="relative w-4 h-4 flex items-center justify-center cursor-pointer z-20 peer">
+                <div class="w-3 h-3 bg-accent rounded-full border-2 border-white shadow-md group-hover:scale-[2] group-hover:bg-ink-deep transition-all duration-300"></div>
               </div>
+
+              <!-- City label -->
+              <div
+                class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-[14px] sm:text-[16px] md:text-[22px] font-[800] leading-none text-ink-deep/60 pointer-events-none group-hover:opacity-0 transition-opacity drop-shadow-[0_1px_0_rgba(255,255,255,0.95)]"
+                style={`margin-left: ${labelOffset.dx}px; margin-top: ${labelOffset.dy}px;`}
+              >
+                {point.city}
+              </div>
+
+              <!-- Hover tooltip card -->
+              <div
+                class:list={[
+                  "hidden md:flex absolute opacity-0 pointer-events-none group-hover:opacity-100 peer-hover:opacity-100 transition-all duration-400 z-50",
+                  point.dir === "left" && "right-full mr-3 top-1/2 -translate-y-1/2 flex-row-reverse",
+                  point.dir === "right" && "left-full ml-3 top-1/2 -translate-y-1/2 flex-row",
+                  point.dir === "top" && "bottom-full mb-3 left-1/2 -translate-x-1/2 flex-col-reverse",
+                  point.dir === "bottom" && "top-full mt-3 left-1/2 -translate-x-1/2 flex-col",
+                ]}
+              >
+                <!-- Leader line -->
+                <div
+                  class:list={[
+                    "bg-accent/50 shrink-0",
+                    (point.dir === "left" || point.dir === "right") && "w-10 h-[1.5px] my-auto",
+                    (point.dir === "top" || point.dir === "bottom") && "h-10 w-[1.5px] mx-auto",
+                  ]}
+                ></div>
+
+                <!-- Card (no label field, just city + institution + count) -->
+                <div class="bg-white/95 backdrop-blur-lg border border-border shadow-[0_12px_48px_rgba(16,33,50,0.16)] p-4 rounded-xl w-[250px] flex flex-col shrink-0 z-10 scale-95 group-hover:scale-100 transition-all duration-300">
+                  <span class="text-[11px] font-bold text-accent px-1.5 py-0.5 bg-accent/8 rounded tracking-widest w-fit mb-2">{point.city}</span>
+                  <h4 class="text-[15px] font-[800] text-ink-deep leading-snug mb-3">{point.institution}</h4>
+                  <div class="flex items-center justify-between pt-3 border-t border-border/40">
+                    <span class="text-[12px] font-medium text-text-secondary">贡献样本</span>
+                    <span class="text-[13px] font-bold text-accent">{point.count}</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Connection lines to center (Beijing) -->
+              {point.city !== "北京" && (
+                <svg
+                  class="absolute top-1/2 left-1/2 pointer-events-none z-0 opacity-[0.12] group-hover:opacity-30 transition-opacity duration-500"
+                  style={`width: 1px; height: 1px; overflow: visible;`}
+                >
+                  <line
+                    x1="0"
+                    y1="0"
+                    x2={`${(68.9 - point.x) * 10}`}
+                    y2={`${(38.7 * 700 / 950 - point.y * 700 / 950) * 9.5}`}
+                    stroke="var(--color-accent)"
+                    stroke-width="1"
+                    stroke-dasharray="4 3"
+                  />
+                </svg>
+              )}
             </div>
           </div>
+        );
+      })}
+    </div>
+  </div>
 
-          <!-- Connection lines to center (Beijing) -->
-          {point.city !== "北京" && (
-            <svg class="absolute top-1/2 left-1/2 pointer-events-none z-0 opacity-[0.12] group-hover:opacity-30 transition-opacity duration-500" 
-                 style={`width: 1px; height: 1px; overflow: visible;`}>
-              <line x1="0" y1="0" 
-                    x2={`${(68.9 - point.x) * 10}`} 
-                    y2={`${(38.7 * 700 / 950 - point.y * 700 / 950) * 9.5}`}
-                    stroke="var(--color-accent)" stroke-width="1" stroke-dasharray="4 3" />
-            </svg>
-          )}
+  <div class="mt-6 grid gap-3 md:hidden">
+    {siteData.networkMap.map((point) => (
+      <article class="rounded-2xl border border-border/70 bg-white/90 p-4 shadow-[0_10px_30px_rgba(16,33,50,0.08)] backdrop-blur-sm">
+        <div class="flex items-start justify-between gap-4">
+          <div class="min-w-0">
+            <span class="inline-flex rounded-full bg-accent/8 px-2 py-0.5 text-[11px] font-bold tracking-[0.08em] text-accent">
+              {point.city}
+            </span>
+            <h4 class="mt-2 text-[15px] font-[800] leading-snug text-ink-deep">
+              {point.institution}
+            </h4>
+          </div>
+          <span class="shrink-0 text-[13px] font-bold text-accent">
+            {point.count}
+          </span>
         </div>
-      </div>
+      </article>
     ))}
   </div>
 </div>
