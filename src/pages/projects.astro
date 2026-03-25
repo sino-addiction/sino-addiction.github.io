@@ -52,8 +52,8 @@ const flowSteps: FlowStep[] = [
 
 const flowCardClass =
   "surface-card flex h-full flex-col border-t-4 border-t-accent transition-shadow hover:shadow-md";
-const placeholderCardClass =
-  "surface-card relative w-[min(100%,720px)] shrink-0 overflow-hidden border-t-4 border-t-accent transition-shadow hover:shadow-md";
+const projectCardClass =
+  "surface-card overflow-hidden border-t-4 border-t-accent transition-shadow hover:shadow-md";
 const researchPlanDownload = downloadEntries[0];
 ---
 
@@ -159,39 +159,94 @@ const researchPlanDownload = downloadEntries[0];
     <div class="page-wrap">
       <SectionHeading eyebrow="Projects" title="当前在研项目" center={true} />
 
-      <div class="project-strip mt-16 overflow-x-auto pb-4 md:mt-20">
-        <div class="flex min-w-max gap-6 pr-2">
-          <article class={placeholderCardClass}>
-            <div class="relative grid gap-6 md:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] md:items-end">
-              <div>
-                <span class="inline-flex items-center rounded-full bg-accent-soft px-3 py-1 text-[12px] font-semibold text-accent">
-                  Placeholder
-                </span>
-                <h3 class="mt-4 text-[28px] font-serif font-bold text-ink-deep md:text-[34px]">
-                  在研项目横向卡片位
-                </h3>
-                <p class="mt-4 max-w-xl text-[16px] leading-[1.85] text-text-secondary md:text-[17px]">
-                  后续在研项目将以横向卡片流展示，单卡固定宽度，适合桌面端浏览与移动端横滑。
+      <article class={`${projectCardClass} mt-16 md:mt-20`}>
+        <div class="grid gap-8 p-8 md:p-10 lg:grid-cols-[minmax(0,1.25fr)_minmax(280px,0.75fr)] lg:items-start lg:gap-10">
+          <div class="min-w-0">
+            <div class="flex flex-wrap items-center gap-3">
+              <span class="inline-flex items-center rounded-full bg-accent-soft px-3 py-1 text-[12px] font-semibold text-accent">
+                数据库建设
+              </span>
+              <span class="inline-flex items-center rounded-full border border-border/70 bg-white px-3 py-1 text-[12px] font-semibold text-text-secondary">
+                结构像
+              </span>
+              <span class="inline-flex items-center rounded-full border border-border/70 bg-white px-3 py-1 text-[12px] font-semibold text-text-secondary">
+                甲基苯丙胺
+              </span>
+            </div>
+
+            <h3 class="mt-5 max-w-4xl text-[28px] font-serif font-bold leading-[1.18] text-ink-deep md:text-[36px]">
+              基于多中心队列的甲基苯丙胺成瘾神经影像数据库建设
+            </h3>
+
+            <p class="mt-4 max-w-3xl text-[15px] leading-[1.9] text-text-secondary md:text-[16px]">
+              本项目围绕甲基苯丙胺成瘾相关结构像资料，依托多中心协作场景统一采集规范、命名方式、脱敏流程和质量控制标准，逐步完成影像数据整理、元数据编目与标准化入库，建设可持续更新、可检索复用的神经影像数据库，为联盟内后续数据共享和协作研究提供稳定的数据底座。
+            </p>
+
+            <div class="mt-8 grid gap-4 sm:grid-cols-2">
+              <div class="rounded-[24px] border border-border/70 bg-white/80 p-5">
+                <p class="text-[12px] font-semibold uppercase tracking-[0.22em] text-text-tertiary">
+                  建设重点
+                </p>
+                <p class="mt-3 text-[15px] leading-[1.8] text-text-secondary">
+                  聚焦结构像数据的统一采集、脱敏、整理、编目和入库，尽量保证跨中心数据格式和字段口径一致。
                 </p>
               </div>
 
-              <div class="rounded-[28px] border border-dashed border-accent/25 bg-accent-soft/35 p-5">
-                <div class="space-y-3">
-                  <div class="h-3 w-28 rounded-full bg-accent/20"></div>
-                  <div class="h-3 w-full rounded-full bg-accent/12"></div>
-                  <div class="h-3 w-5/6 rounded-full bg-accent/10"></div>
-                </div>
-
-                <div class="mt-5 grid grid-cols-3 gap-3">
-                  <div class="h-24 rounded-3xl bg-white/70"></div>
-                  <div class="h-[72px] rounded-3xl bg-white/55"></div>
-                  <div class="h-28 rounded-3xl bg-white/80"></div>
-                </div>
+              <div class="rounded-[24px] border border-border/70 bg-white/80 p-5">
+                <p class="text-[12px] font-semibold uppercase tracking-[0.22em] text-text-tertiary">
+                  预期成果
+                </p>
+                <p class="mt-3 text-[15px] leading-[1.8] text-text-secondary">
+                  形成一套可持续维护的数据库、配套数据字典和质控规范，便于后续扩展和复用。
+                </p>
               </div>
             </div>
-          </article>
+          </div>
+
+          <aside class="rounded-[28px] border border-border/70 bg-surface-alt/45 p-6 md:p-7">
+            <div class="space-y-6">
+              <div>
+                <p class="text-[12px] font-semibold uppercase tracking-[0.22em] text-text-tertiary">
+                  项目定位
+                </p>
+                <p class="mt-2 text-[16px] leading-[1.8] text-text-secondary">
+                  数据库建设
+                </p>
+              </div>
+
+              <div>
+                <p class="text-[12px] font-semibold uppercase tracking-[0.22em] text-text-tertiary">
+                  数据范围
+                </p>
+                <p class="mt-2 text-[16px] leading-[1.8] text-text-secondary">
+                  多中心队列中的甲基苯丙胺成瘾结构像资料
+                </p>
+              </div>
+
+              <div>
+                <p class="text-[12px] font-semibold uppercase tracking-[0.22em] text-text-tertiary">
+                  研究人员
+                </p>
+                <p class="mt-2 text-[16px] font-semibold text-ink-deep">
+                  曹智鹏
+                </p>
+                <a class="mt-1 inline-flex text-[15px] text-accent transition hover:text-accent-hover" href="mailto:zhipeng30@foxmail.com">
+                  zhipeng30@foxmail.com
+                </a>
+              </div>
+
+              <div class="rounded-[22px] bg-white/80 p-5">
+                <p class="text-[12px] font-semibold uppercase tracking-[0.22em] text-text-tertiary">
+                  建设说明
+                </p>
+                <p class="mt-2 text-[15px] leading-[1.8] text-text-secondary">
+                  重点把结构像数据整理成统一、规范、可追踪的资源目录，方便后续持续补充与内部共享。
+                </p>
+              </div>
+            </div>
+          </aside>
         </div>
-      </div>
+      </article>
     </div>
   </section>
 
@@ -332,25 +387,6 @@ const researchPlanDownload = downloadEntries[0];
     .flow-node--compact .flow-node-core svg {
       width: 14px;
       height: 14px;
-    }
-
-    .project-strip {
-      scroll-snap-type: x proximity;
-      scrollbar-width: thin;
-      scrollbar-color: rgba(31, 107, 102, 0.35) transparent;
-    }
-
-    .project-strip::-webkit-scrollbar {
-      height: 10px;
-    }
-
-    .project-strip::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    .project-strip::-webkit-scrollbar-thumb {
-      border-radius: 9999px;
-      background: linear-gradient(90deg, rgba(31, 107, 102, 0.18), rgba(31, 107, 102, 0.42));
     }
 
     [data-reveal] {
