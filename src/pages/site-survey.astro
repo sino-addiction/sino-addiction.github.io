@@ -1,0 +1,682 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { siteData } from "../data/site";
+
+type SummaryCard = {
+  index: string;
+  title: string;
+  description: string;
+};
+
+type ChoiceOption = {
+  label: string;
+  note: string;
+};
+
+const heroTags = ["简化版", "可提交", "后续可扩展"] as const;
+
+const summaryCards: SummaryCard[] = [
+  {
+    index: "01",
+    title: "基本信息",
+    description: "站点、PI、机构、邮箱",
+  },
+  {
+    index: "02",
+    title: "成瘾类别",
+    description: "主类先填，混合情况写备注",
+  },
+  {
+    index: "03",
+    title: "相关文章",
+    description: "题目、DOI、PMID 或 URL",
+  },
+  {
+    index: "04",
+    title: "模态与数据",
+    description: "勾选已有的模态和数据类型",
+  },
+] as const;
+
+const addictionOptions = [
+  "酒精",
+  "尼古丁 / 烟草",
+  "大麻",
+  "阿片类",
+  "可卡因",
+  "兴奋剂 / 甲基苯丙胺",
+  "行为成瘾（赌博 / 游戏）",
+  "混合 / 多物质",
+  "其他",
+] as const;
+
+const modalityOptions: ChoiceOption[] = [
+  { label: "结构 MRI", note: "T1 / T2 / 体积" },
+  { label: "任务 fMRI", note: "task scans" },
+  { label: "静息态 fMRI", note: "resting-state" },
+  { label: "DTI", note: "扩散成像" },
+  { label: "EEG", note: "头皮脑电" },
+  { label: "fNIRS", note: "近红外" },
+] as const;
+
+const dataOptions: ChoiceOption[] = [
+  { label: "原始数据", note: "raw" },
+  { label: "预处理数据", note: "preprocessed" },
+  { label: "行为 / 量表", note: "questionnaires" },
+  { label: "临床 / 诊断", note: "diagnosis" },
+  { label: "遗传 / 基因型", note: "genetics" },
+  { label: "元数据 / 清单", note: "BIDS / inventory" },
+] as const;
+---
+
+<BaseLayout
+  title="站点调查表 | SANI"
+  description="精简版 site survey，收集站点基本信息、成瘾类别、相关文章、模态和数据概况。"
+>
+  <section class="page-wrap pt-16 md:pt-24 pb-8">
+    <div class="survey-hero reveal">
+      <span class="survey-badge">Site Survey</span>
+      <h1 class="mt-5 font-serif text-[38px] md:text-[52px] lg:text-[60px] font-bold text-ink-deep leading-[1.12] text-balance">
+        站点调查表
+      </h1>
+      <p class="mt-5 mx-auto max-w-3xl text-[17px] md:text-[19px] leading-[1.85] text-text-secondary text-balance">
+        我们把旧版 ENIGMA 问卷压缩成一个更轻量的登记页，只保留最关键的信息，方便别人快速填写，不会一上来就被吓跑。<br />
+        如果有多个子队列，先填最主要的一项，其余写在备注里。
+      </p>
+
+      <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+        {heroTags.map((tag) => (
+          <span class="survey-chip">{tag}</span>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="page-wrap pb-24 md:pb-32">
+    <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      {summaryCards.map((card, index) => (
+        <article class:list={["survey-summary-card reveal", `delay-${Math.min(index + 1, 3)}`]}>
+          <span class="survey-summary-index">{card.index}</span>
+          <h2 class="mt-4 text-[18px] font-bold text-ink-deep">{card.title}</h2>
+          <p class="mt-2 text-[14px] leading-[1.7] text-text-secondary">{card.description}</p>
+        </article>
+      ))}
+    </div>
+
+    <div class="survey-panel mt-6 md:mt-8">
+      <div class="survey-panel-head">
+        <div>
+          <span class="eyebrow">快速填写</span>
+          <h2 class="mt-3 font-serif text-[28px] md:text-[34px] font-bold text-ink-deep leading-[1.18]">
+            只填必要项即可提交
+          </h2>
+        </div>
+        <p class="max-w-2xl text-[14px] md:text-[15px] leading-[1.8] text-text-secondary">
+          目前只保留短表头和少量可选项。你可以先填最熟悉的内容，其他信息后续再补。
+        </p>
+      </div>
+
+      <form
+        class="survey-form grid gap-8"
+        data-site-survey-form
+        data-contact-email={siteData.contact.email}
+        action={`mailto:${siteData.contact.email}`}
+        method="post"
+        enctype="text/plain"
+      >
+        <fieldset class="survey-section">
+          <legend class="survey-section-title">基本信息</legend>
+          <div class="grid gap-4 md:grid-cols-2">
+            <div class="survey-field md:col-span-2">
+              <label class="survey-label" for="study_name">站点 / 研究名称 *</label>
+              <input
+                class="survey-control"
+                id="study_name"
+                name="study_name"
+                type="text"
+                autocomplete="organization"
+                required
+                placeholder="例如 Imagen / 本中心队列名称"
+              />
+            </div>
+
+            <div class="survey-field">
+              <label class="survey-label" for="pi_name">PI 姓名 *</label>
+              <input
+                class="survey-control"
+                id="pi_name"
+                name="pi_name"
+                type="text"
+                autocomplete="name"
+                required
+                placeholder="主要负责人姓名"
+              />
+            </div>
+
+            <div class="survey-field">
+              <label class="survey-label" for="institution">机构 *</label>
+              <input
+                class="survey-control"
+                id="institution"
+                name="institution"
+                type="text"
+                autocomplete="organization"
+                required
+                placeholder="单位 / 医院 / 学校"
+              />
+            </div>
+
+            <div class="survey-field">
+              <label class="survey-label" for="email">邮箱 *</label>
+              <input
+                class="survey-control"
+                id="email"
+                name="email"
+                type="email"
+                autocomplete="email"
+                required
+                placeholder="name@institution.edu"
+              />
+            </div>
+
+            <div class="survey-field">
+              <label class="survey-label" for="additional_contact">补充联系人（可选）</label>
+              <input
+                class="survey-control"
+                id="additional_contact"
+                name="additional_contact"
+                type="text"
+                autocomplete="name"
+                placeholder="如 postdoc / data manager"
+              />
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="survey-section">
+          <legend class="survey-section-title">成瘾类别</legend>
+          <div class="grid gap-4 md:grid-cols-2">
+            <div class="survey-field md:col-span-2">
+              <label class="survey-label" for="addiction_category">主要成瘾类别 *</label>
+              <select class="survey-control" id="addiction_category" name="addiction_category" required>
+                <option value="">请选择一个类别</option>
+                {addictionOptions.map((option) => <option value={option}>{option}</option>)}
+              </select>
+            </div>
+
+            <div class="survey-field md:col-span-2">
+              <label class="survey-label" for="addiction_detail">补充类别说明（可选）</label>
+              <input
+                class="survey-control"
+                id="addiction_detail"
+                name="addiction_detail"
+                type="text"
+                placeholder="如 mixed alcohol + cannabis / 赌博 + 游戏"
+              />
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="survey-section">
+          <legend class="survey-section-title">相关文章</legend>
+          <div class="survey-field">
+            <label class="survey-label" for="article_reference">文章信息（可选）</label>
+            <textarea
+              class="survey-control"
+              id="article_reference"
+              name="article_reference"
+              rows="4"
+              placeholder="题目、作者、期刊、年份、DOI / PMID / URL，写你最方便定位这篇文章的信息即可。"
+            ></textarea>
+          </div>
+        </fieldset>
+
+        <fieldset class="survey-section">
+          <legend class="survey-section-title">模态与数据</legend>
+          <div class="grid gap-6 lg:grid-cols-2">
+            <div>
+              <p class="survey-label mb-3">可提供模态</p>
+              <div class="survey-choice-grid">
+                {modalityOptions.map((option) => (
+                  <label class="survey-choice">
+                    <input type="checkbox" name="modalities" value={option.label} />
+                    <span>
+                      <strong>{option.label}</strong>
+                      <small>{option.note}</small>
+                    </span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <p class="survey-label mb-3">数据类型</p>
+              <div class="survey-choice-grid">
+                {dataOptions.map((option) => (
+                  <label class="survey-choice">
+                    <input type="checkbox" name="data_types" value={option.label} />
+                    <span>
+                      <strong>{option.label}</strong>
+                      <small>{option.note}</small>
+                    </span>
+                  </label>
+                ))}
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="survey-section">
+          <legend class="survey-section-title">备注</legend>
+          <div class="survey-field">
+            <label class="survey-label" for="notes">补充说明（可选）</label>
+            <textarea
+              class="survey-control"
+              id="notes"
+              name="notes"
+              rows="4"
+              placeholder="如样本量、年龄范围、是否仍在收集、共享限制、脱敏情况等。"
+            ></textarea>
+          </div>
+        </fieldset>
+
+        <div class="survey-submit-row">
+          <p class="survey-help">
+            提交后会打开你的邮件客户端，并把内容整理成一封发往
+            <a class="underline decoration-accent/30 underline-offset-2 hover:text-accent-hover" href={`mailto:${siteData.contact.email}`}>
+              {siteData.contact.email}
+            </a>
+            的邮件。
+          </p>
+
+          <button type="submit" class="btn-primary survey-submit-button w-full sm:w-auto px-8">
+            提交并发送
+          </button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <script is:inline>
+    (() => {
+      const form = document.querySelector("[data-site-survey-form]");
+      if (!(form instanceof HTMLFormElement)) return;
+
+      const contactEmail = form.dataset.contactEmail || "";
+
+      const getValue = (formData, name) => {
+        const value = formData.get(name);
+        return typeof value === "string" ? value.trim() : "";
+      };
+
+      const getValues = (formData, name) =>
+        formData
+          .getAll(name)
+          .map((value) => (typeof value === "string" ? value.trim() : ""))
+          .filter(Boolean);
+
+      const buildSection = (title, entries) => {
+        const lines = [];
+
+        entries.forEach(([label, rawValue]) => {
+          const value = String(rawValue || "").trim();
+          if (!value) return;
+
+          const parts = value.split(/\r?\n/);
+          lines.push(`- ${label}: ${parts[0]}`);
+          parts.slice(1).forEach((line) => {
+            lines.push(`  ${line}`);
+          });
+        });
+
+        if (lines.length === 0) return null;
+
+        return [`[${title}]`, ...lines].join("\n");
+      };
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        if (!form.reportValidity()) return;
+
+        const formData = new FormData(form);
+        const studyName = getValue(formData, "study_name") || "new submission";
+
+        const sections = [
+          buildSection("基本信息", [
+            ["站点 / 研究名称", getValue(formData, "study_name")],
+            ["PI", getValue(formData, "pi_name")],
+            ["机构", getValue(formData, "institution")],
+            ["邮箱", getValue(formData, "email")],
+            ["补充联系人", getValue(formData, "additional_contact")],
+          ]),
+          buildSection("成瘾类别", [
+            ["主要成瘾类别", getValue(formData, "addiction_category")],
+            ["补充类别说明", getValue(formData, "addiction_detail")],
+          ]),
+          buildSection("相关文章", [["文章信息", getValue(formData, "article_reference")]]),
+          buildSection("模态与数据", [
+            ["可提供模态", getValues(formData, "modalities").join(", ")],
+            ["数据类型", getValues(formData, "data_types").join(", ")],
+          ]),
+          buildSection("备注", [["补充说明", getValue(formData, "notes")]]),
+        ].filter(Boolean);
+
+        const subject = `SANI site survey - ${studyName}`;
+        const body = ["SANI Site Survey", ...sections].join("\n\n");
+        const mailto = `mailto:${contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+        window.location.href = mailto;
+      });
+    })();
+  </script>
+
+  <style>
+    .survey-hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: 36px;
+      border: 1px solid rgba(215, 223, 219, 0.88);
+      background:
+        radial-gradient(circle at 12% 18%, rgba(31, 107, 102, 0.12), transparent 28%),
+        radial-gradient(circle at 88% 12%, rgba(49, 89, 122, 0.1), transparent 26%),
+        linear-gradient(180deg, rgba(252, 253, 252, 0.98) 0%, rgba(243, 247, 245, 0.94) 100%);
+      padding: clamp(1.75rem, 4vw, 3rem);
+      box-shadow: 0 18px 46px rgba(16, 33, 50, 0.05);
+      text-align: center;
+    }
+
+    .survey-hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.28), transparent 36%);
+      pointer-events: none;
+    }
+
+    .survey-badge {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 0 0.85rem;
+      border-radius: 9999px;
+      border: 1px solid rgba(31, 107, 102, 0.14);
+      background: rgba(31, 107, 102, 0.08);
+      color: #1f6b66;
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .survey-chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 32px;
+      padding: 0 0.9rem;
+      border-radius: 9999px;
+      border: 1px solid rgba(215, 223, 219, 0.95);
+      background: rgba(252, 253, 252, 0.92);
+      color: var(--color-text-secondary);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+    }
+
+    .survey-summary-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 24px;
+      border: 1px solid rgba(215, 223, 219, 0.92);
+      background:
+        radial-gradient(circle at 85% 18%, rgba(31, 107, 102, 0.05), transparent 28%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(249, 251, 250, 0.97) 100%);
+      box-shadow: 0 10px 24px rgba(16, 33, 50, 0.04);
+      padding: 1.25rem;
+      min-height: 100%;
+    }
+
+    .survey-summary-card::after {
+      content: "";
+      position: absolute;
+      inset: auto -18% -30% auto;
+      width: 120px;
+      height: 120px;
+      border-radius: 9999px;
+      background: rgba(31, 107, 102, 0.05);
+      pointer-events: none;
+    }
+
+    .survey-summary-index {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 0 0.55rem;
+      border-radius: 9999px;
+      background: rgba(31, 107, 102, 0.08);
+      color: var(--color-accent);
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+    }
+
+    .survey-panel {
+      position: relative;
+      overflow: hidden;
+      border-radius: 32px;
+      border: 1px solid rgba(215, 223, 219, 0.9);
+      background:
+        radial-gradient(circle at 10% 0%, rgba(31, 107, 102, 0.06), transparent 26%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.97) 0%, rgba(248, 251, 250, 0.98) 100%);
+      box-shadow: 0 18px 48px rgba(16, 33, 50, 0.06);
+    }
+
+    .survey-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent 34%);
+      pointer-events: none;
+    }
+
+    .survey-panel-head {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      padding: 1.5rem 1.25rem;
+      border-bottom: 1px solid rgba(215, 223, 219, 0.8);
+    }
+
+    .survey-form {
+      position: relative;
+      padding: 1.25rem;
+    }
+
+    .survey-section {
+      display: grid;
+      gap: 1rem;
+      border: 0;
+      border-top: 1px solid rgba(215, 223, 219, 0.82);
+      padding: 1.75rem 0 0;
+    }
+
+    .survey-section:first-of-type {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .survey-section-title {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 0 0.65rem;
+      margin-left: 0;
+      border-radius: 9999px;
+      background: rgba(31, 107, 102, 0.08);
+      color: var(--color-accent);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .survey-field {
+      display: grid;
+      gap: 0.55rem;
+    }
+
+    .survey-label {
+      color: var(--color-ink-deep);
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .survey-control {
+      width: 100%;
+      min-height: 3rem;
+      border-radius: 18px;
+      border: 1px solid rgba(215, 223, 219, 0.95);
+      background: rgba(255, 255, 255, 0.96);
+      padding: 0.85rem 1rem;
+      font: inherit;
+      font-size: 0.95rem;
+      color: var(--color-text-primary);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.82);
+      transition:
+        border-color 180ms ease,
+        box-shadow 180ms ease,
+        background-color 180ms ease;
+    }
+
+    .survey-control::placeholder {
+      color: var(--color-text-muted);
+    }
+
+    .survey-control:focus {
+      outline: none;
+      border-color: rgba(31, 107, 102, 0.42);
+      box-shadow: 0 0 0 4px rgba(31, 107, 102, 0.08);
+    }
+
+    textarea.survey-control {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    select.survey-control {
+      appearance: none;
+      padding-right: 2.4rem;
+      background-image:
+        linear-gradient(45deg, transparent 50%, #738391 50%),
+        linear-gradient(135deg, #738391 50%, transparent 50%);
+      background-position:
+        calc(100% - 18px) calc(1.25rem),
+        calc(100% - 12px) calc(1.25rem);
+      background-size: 6px 6px, 6px 6px;
+      background-repeat: no-repeat;
+    }
+
+    .survey-choice-grid {
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .survey-choice {
+      display: flex;
+      gap: 0.8rem;
+      align-items: flex-start;
+      border-radius: 18px;
+      border: 1px solid rgba(215, 223, 219, 0.95);
+      background: rgba(252, 253, 252, 0.96);
+      padding: 0.9rem 1rem;
+      transition:
+        border-color 180ms ease,
+        background-color 180ms ease,
+        box-shadow 180ms ease;
+    }
+
+    .survey-choice:hover {
+      border-color: rgba(31, 107, 102, 0.22);
+      background: rgba(247, 250, 248, 0.98);
+    }
+
+    .survey-choice input {
+      margin-top: 0.18rem;
+      flex-shrink: 0;
+      width: 1rem;
+      height: 1rem;
+      accent-color: var(--color-accent);
+    }
+
+    .survey-choice span {
+      display: grid;
+      gap: 0.15rem;
+    }
+
+    .survey-choice strong {
+      color: var(--color-ink-deep);
+      font-size: 0.94rem;
+      line-height: 1.35;
+      font-weight: 700;
+    }
+
+    .survey-choice small {
+      color: var(--color-text-secondary);
+      font-size: 0.82rem;
+      line-height: 1.5;
+    }
+
+    .survey-help {
+      color: var(--color-text-secondary);
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+
+    .survey-submit-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid rgba(215, 223, 219, 0.82);
+      padding-top: 1.5rem;
+    }
+
+    .survey-submit-button {
+      min-width: 180px;
+    }
+
+    .survey-hero,
+    .survey-summary-card,
+    .survey-panel {
+      backdrop-filter: blur(6px);
+    }
+
+    @media (max-width: 767px) {
+      .survey-hero {
+        text-align: left;
+      }
+
+      .survey-hero .survey-chip {
+        width: fit-content;
+      }
+
+      .survey-panel-head,
+      .survey-form {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+
+      .survey-submit-row {
+        align-items: flex-start;
+      }
+
+      .survey-submit-button {
+        width: 100%;
+      }
+    }
+  </style>
+</BaseLayout>
