@@ -1,42 +1,12 @@
 ﻿---
+import Hero from "../components/Hero.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { siteData } from "../data/site";
-
-type SummaryCard = {
-  index: string;
-  title: string;
-  description: string;
-};
 
 type ChoiceOption = {
   label: string;
   note: string;
 };
-
-const heroTags = ["简化版", "可提交", "后续可扩展"] as const;
-
-const summaryCards: SummaryCard[] = [
-  {
-    index: "01",
-    title: "基本信息",
-    description: "站点、PI、机构、邮箱",
-  },
-  {
-    index: "02",
-    title: "成瘾类别",
-    description: "主类先填，混合情况写备注",
-  },
-  {
-    index: "03",
-    title: "相关文章",
-    description: "题目、DOI、PMID 或 URL",
-  },
-  {
-    index: "04",
-    title: "模态与数据",
-    description: "勾选已有的模态和数据类型",
-  },
-] as const;
 
 const addictionOptions = [
   "酒精",
@@ -75,47 +45,18 @@ const surveySubmitUrl = import.meta.env.PUBLIC_SURVEY_ENDPOINT?.trim() ?? "";
   title="站点调查表 | SANI"
   description="精简版 site survey，收集站点基本信息、成瘾类别、相关文章、模态和数据概况。"
 >
-  <section class="page-wrap pt-16 md:pt-24 pb-8">
-    <div class="survey-hero reveal">
-      <span class="survey-badge">Site Survey</span>
-      <h1 class="mt-5 font-serif text-[38px] md:text-[52px] lg:text-[60px] font-bold text-ink-deep leading-[1.12] text-balance">
-        站点调查表
-      </h1>
-      <p class="mt-5 mx-auto max-w-3xl text-[17px] md:text-[19px] leading-[1.85] text-text-secondary text-balance">
-        我们把旧版 ENIGMA 问卷压缩成一个更轻量的登记页，只保留最关键的信息，方便别人快速填写，不会一上来就被吓跑。<br />
-        如果有多个子队列，先填最主要的一项，其余写在备注里。
-      </p>
-
-      <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
-        {heroTags.map((tag) => (
-          <span class="survey-chip">{tag}</span>
-        ))}
-      </div>
-    </div>
-  </section>
+  <Hero
+    title="站点调查表"
+    subtitle="简化版 site survey，用于收集站点基本信息、成瘾类别、相关文章、模态和数据概况。"
+    compact={true}
+  />
 
   <section class="page-wrap pb-24 md:pb-32">
-    <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-      {summaryCards.map((card, index) => (
-        <article class:list={["survey-summary-card reveal", `delay-${Math.min(index + 1, 3)}`]}>
-          <span class="survey-summary-index">{card.index}</span>
-          <h2 class="mt-4 text-[18px] font-bold text-ink-deep">{card.title}</h2>
-          <p class="mt-2 text-[14px] leading-[1.7] text-text-secondary">{card.description}</p>
-        </article>
-      ))}
-    </div>
-
-    <div class="survey-panel mt-6 md:mt-8">
+    <div class="survey-panel">
       <div class="survey-panel-head">
-        <div>
-          <span class="eyebrow">快速填写</span>
-          <h2 class="mt-3 font-serif text-[28px] md:text-[34px] font-bold text-ink-deep leading-[1.18]">
-            只填必要项即可提交
-          </h2>
-        </div>
-        <p class="max-w-2xl text-[14px] md:text-[15px] leading-[1.8] text-text-secondary">
-          目前只保留短表头和少量可选项。你可以先填最熟悉的内容，其他信息后续再补。
-        </p>
+        <h2 class="font-serif text-[28px] md:text-[34px] font-bold text-ink-deep leading-[1.18]">
+          只填必要项即可提交
+        </h2>
       </div>
 
       <form
@@ -514,120 +455,18 @@ const surveySubmitUrl = import.meta.env.PUBLIC_SURVEY_ENDPOINT?.trim() ?? "";
   </script>
 
   <style>
-    .survey-hero {
-      position: relative;
-      overflow: hidden;
-      border-radius: 36px;
-      border: 1px solid rgba(215, 223, 219, 0.88);
-      background:
-        radial-gradient(circle at 12% 18%, rgba(31, 107, 102, 0.12), transparent 28%),
-        radial-gradient(circle at 88% 12%, rgba(49, 89, 122, 0.1), transparent 26%),
-        linear-gradient(180deg, rgba(252, 253, 252, 0.98) 0%, rgba(243, 247, 245, 0.94) 100%);
-      padding: clamp(1.75rem, 4vw, 3rem);
-      box-shadow: 0 18px 46px rgba(16, 33, 50, 0.05);
-      text-align: center;
-    }
-
-    .survey-hero::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.28), transparent 36%);
-      pointer-events: none;
-    }
-
-    .survey-badge {
-      position: relative;
-      z-index: 1;
-      display: inline-flex;
-      align-items: center;
-      min-height: 28px;
-      padding: 0 0.85rem;
-      border-radius: 9999px;
-      border: 1px solid rgba(31, 107, 102, 0.14);
-      background: rgba(31, 107, 102, 0.08);
-      color: #1f6b66;
-      font-size: 0.78rem;
-      font-weight: 800;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-    }
-
-    .survey-chip {
-      display: inline-flex;
-      align-items: center;
-      min-height: 32px;
-      padding: 0 0.9rem;
-      border-radius: 9999px;
-      border: 1px solid rgba(215, 223, 219, 0.95);
-      background: rgba(252, 253, 252, 0.92);
-      color: var(--color-text-secondary);
-      font-size: 0.78rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-    }
-
-    .survey-summary-card {
-      position: relative;
-      overflow: hidden;
-      border-radius: 24px;
-      border: 1px solid rgba(215, 223, 219, 0.92);
-      background:
-        radial-gradient(circle at 85% 18%, rgba(31, 107, 102, 0.05), transparent 28%),
-        linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(249, 251, 250, 0.97) 100%);
-      box-shadow: 0 10px 24px rgba(16, 33, 50, 0.04);
-      padding: 1.25rem;
-      min-height: 100%;
-    }
-
-    .survey-summary-card::after {
-      content: "";
-      position: absolute;
-      inset: auto -18% -30% auto;
-      width: 120px;
-      height: 120px;
-      border-radius: 9999px;
-      background: rgba(31, 107, 102, 0.05);
-      pointer-events: none;
-    }
-
-    .survey-summary-index {
-      display: inline-flex;
-      align-items: center;
-      min-height: 24px;
-      padding: 0 0.55rem;
-      border-radius: 9999px;
-      background: rgba(31, 107, 102, 0.08);
-      color: var(--color-accent);
-      font-size: 0.7rem;
-      font-weight: 800;
-      letter-spacing: 0.12em;
-    }
-
     .survey-panel {
       position: relative;
-      overflow: hidden;
       border-radius: 32px;
       border: 1px solid rgba(215, 223, 219, 0.9);
-      background:
-        radial-gradient(circle at 10% 0%, rgba(31, 107, 102, 0.06), transparent 26%),
-        linear-gradient(180deg, rgba(255, 255, 255, 0.97) 0%, rgba(248, 251, 250, 0.98) 100%);
-      box-shadow: 0 18px 48px rgba(16, 33, 50, 0.06);
-    }
-
-    .survey-panel::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent 34%);
-      pointer-events: none;
+      background: rgba(255, 255, 255, 0.98);
+      box-shadow: 0 12px 28px rgba(16, 33, 50, 0.05);
     }
 
     .survey-panel-head {
-      position: relative;
       display: flex;
       flex-direction: column;
-      gap: 1rem;
+      gap: 0.75rem;
       padding: 1.5rem 1.25rem;
       border-bottom: 1px solid rgba(215, 223, 219, 0.8);
     }
@@ -791,21 +630,8 @@ const surveySubmitUrl = import.meta.env.PUBLIC_SURVEY_ENDPOINT?.trim() ?? "";
       min-width: 180px;
     }
 
-    .survey-hero,
-    .survey-summary-card,
     .survey-panel {
-      backdrop-filter: blur(6px);
-    }
-
     @media (max-width: 767px) {
-      .survey-hero {
-        text-align: left;
-      }
-
-      .survey-hero .survey-chip {
-        width: fit-content;
-      }
-
       .survey-panel-head,
       .survey-form {
         padding-left: 1rem;
