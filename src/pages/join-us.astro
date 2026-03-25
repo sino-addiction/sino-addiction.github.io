@@ -28,22 +28,6 @@ type JoinFlowStep = {
 const page = await requirePage("join-us");
 const { Content } = await render(page);
 
-const mouTemplate = [
-  "SANI 合作备忘录（MOU）模板",
-  "",
-  "以下内容为页面占位模板，后续可替换为正式版 MOU 文档：",
-  "",
-  "1. 合作目标与范围",
-  "2. 数据边界与共享方式",
-  "3. 伦理审批与合规要求",
-  "4. 责任分工与联系人",
-  "5. 署名与发表原则",
-  "6. 数据传输与安全要求",
-  "7. 协议期限与更新机制",
-].join("\n");
-
-const mouDownloadHref = `data:text/plain;charset=utf-8,${encodeURIComponent(mouTemplate)}`;
-
 const joinFlowMeta: Omit<JoinFlowStep, "title" | "description">[] = [
   {
     phase: "数据调查",
@@ -62,9 +46,9 @@ const joinFlowMeta: Omit<JoinFlowStep, "title" | "description">[] = [
     direction: "right",
     align: "start",
     action: {
-      label: "下载 MOU",
-      href: mouDownloadHref,
-      download: "SANI-MOU-template.txt",
+      label: "下载合作备忘录",
+      href: "/assets/downloads/sani-cooperation-mou-v1.doc",
+      download: "SANI合作备忘录v1.doc",
       variant: "secondary",
     },
   },

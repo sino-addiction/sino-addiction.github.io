@@ -1,0 +1,211 @@
+<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>SANI合作备忘录v1</title>
+<!--[if gte mso 9]>
+<xml>
+  <w:WordDocument>
+    <w:View>Print</w:View>
+    <w:Zoom>100</w:Zoom>
+    <w:DoNotOptimizeForBrowser/>
+  </w:WordDocument>
+</xml>
+<![endif]-->
+<style>
+<!--
+@page Section1 { size: 595.3pt 841.9pt; margin: 72pt 72pt 72pt 72pt; }
+div.Section1 { page: Section1; }
+body {
+  font-family: "SimSun", "宋体", serif;
+  font-size: 12pt;
+  line-height: 1.7;
+  color: #202020;
+  background: #ffffff;
+}
+h1, h2, p, li, td, th { mso-fareast-font-family: "宋体"; }
+h1 {
+  margin: 0 0 10pt 0;
+  font-size: 22pt;
+  text-align: center;
+  font-weight: bold;
+}
+h2 {
+  margin: 18pt 0 8pt 0;
+  font-size: 14pt;
+  font-weight: bold;
+  border-bottom: 1pt solid #a7b7b0;
+  padding-bottom: 4pt;
+}
+p {
+  margin: 0 0 8pt 0;
+}
+ul {
+  margin: 0 0 8pt 22pt;
+}
+li {
+  margin-bottom: 4pt;
+}
+.meta {
+  text-align: center;
+  color: #4f6373;
+}
+.lead {
+  margin: 14pt 0 16pt 0;
+  padding: 10pt 12pt;
+  background: #f4f8f6;
+  border: 1pt solid #d7dfdb;
+}
+.section-note {
+  color: #4f6373;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 10pt 0 12pt 0;
+}
+td, th {
+  border: 1pt solid #c9d2ce;
+  padding: 7pt 8pt;
+  vertical-align: top;
+}
+th {
+  width: 28%;
+  background: #f7f9f8;
+  text-align: left;
+  font-weight: bold;
+}
+.blank {
+  display: inline-block;
+  border-bottom: 1pt solid #7a8a84;
+  min-width: 160pt;
+  height: 12pt;
+  vertical-align: middle;
+}
+.blank.short { min-width: 90pt; }
+.blank.wide { min-width: 320pt; }
+.signature {
+  margin-top: 18pt;
+}
+.footer-note {
+  margin-top: 16pt;
+  font-size: 10.5pt;
+  color: #5e6c7a;
+}
+-->
+</style>
+</head>
+<body lang="zh-CN">
+<div class="Section1">
+  <h1>中国成瘾神经影像协作计划（SANI）合作备忘录</h1>
+  <p class="meta">Sino-Addiction Neuroimaging Initiatives</p>
+  <p class="meta">版本：v1　发布日期：2026年3月25日</p>
+
+  <div class="lead">
+    <p>本备忘录参考 ENIGMA-Addiction 工作组的协作规则，结合 SANI 的多中心协作场景整理，用于统一成员在数据贡献、署名、发表、数据访问和二次分析方面的基本约定。</p>
+    <p>本文件适用于拟在 SANI 框架内发起协作研究、申请协作组数据支持，或基于协作组结果开展再分析/验证研究的团队。</p>
+  </div>
+
+  <h2>一、前言</h2>
+  <ul>
+    <li>SANI 由多个成瘾神经影像研究中心共同组成，成员可通过影像数据、临床数据、分析结果、算法开发和方法学支持参与协作。</li>
+    <li>协作组将围绕不断积累的脑影像表型与相关数据开展元分析/巨型分析、复现研究及后续探索性分析。</li>
+    <li>本备忘录旨在统一协作流程、保护主分析贡献者的署名权益，并为未来分析提供清晰边界。</li>
+    <li>所有合作均应遵守人类受试者研究伦理要求；各站点应确保本地伦理/IRB 批准有效并按规定更新。</li>
+  </ul>
+
+  <h2>二、协调人</h2>
+  <p class="section-note">SANI 协作组将设若干协调人，负责回答进行中的项目问题、协调工作推进并传递审查意见。协调人名单与联系方式由支持组另行公布。</p>
+
+  <h2>三、支持组职责</h2>
+  <ul>
+    <li>支持组由参与中心的主要研究者或授权代表组成，负责项目组织、时程协调和政策解释。</li>
+    <li>支持组负责确认各站点已获得必要的本地审批，并按要求定期更新审批状态。</li>
+    <li>支持组负责审查署名、论文归类以及站点贡献是否被正确、充分地体现。</li>
+    <li>支持组还应监督工作是否符合伦理要求、数据治理要求和协作组的共同利益。</li>
+  </ul>
+
+  <h2>四、署名与发表</h2>
+  <ul>
+    <li>在某一表型的协作组元分析/巨型分析结果正式发表之前，各站点不得抢先在媒体或互联网上公开该表型的协作组结果。</li>
+    <li>在投稿前，如需先行在会议上报告初步发现，应提前与支持组沟通，以确保不违反目标期刊的预发表政策。</li>
+    <li>基于协作组发现的二次分析，例如针对协作组中发现的脑结构或功能表型进一步开展关联分析，原则上应在原始协作组论文被接收后再投稿，避免重复提交。</li>
+    <li>任何站点都可以发表仅基于本地数据、且不包含协作组分析内容的结果，此类文章不构成 SANI 协作组论文。</li>
+    <li>若某一表型已经有正在进行的协作分析，拟加入的站点应披露其参与情况，以避免重复投稿和不必要的冲突。</li>
+  </ul>
+
+  <h2>五、何为 SANI 协作组论文</h2>
+  <ul>
+    <li>SANI 协作组论文可以是基于协作组智力资源、协作组共同收集的数据，或基于成员身份获得的信息所完成的论文或摘要。</li>
+    <li><strong>主论文</strong>是指 SANI 协作组首次就某一关注表型开展元分析/巨型分析而形成的论文。</li>
+    <li><strong>次论文</strong>是指基于主论文中的数据、结果或方法开展的新方法再分析、验证分析或派生分析。</li>
+  </ul>
+
+  <h2>六、主论文署名原则</h2>
+  <ul>
+    <li>SANI 协作组应作为作者出现在所有协作组论文中。若期刊政策不允许列出全部作者，可在作者列表末尾加注“and the SANI Working Group”或“与 SANI 协作组”，以确保协作组成员在检索系统中可见。</li>
+    <li>署名贡献应基于以下实质性工作：影像表型或基因型数据测量、用于复现的新增数据贡献、研究构思与设计、数据分析与解释、论文撰写或重要修订，以及论文最终定稿批准。</li>
+    <li>不同论文中各站点的署名顺序可根据当次实际贡献而变化；每篇具体论文均由各站点 PI 负责整理本中心的署名和致谢名单。</li>
+    <li>协作组论文的署名应依据当前项目投入和贡献，而非过去对协作组研究的历史贡献。</li>
+    <li>如对署名是否合适存在疑问，其他协作组成员可协助说明，以避免成员陷入为自己争取署名的尴尬处境。</li>
+  </ul>
+
+  <h2>七、二次分析与数据访问</h2>
+  <ul>
+    <li>尽管协作组贡献的数据通常经过编码且范围有限，但理论上仍存在通过结果反推个体参与情况的极小风险。</li>
+    <li>因此，SANI 采用支持组作为访问把关者的方式，而不对结果文件开放完全公共访问。</li>
+    <li>SANI 成员如需访问协作组结果文件，应提交简短申请，说明希望访问各组结果的原因；非成员则需提交更详细的申请，并签署本备忘录。</li>
+    <li>支持组会先从科学价值和项目相关性角度审查申请，再通过邮件或 SANI 内部渠道发送给成员征询意见。</li>
+    <li>成员自发送达之日起有 14 天的反馈窗口，可提出退出分析、要求澄清、表达担忧或提供意见。</li>
+    <li>未获得站点 PI 书面同意之前，不得共享任何站点数据；站点 PI 也可视需要对数据用途附加限制或条件。</li>
+    <li>若申请获批，系统将开放未退出分析站点的结果文件，并由支持组指派一名项目联络人负责资料提供、问题答复和进展更新。</li>
+    <li>协作组相关数据应保存在 SANI 指定的安全环境中，未经站点 PI 明确批准，不得转移或镜像到其他地点。</li>
+    <li>通过该机制获得数据所撰写的稿件，视为 SANI 协作组的次论文；论文中应列出“SANI 协作组”和项目联络人作为共同作者，并在作者列表中适当注明各研究站点 PI 及贡献者。</li>
+  </ul>
+
+  <h2>八、加入、退出与除名</h2>
+  <ul>
+    <li>随着首批协作项目的推进，SANI 预期将发展为更大规模、长期存在的协作组。新成员需签署本备忘录，并确认已获得参与或发送数据所需的伦理批准。</li>
+    <li>若某站点未能履行本备忘录，或在数据收集、数据分析、项目推进等方面未作出显著贡献，支持组可考虑提出除名建议。</li>
+    <li>支持组应整理相关证据，并向主要研究者说明可能除名的原因；除名需经 PI 简单多数表决通过。</li>
+    <li>站点也可以主动申请退出 SANI。退出申请由支持组审核，且退出站点需书面同意：对于在 SANI 框架下获得的数据，或其解释在任何方面依赖于未发表 SANI 工作的数据，均不得在未获同意前发表。</li>
+  </ul>
+
+  <h2>九、成员承诺</h2>
+  <p class="section-note">本人同意：</p>
+  <ul>
+    <li>1. 对 SANI 协作组提出的元分析/巨型分析以及二次分析进行考虑，但具体参与需受我方可施加的约束或限制影响。</li>
+    <li>2. 遵守本备忘录中关于署名、发表以及其他相关指南。</li>
+    <li>3. 未经全体 SANI 协作组同意，不向非成员分发或传达任何特权信息；特权信息包括协作组成员完成但尚未发表的分析结果，也包括其他不属于 SANI 协作组的既有合作方。</li>
+    <li>4. 未经所有协作组成员事先书面同意，不分发或复制 SANI 协作组收集的任何数据。</li>
+    <li>5. 同意由支持组审查和评估未来的科学机会，并就最大化这些机会所需的专业能力和研究计划提出建议。</li>
+    <li>6. 如我未能遵守本备忘录，可能会被移出 SANI 协作组；但即便如此，我仍需遵守上述关于 SANI 工作成果的发表限制。</li>
+  </ul>
+
+  <h2>十、签署页</h2>
+  <table class="signature">
+    <tr>
+      <th>签署站点</th>
+      <td><span class="blank wide"></span></td>
+    </tr>
+    <tr>
+      <th>负责人姓名</th>
+      <td><span class="blank"></span></td>
+    </tr>
+    <tr>
+      <th>负责人职务</th>
+      <td><span class="blank"></span></td>
+    </tr>
+    <tr>
+      <th>联系邮箱</th>
+      <td><span class="blank wide"></span></td>
+    </tr>
+    <tr>
+      <th>签名 / 日期</th>
+      <td>签名：<span class="blank short"></span>　日期：<span class="blank short"></span></td>
+    </tr>
+  </table>
+
+  <p class="footer-note">说明：本模板用于 SANI 协作申请与内部审批，不替代各单位伦理审批、数据使用协议或正式法律文本。实际执行时可根据站点治理规则进一步修订。</p>
+</div>
+</body>
+</html>
