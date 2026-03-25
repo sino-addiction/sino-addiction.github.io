@@ -1,0 +1,278 @@
+<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>研究计划v1.0</title>
+<!--[if gte mso 9]>
+<xml>
+  <w:WordDocument>
+    <w:View>Print</w:View>
+    <w:Zoom>100</w:Zoom>
+    <w:DoNotOptimizeForBrowser/>
+  </w:WordDocument>
+</xml>
+<![endif]-->
+<style>
+<!--
+@page Section1 { size: 595.3pt 841.9pt; margin: 72pt 72pt 72pt 72pt; }
+div.Section1 { page: Section1; }
+body {
+  font-family: "SimSun", "宋体", serif;
+  font-size: 12pt;
+  line-height: 1.7;
+  color: #202020;
+  background: #ffffff;
+}
+h1, h2, h3, p, li, td { mso-fareast-font-family: "宋体"; }
+h1 {
+  margin: 0 0 10pt 0;
+  font-size: 22pt;
+  text-align: center;
+  font-weight: bold;
+}
+h2 {
+  margin: 18pt 0 8pt 0;
+  font-size: 14pt;
+  font-weight: bold;
+  border-bottom: 1pt solid #a7b7b0;
+  padding-bottom: 4pt;
+}
+p {
+  margin: 0 0 8pt 0;
+}
+ul {
+  margin: 0 0 8pt 22pt;
+}
+li {
+  margin-bottom: 4pt;
+}
+.meta {
+  text-align: center;
+  color: #4f6373;
+}
+.lead {
+  margin: 14pt 0 16pt 0;
+  padding: 10pt 12pt;
+  background: #f4f8f6;
+  border: 1pt solid #d7dfdb;
+}
+.section-note {
+  color: #4f6373;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 10pt 0 12pt 0;
+}
+td, th {
+  border: 1pt solid #c9d2ce;
+  padding: 7pt 8pt;
+  vertical-align: top;
+}
+th {
+  width: 28%;
+  background: #f7f9f8;
+  text-align: left;
+  font-weight: bold;
+}
+.blank {
+  display: inline-block;
+  border-bottom: 1pt solid #7a8a84;
+  min-width: 160pt;
+  height: 12pt;
+  vertical-align: middle;
+}
+.blank.short { min-width: 90pt; }
+.blank.wide { min-width: 320pt; }
+.fill-block {
+  min-height: 54pt;
+  border: 1pt solid #d7dfdb;
+  background: #fbfcfb;
+  margin: 8pt 0 12pt 0;
+}
+.subhead {
+  font-weight: bold;
+  margin-top: 8pt;
+}
+.footer-note {
+  margin-top: 16pt;
+  font-size: 10.5pt;
+  color: #5e6c7a;
+}
+-->
+</style>
+</head>
+<body lang="zh-CN">
+<div class="Section1">
+  <h1>中国成瘾神经影像协作计划（SANI）研究计划模板</h1>
+  <p class="meta">Sino-Addiction Neuroimaging Initiatives</p>
+  <p class="meta">版本：v1.0　发布日期：2026年3月25日</p>
+
+  <div class="lead">
+    <p>本模板由 ENIGMA-Addiction 项目申请书结构调整而来，适配 SANI 多中心协作场景，并完成中文版整理。</p>
+    <p>适用范围：拟在 SANI 框架内发起联合研究、申请联盟数据支持，或提交跨中心分析计划的研究团队。</p>
+  </div>
+
+  <h2>一、政策说明</h2>
+  <ul>
+    <li>SANI 由国内多个成瘾神经影像研究中心共同组成，成员可通过数据贡献、质控、分析实施、方法开发和协作组织等方式参与联盟工作。</li>
+    <li>活跃成员可向 SANI 提交新的研究计划，包括表型分析、关联分析、多模态整合、纵向研究和方法学研究等。</li>
+    <li>申请人在提交研究计划前，应了解当前在研项目，尽量避免与既有计划发生明显重复，并给出预计执行时间表。</li>
+    <li>研究计划应简要说明科学问题、样本范围、数据需求、分析方法，以及各参与站点需要配合完成的脚本、软件或额外处理流程。</li>
+    <li>SANI 协调组将从科学价值、可行性、资源匹配度、项目负责人响应能力，以及与既有项目的重叠程度等方面进行审核。</li>
+    <li>审核通过后，研究计划将在协作网络内分发。原则上自发布之日起保留 14 天反馈期，供各站点提出问题、反馈意见或选择不参与。</li>
+    <li>任何站点的既有数据均不得在未经该站点负责人同意的情况下对外共享。所有研究计划均须遵守联盟的伦理、数据治理、署名与发表规范。</li>
+    <li>项目负责人需定期向协调组更新项目进展，在研究结束后提交版本化脚本、关键结果摘要和成果归档信息，以便联盟持续复用。</li>
+  </ul>
+
+  <h2>二、申请人信息</h2>
+  <table>
+    <tr>
+      <th>提交日期</th>
+      <td><span class="blank short"></span></td>
+    </tr>
+    <tr>
+      <th>申请人姓名</th>
+      <td><span class="blank"></span></td>
+    </tr>
+    <tr>
+      <th>单位 / 机构</th>
+      <td><span class="blank wide"></span></td>
+    </tr>
+    <tr>
+      <th>职务 / 角色</th>
+      <td><span class="blank"></span></td>
+    </tr>
+    <tr>
+      <th>联系邮箱</th>
+      <td><span class="blank wide"></span></td>
+    </tr>
+    <tr>
+      <th>合作备忘录 / 数据使用承诺</th>
+      <td>是否已签署：<span class="blank short"></span></td>
+    </tr>
+    <tr>
+      <th>协作者名单</th>
+      <td>请填写姓名、单位、邮箱，可另附页。</td>
+    </tr>
+  </table>
+
+  <h2>三、研究计划概览</h2>
+  <table>
+    <tr>
+      <th>研究计划题目</th>
+      <td><span class="blank wide"></span></td>
+    </tr>
+    <tr>
+      <th>研究类型</th>
+      <td>表型分析 / 多模态整合 / 纵向研究 / 方法学开发 / 其他：<span class="blank"></span></td>
+    </tr>
+    <tr>
+      <th>预计完成周期</th>
+      <td><span class="blank short"></span></td>
+    </tr>
+    <tr>
+      <th>与现有项目重叠情况</th>
+      <td>是否已核查当前 SANI 在研项目并确认无明显重叠：<span class="blank short"></span></td>
+    </tr>
+    <tr>
+      <th>潜在重叠的处理方案</th>
+      <td><span class="blank wide"></span></td>
+    </tr>
+    <tr>
+      <th>利益冲突声明</th>
+      <td><span class="blank wide"></span></td>
+    </tr>
+  </table>
+
+  <h2>四、研究背景与意义</h2>
+  <p class="section-note">请说明研究背景、当前证据空缺、在 SANI 多中心协作框架下开展本研究的必要性，以及潜在学术或临床价值。</p>
+  <div class="fill-block"></div>
+
+  <h2>五、研究目标与科学假设</h2>
+  <p class="subhead">1. 主要目标</p>
+  <div class="fill-block"></div>
+  <p class="subhead">2. 次要目标</p>
+  <div class="fill-block"></div>
+  <p class="subhead">3. 核心假设</p>
+  <div class="fill-block"></div>
+
+  <h2>六、数据申请范围与样本说明</h2>
+  <table>
+    <tr>
+      <th>拟纳入成瘾类型</th>
+      <td><span class="blank wide"></span></td>
+    </tr>
+    <tr>
+      <th>是否包含健康对照</th>
+      <td><span class="blank short"></span></td>
+    </tr>
+    <tr>
+      <th>申请模态</th>
+      <td>结构 MRI / 静息态 MRI / 任务 MRI / 静息态 EEG / 任务 EEG / 其他：<span class="blank"></span></td>
+    </tr>
+    <tr>
+      <th>关键临床变量</th>
+      <td><span class="blank wide"></span></td>
+    </tr>
+    <tr>
+      <th>预计样本量</th>
+      <td><span class="blank short"></span></td>
+    </tr>
+    <tr>
+      <th>纳入与排除标准</th>
+      <td><span class="blank wide"></span></td>
+    </tr>
+  </table>
+
+  <h2>七、分析计划与技术路线</h2>
+  <p class="subhead">1. 数据预处理与质控</p>
+  <div class="fill-block"></div>
+  <p class="subhead">2. 主要分析方案</p>
+  <div class="fill-block"></div>
+  <p class="subhead">3. 敏感性分析 / 亚组分析</p>
+  <div class="fill-block"></div>
+  <p class="subhead">4. 统计模型、软件与脚本环境</p>
+  <div class="fill-block"></div>
+
+  <h2>八、伦理、合规与数据安全</h2>
+  <table>
+    <tr>
+      <th>本地伦理审批状态</th>
+      <td><span class="blank"></span></td>
+    </tr>
+    <tr>
+      <th>去标识化说明</th>
+      <td><span class="blank wide"></span></td>
+    </tr>
+    <tr>
+      <th>数据存储与访问控制</th>
+      <td><span class="blank wide"></span></td>
+    </tr>
+    <tr>
+      <th>潜在风险与控制措施</th>
+      <td><span class="blank wide"></span></td>
+    </tr>
+  </table>
+
+  <h2>九、预期产出与协作安排</h2>
+  <p class="subhead">1. 预期成果形式（论文、会议摘要、报告、工具或数据产品）</p>
+  <div class="fill-block"></div>
+  <p class="subhead">2. 贡献记录、署名与共享安排</p>
+  <div class="fill-block"></div>
+  <p class="subhead">3. 关键时间节点</p>
+  <div class="fill-block"></div>
+
+  <h2>十、附件清单</h2>
+  <p>请附上与本研究计划相关的支持材料，例如：</p>
+  <ul>
+    <li>参考文献</li>
+    <li>变量清单或字段映射表</li>
+    <li>分析流程图或预处理说明</li>
+    <li>补充统计方案</li>
+    <li>其他需要协调组审阅的文件</li>
+  </ul>
+
+  <p class="footer-note">说明：本模板用于立项申请与协作审核，不替代各参与单位本地伦理审批、数据出境审查或内部科研管理流程。</p>
+</div>
+</body>
+</html>

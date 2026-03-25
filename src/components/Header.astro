@@ -1,5 +1,6 @@
 ---
 import { siteData } from "../data/site";
+import { downloadEntries } from "../data/downloads";
 
 type Props = {
   currentPath: string;
@@ -43,7 +44,38 @@ const navigationLinks = siteData.navigation.filter((item) => !item.hidden);
         </ul>
       </nav>
 
-      <div class="flex justify-end shrink-0">
+      <div class="flex justify-end shrink-0 items-center gap-3">
+        <details class="nav-download hidden lg:block" data-download-menu>
+          <summary class="btn-secondary nav-download-trigger whitespace-nowrap">
+            下载
+            <svg
+              class="nav-download-chevron"
+              width="14"
+              height="14"
+              viewBox="0 0 20 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </summary>
+
+          <div class="nav-download-menu">
+            {downloadEntries.map((item) => (
+              <a
+                href={item.href}
+                download={item.filename}
+                class="nav-download-item"
+                title={item.description}
+              >
+                <span>{item.label}</span>
+                <span aria-hidden="true">↓</span>
+              </a>
+            ))}
+          </div>
+        </details>
+
         <a href="/join-us" class="btn-primary whitespace-nowrap">
           加入我们
         </a>
@@ -78,6 +110,38 @@ const navigationLinks = siteData.navigation.filter((item) => !item.hidden);
               </li>
             ))}
             <li>
+              <details class="nav-mobile-download" data-download-menu>
+                <summary class="nav-mobile-download-trigger">
+                  <span>下载</span>
+                  <svg
+                    class="nav-download-chevron"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                  >
+                    <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+                  </svg>
+                </summary>
+
+                <div class="nav-mobile-download-menu">
+                  {downloadEntries.map((item) => (
+                    <a
+                      href={item.href}
+                      download={item.filename}
+                      class="nav-mobile-download-item"
+                      title={item.description}
+                    >
+                      <span>{item.label}</span>
+                      <span aria-hidden="true">↓</span>
+                    </a>
+                  ))}
+                </div>
+              </details>
+            </li>
+            <li>
                 <a href="/join-us" class="flex mt-3 justify-center items-center w-full btn-primary h-11 text-sm">加入我们</a>
             </li>
           </ul>
@@ -91,6 +155,54 @@ const navigationLinks = siteData.navigation.filter((item) => !item.hidden);
   (() => {
     const header = document.querySelector("[data-site-header]");
     if (!header) return;
+
+    const downloadMenus = Array.from(header.querySelectorAll("[data-download-menu]"));
+
+    const closeMenus = (activeMenu) => {
+      downloadMenus.forEach((menu) => {
+        if (menu !== activeMenu) {
+          menu.removeAttribute("open");
+        }
+      });
+    };
+
+    downloadMenus.forEach((menu) => {
+      menu.addEventListener("toggle", () => {
+        if (menu.hasAttribute("open")) {
+          closeMenus(menu);
+        }
+      });
+    });
+
+    header.querySelectorAll("[data-download-menu] a").forEach((link) => {
+      link.addEventListener("click", () => {
+        downloadMenus.forEach((menu) => menu.removeAttribute("open"));
+      });
+    });
+
+    document.addEventListener("click", (event) => {
+      const target = event.target;
+      if (!(target instanceof Node)) return;
+      if (!header.contains(target)) {
+        downloadMenus.forEach((menu) => menu.removeAttribute("open"));
+        return;
+      }
+
+      const clickedMenu = downloadMenus.find((menu) => menu.contains(target));
+      if (clickedMenu) {
+        closeMenus(clickedMenu);
+        return;
+      }
+
+      downloadMenus.forEach((menu) => menu.removeAttribute("open"));
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        downloadMenus.forEach((menu) => menu.removeAttribute("open"));
+      }
+    });
+
     const handleScroll = () => {
       if (window.scrollY > 12) {
         header.classList.add("is-scrolled");

@@ -216,6 +216,75 @@ h3,
   @apply border-accent text-ink-deep font-semibold;
 }
 
+.nav-download {
+  position: relative;
+}
+
+.nav-download > summary,
+.nav-mobile-download > summary {
+  list-style: none;
+}
+
+.nav-download > summary::-webkit-details-marker,
+.nav-mobile-download > summary::-webkit-details-marker {
+  display: none;
+}
+
+.nav-download-trigger {
+  gap: 0.45rem;
+}
+
+.nav-download-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 10px);
+  z-index: 20;
+  min-width: 220px;
+  padding: 0.5rem;
+  border: 1px solid rgba(215, 223, 219, 0.95);
+  border-radius: 18px;
+  background: rgba(252, 253, 252, 0.98);
+  box-shadow: 0 20px 40px rgba(16, 33, 50, 0.12);
+  backdrop-filter: blur(8px);
+}
+
+.nav-download-item,
+.nav-mobile-download-item {
+  @apply flex items-center justify-between rounded-xl px-3 py-2 text-sm font-medium text-text-secondary;
+  text-decoration: none;
+}
+
+.nav-download-item:hover,
+.nav-mobile-download-item:hover {
+  @apply bg-surface-alt text-ink-deep;
+}
+
+.nav-download-chevron {
+  transition: transform 180ms ease;
+}
+
+.nav-download[open] .nav-download-trigger {
+  border-color: var(--color-accent);
+  color: var(--color-accent-hover);
+}
+
+.nav-download[open] .nav-download-chevron,
+.nav-mobile-download[open] .nav-download-chevron {
+  transform: rotate(180deg);
+}
+
+.nav-mobile-download-trigger {
+  @apply flex min-h-11 w-full items-center justify-between rounded-lg px-3 text-[15px] font-medium text-text-secondary transition-colors hover:bg-surface-alt hover:text-ink-deep;
+}
+
+.nav-mobile-download[open] .nav-mobile-download-trigger {
+  @apply border border-border bg-surface-alt text-ink-deep;
+}
+
+.nav-mobile-download-menu {
+  @apply mt-2 grid gap-1 pl-3;
+}
+
 /* Limit Line Clamp */
 .line-clamp-2 {
   display: -webkit-box;
