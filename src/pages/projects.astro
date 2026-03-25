@@ -70,7 +70,13 @@ const placeholderCardClass =
   <section id="project-flow" class="page-wrap py-20 md:py-32 scroll-mt-24">
     <SectionHeading eyebrow="Workflow" title="项目申请流程" center={true} />
 
-    <div class="relative mx-auto mt-16 max-w-6xl md:mt-20">
+    <div class="mt-8 flex justify-center md:mt-10">
+      <button type="button" class="btn-secondary px-6">
+        下载研究计划
+      </button>
+    </div>
+
+    <div class="relative mx-auto mt-10 max-w-6xl md:mt-12">
       <div class="flow-axis hidden md:block" aria-hidden="true"></div>
       <div class="flow-axis-mobile md:hidden" aria-hidden="true"></div>
 
@@ -218,9 +224,9 @@ const placeholderCardClass =
       left: 50%;
       top: 0;
       bottom: 0;
-      width: 1px;
+      width: 2px;
       transform: translateX(-50%);
-      background: var(--color-border);
+      background: rgba(31, 107, 102, 0.28);
     }
 
     .flow-axis-mobile {
@@ -228,9 +234,9 @@ const placeholderCardClass =
       left: 22px;
       top: 0;
       bottom: 0;
-      width: 1px;
+      width: 2px;
       pointer-events: none;
-      background: var(--color-border);
+      background: rgba(31, 107, 102, 0.28);
     }
 
     .flow-node {
