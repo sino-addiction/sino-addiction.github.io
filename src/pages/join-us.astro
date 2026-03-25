@@ -49,7 +49,7 @@ const joinFlowMeta: Omit<JoinFlowStep, "title" | "description">[] = [
     phase: "数据调查",
     icon: "upload",
     direction: "left",
-    align: "end",
+    align: "start",
     action: {
       label: "填写数据调查表",
       href: "/site-survey/",
@@ -72,7 +72,7 @@ const joinFlowMeta: Omit<JoinFlowStep, "title" | "description">[] = [
     phase: "安全传输",
     icon: "share",
     direction: "left",
-    align: "end",
+    align: "start",
   },
   {
     phase: "中心处理",
@@ -84,7 +84,7 @@ const joinFlowMeta: Omit<JoinFlowStep, "title" | "description">[] = [
     phase: "研究开放",
     icon: "play",
     direction: "left",
-    align: "end",
+    align: "start",
   },
 ];
 
@@ -93,7 +93,7 @@ const joinFlowSteps = (page.data.steps ?? []).map((step, index): JoinFlowStep =>
     phase: `步骤 ${String(index + 1).padStart(2, "0")}`,
     icon: index % 2 === 0 ? "upload" : "play",
     direction: index % 2 === 0 ? "left" : "right",
-    align: index % 2 === 0 ? "end" : "start",
+    align: "start",
   };
 
   return {
@@ -135,10 +135,10 @@ const buttonClass = (variant: "primary" | "secondary") =>
     <div class="relative mx-auto mt-10 max-w-6xl md:mt-12" data-join-flow-timeline>
       <div class="flow-axis" aria-hidden="true"></div>
 
-      <div class="space-y-5 md:space-y-6">
+      <div class="space-y-4 md:space-y-5">
         {joinFlowSteps.map((step, index) => (
           <div data-reveal style={`--reveal-delay:${index * 110}ms;`}>
-            <div class="relative pl-12 md:hidden">
+            <div class="relative pl-10 md:hidden">
               <div class="flow-node flow-node--compact absolute left-0 top-4" data-join-flow-node>
                 <span class="flow-node-ring"></span>
                 <span class="flow-node-core">
@@ -178,7 +178,7 @@ const buttonClass = (variant: "primary" | "secondary") =>
               </article>
             </div>
 
-            <div class="hidden md:grid md:grid-cols-[minmax(0,1fr)_72px_minmax(0,1fr)] md:items-center md:gap-4">
+            <div class="hidden md:grid md:grid-cols-[minmax(0,1fr)_56px_minmax(0,1fr)] md:items-center md:gap-3">
               {step.direction === "left" ? (
                 <>
                   <article class={`${flowCardClass} md:justify-self-end`}>
@@ -413,14 +413,14 @@ const buttonClass = (variant: "primary" | "secondary") =>
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 68px;
-      height: 68px;
+      width: 64px;
+      height: 64px;
       z-index: 1;
     }
 
     .flow-node--compact {
-      width: 40px;
-      height: 40px;
+      width: 36px;
+      height: 36px;
     }
 
     .flow-node-ring {
@@ -437,26 +437,26 @@ const buttonClass = (variant: "primary" | "secondary") =>
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 46px;
-      height: 46px;
+      width: 44px;
+      height: 44px;
       border-radius: 9999px;
       background: var(--color-accent);
       color: white;
     }
 
     .flow-node--compact .flow-node-core {
-      width: 28px;
-      height: 28px;
+      width: 24px;
+      height: 24px;
     }
 
     .flow-node-core svg {
-      width: 20px;
-      height: 20px;
+      width: 18px;
+      height: 18px;
     }
 
     .flow-node--compact .flow-node-core svg {
-      width: 13px;
-      height: 13px;
+      width: 12px;
+      height: 12px;
     }
 
     [data-reveal] {
