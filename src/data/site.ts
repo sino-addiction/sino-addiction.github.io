@@ -2,6 +2,7 @@ export type SiteLink = {
   label: string;
   href: string;
   external?: boolean;
+  hidden?: boolean;
 };
 
 export type SiteStat = {
@@ -56,7 +57,7 @@ export const siteData: SiteData = {
   navigation: [
     { label: "首页", href: "/" },
     { label: "协作模式", href: "/collaboration" },
-    { label: "数据看板", href: "/dashboard" },
+    { label: "数据看板", href: "/dashboard", hidden: true },
     { label: "项目管理", href: "/working-groups" },
     { label: "研究成果", href: "/publications" },
     { label: "关于我们", href: "/about" },

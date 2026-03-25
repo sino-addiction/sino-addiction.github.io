@@ -14,6 +14,8 @@ const isActive = (href: string) => {
 
   return currentPath.startsWith(href);
 };
+
+const navigationLinks = siteData.navigation.filter((item) => !item.hidden);
 ---
 
 <header class="site-header" data-site-header>
@@ -31,7 +33,7 @@ const isActive = (href: string) => {
 
       <nav aria-label="主导航" class="min-w-0 h-full flex-1 flex justify-center">
         <ul class="flex min-w-0 items-center justify-center gap-2 whitespace-nowrap h-full">
-          {siteData.navigation.map((item) => (
+          {navigationLinks.map((item) => (
             <li class="h-full flex items-center">
               <a href={item.href} class:list={["nav-link", isActive(item.href) ? "nav-link-active" : ""]}>
                 {item.label}
@@ -60,7 +62,7 @@ const isActive = (href: string) => {
       <div class="mt-4 border-t border-border pt-4">
         <nav aria-label="移动端主导航">
           <ul class="grid gap-1">
-            {siteData.navigation.map((item) => (
+            {navigationLinks.map((item) => (
               <li>
                 <a
                   href={item.href}
