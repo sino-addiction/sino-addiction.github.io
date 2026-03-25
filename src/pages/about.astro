@@ -1,100 +1,54 @@
 ---
-import { getCollection, render } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Hero from "../components/Hero.astro";
 import SectionHeading from "../components/SectionHeading.astro";
-import TeamCard from "../components/TeamCard.astro";
-import NetworkMap from "../components/NetworkMap.astro";
 import { requirePage } from "../lib/content";
 
 const page = await requirePage("about");
-const { Content } = await render(page);
-const team = (await getCollection("team")).sort((a, b) => a.data.order - b.data.order);
 
-const institutionTypes = [
-  {
-    title: "高校与研究院",
-    description: "负责研究问题设计、方法验证与跨中心学术协作。",
-  },
-  {
-    title: "医疗机构",
-    description: "负责样本招募、临床评估与长期随访管理。",
-  },
-  {
-    title: "计算与数据团队",
-    description: "负责结构化处理、预处理管线和复现基础设施建设。",
-  },
+const profileFields = [
+  { label: "姓名", value: "待补充" },
+  { label: "单位", value: "待补充" },
+  { label: "研究方向", value: "待补充" },
+  { label: "联系方式", value: "待补充" },
 ];
 ---
 
 <BaseLayout title={page.data.title} description={page.data.description}>
   <Hero {...page.data.hero} compact={true} />
 
-  <!-- What is SANI -->
-  <section class="page-wrap section-shell">
-    <div class="grid gap-12 lg:grid-cols-2 lg:items-center">
-      <div class="flex flex-col h-full justify-center">
-        <SectionHeading eyebrow="What Is SANI" title="关于 SANI" description="SANI 是面向成瘾神经影像研究的多中心协作网络，强调规范治理、标准化处理和可复现研究流程。" />
-        <div class="prose-shell mt-8">
-          <Content />
-        </div>
-        <div class="mt-10 rounded-lg border-l-4 border-accent bg-surface-alt px-5 py-4 text-sm leading-relaxed text-ink-deep font-semibold shadow-sm">
-          联盟目标不是促成单次课题协作，而是持续沉淀可复用的研究数据与协作基础设施。
-        </div>
-      </div>
-      <div class="w-full">
-        <NetworkMap variant="compact" />
-      </div>
-    </div>
-  </section>
-
-  <!-- Positioning -->
-  <section class="page-wrap section-shell pt-0">
-    <SectionHeading eyebrow="Positioning" title="组织定位与协作边界" description="通过明确职责边界，降低多中心协作中的协作歧义和流程冲突。" center={true} />
-    <div class="mt-12 grid gap-8 lg:grid-cols-2">
-      <article class="surface-card flex flex-col p-8 md:p-10 border-t-4 border-t-accent">
-        <h3 class="text-[26px] leading-[34px] font-bold text-ink-deep mb-6">我们做什么</h3>
-        <ul class="space-y-4 text-[16px] leading-[1.6] text-text-secondary list-disc pl-5 marker:text-accent">
-          <li class="pl-2">建立可追踪的数据治理、合规审查与跨中心数据准入流程。</li>
-          <li class="pl-2">统一多中心质控与脑影像预处理协议。</li>
-          <li class="pl-2">支持基于联盟协作规则的联合分析与复现审查。</li>
-          <li class="pl-2">沉淀分析代码、技术文档和计算方法资产，服务长期开源社区。</li>
-        </ul>
-      </article>
-      <article class="surface-card flex flex-col p-8 md:p-10 border-t-4 border-t-status-planning">
-        <h3 class="text-[26px] leading-[34px] font-bold text-ink-deep mb-6">我们不做什么</h3>
-        <ul class="space-y-4 text-[16px] leading-[1.6] text-text-secondary list-disc pl-5 marker:text-status-planning">
-          <li class="pl-2">不提供绕过单位伦理与合规审批流程的数据访问通道。</li>
-          <li class="pl-2">不支持缺乏原始材料与预注册说明的封闭式分析产出。</li>
-          <li class="pl-2">不把多中心联盟平台等同于某个单中心的私有数据仓库。</li>
-          <li class="pl-2">不以短期数据堆砌替代长期一致的方法论基础设施建设。</li>
-        </ul>
-      </article>
-    </div>
-  </section>
-
   <!-- Collaboration Network -->
   <section class="page-wrap section-shell pt-0">
-    <SectionHeading eyebrow="Collaboration Network" title="参与机构与研究团队" description="以机构类型与核心成员共同支撑联盟研究运行。" />
-    <div class="mt-10 grid gap-10 lg:grid-cols-12">
-      
-      <div class="lg:col-span-4 flex flex-col gap-6">
-        {institutionTypes.map((item) => (
-          <article class="surface-card p-6 flex flex-col">
-            <h3 class="card-title">{item.title}</h3>
-            <p class="mt-3 text-[14px] leading-relaxed text-text-secondary">{item.description}</p>
-          </article>
-        ))}
-      </div>
-
-      <div class="lg:col-span-8">
-        <div class="grid gap-6 sm:grid-cols-2">
-          {team.map((entry) => (
-            <TeamCard entry={entry} />
+    <SectionHeading
+      eyebrow="Collaboration Network"
+      title="参与机构与研究团队"
+      description="目前仅展示右侧信息，左侧结构分类暂不展示。"
+      center={true}
+    />
+    <div class="mt-12 mx-auto grid max-w-5xl gap-6 md:grid-cols-2">
+      <article class="surface-card flex h-full flex-col border-t-4 border-t-accent p-8 md:p-10">
+        <span class="eyebrow mb-5 ring-1 ring-inset ring-accent/10 max-w-min">Profile</span>
+        <h3 class="card-title">我的信息</h3>
+        <p class="mt-4 text-[15px] leading-relaxed text-text-secondary">
+          这里保留真实信息位，不展示假名或示例资料。请在需要公开时补充实际内容。
+        </p>
+        <dl class="mt-6 grid gap-3 text-[15px] leading-relaxed">
+          {profileFields.map((field) => (
+            <div class="flex items-center justify-between gap-4 rounded-lg bg-surface-alt px-4 py-3">
+              <dt class="font-medium text-text-muted">{field.label}</dt>
+              <dd class="text-right font-semibold text-ink-deep">{field.value}</dd>
+            </div>
           ))}
-        </div>
-      </div>
-      
+        </dl>
+      </article>
+
+      <article class="surface-card flex h-full flex-col border-t-4 border-t-status-planning p-8 md:p-10">
+        <span class="eyebrow mb-5 ring-1 ring-inset ring-accent/10 max-w-min">Open Call</span>
+        <h3 class="card-title">期待您的加入</h3>
+        <p class="mt-4 text-[15px] leading-relaxed text-text-secondary">
+          期待您的加入。
+        </p>
+      </article>
     </div>
   </section>
 </BaseLayout>
