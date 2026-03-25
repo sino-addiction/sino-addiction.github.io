@@ -3,6 +3,6 @@ main = "src/index.ts"
 compatibility_date = "2026-03-25"
 
 [vars]
-MAIL_FROM = "SANI Survey <survey@mail.sino-addiction.org>"
+MAIL_FROM = "SANI Survey <survey@resend.sino-addiction.org>"
 MAIL_TO = "contact@sino-addiction.org"
 ALLOWED_ORIGINS = "http://localhost:4321,https://sino-addiction.github.io"
