@@ -2,6 +2,7 @@
 import { render } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Hero from "../components/Hero.astro";
+import ProcessIcon from "../components/ProcessIcon.astro";
 import SectionHeading from "../components/SectionHeading.astro";
 import { siteData } from "../data/site";
 import { requirePage } from "../lib/content";
@@ -9,402 +10,667 @@ import { requirePage } from "../lib/content";
 const page = await requirePage("collaboration");
 const { Content } = await render(page);
 
-const collaborationVisual = {
-  modalities: [
-    { label: "MRI", tone: "mri" },
-    { label: "EEG", tone: "eeg" },
-    { label: "fNIRS", tone: "fnirs" },
-  ],
-  sites: [
-    { name: "中心 A", note: "结构像与任务范式" },
-    { name: "中心 B", note: "脑电同步与行为数据" },
-    { name: "中心 N", note: "近红外与持续扩展接入" },
-  ],
-  steps: [
-    { title: "脱敏接入", note: "BIDS 与元数据整理" },
-    { title: "统一质控", note: "跨模态校准与核查" },
-    { title: "融合分析", note: "时空特征联合建模" },
-    { title: "协作产出", note: "论文、代码与衍生库" },
-  ],
-  outputs: ["数据集", "流程", "论文"],
-};
+const modalityLegend = [
+  { label: "MRI", tone: "mri" },
+  { label: "EEG", tone: "eeg" },
+  { label: "fNIRS", tone: "fnirs" },
+];
+
+const collaborationHubModules = [
+  { title: "任务与行为范式", note: "刺激范式对齐与事件标记规范", icon: "play", position: "top-left" },
+  { title: "多模态采集协议", note: "MRI、EEG 与 fNIRS 采集口径统一", icon: "upload", position: "top-right" },
+  { title: "BIDS 与元数据治理", note: "脱敏整理、字段映射与版本管理", icon: "database", position: "bottom-left" },
+  { title: "统一质控与跨中心校准", note: "模态内 QC 与跨站点一致性检查", icon: "check", position: "bottom-right" },
+] as const;
+
+const collaborationWorkflow = [
+  { title: "多中心接入", note: "统一纳入标准与元数据准备", icon: "upload" },
+  { title: "脱敏与 BIDS", note: "原始数据标准化整理与归档", icon: "database" },
+  { title: "统一质控", note: "跨站点一致性检查与校准", icon: "check" },
+  { title: "融合分析", note: "多模态联合建模与特征提取", icon: "share" },
+  { title: "协作产出", note: "数据、流程、代码与论文沉淀", icon: "play" },
+] as const;
+
+const collaborationOutputs = [
+  { title: "数据集", icon: "database" },
+  { title: "协议/流程", icon: "upload" },
+  { title: "代码/工具", icon: "share" },
+  { title: "论文/报告", icon: "play" },
+] as const;
 ---
 
 <BaseLayout title={page.data.title} description={page.data.description}>
-  <!-- Compact Hero -->
   <Hero title={page.data.title} subtitle={page.data.description} compact={true} />
 
-  <section class="page-wrap pb-20 md:pb-24">
-    <div class="max-w-6xl mx-auto">
+  <section class="page-wrap pb-20 md:pb-28">
+    <div class="max-w-[1320px] mx-auto">
       <SectionHeading
-        eyebrow="Multimodal"
-        title="多模态协作测量"
-        description="用实体图、流程图与图标把多中心采集、MRI/EEG/fNIRS 联合测量以及后续协作分析放在同一张视觉框架里。"
+        eyebrow="Framework"
+        title="SANI 多中心多模态协作框架"
+        description="以多中心参与网络、统一协议与数据治理中枢、联合分析工作流三部分呈现 SANI 的协作机制。"
         center={true}
       />
 
-      <div class="collaboration-visual-shell mt-10 md:mt-12 rounded-[32px] border border-border/80 p-4 md:p-6 shadow-[0_18px_48px_rgba(16,33,50,0.06)]">
-        <div class="collaboration-visual-core rounded-[28px] border border-white/80 px-4 py-5 md:px-6 md:py-7">
-          <div class="flex flex-wrap items-center justify-center gap-2 md:gap-3">
-            {collaborationVisual.modalities.map((item) => (
-              <span class:list={["modality-chip", `modality-chip-${item.tone}`]}>{item.label}</span>
-            ))}
-          </div>
+      <div class="collaboration-visual-shell mt-10 md:mt-12 rounded-[36px] border border-border/80 p-4 md:p-6 lg:p-7 shadow-[0_18px_48px_rgba(16,33,50,0.06)]">
+        <div class="grid gap-4 lg:grid-cols-[minmax(280px,1fr)_72px_minmax(380px,1.18fr)_72px_minmax(280px,1fr)] lg:items-stretch">
+          <article class="framework-panel">
+            <span class="panel-label">多中心参与网络</span>
+            <h3 class="panel-title mt-4">覆盖全国的协作节点</h3>
+            <p class="panel-description mt-3">覆盖 MRI、EEG 与 fNIRS 的跨中心协作节点，先完成本地伦理与元数据准备，再进入联盟统一标准化流程。</p>
 
-          <div class="mt-6 hidden md:block">
-            <svg
-              viewBox="0 0 1200 560"
-              class="w-full h-auto"
-              role="img"
-              aria-label="多中心 MRI、EEG 与 fNIRS 协作测量和分析流程图"
-            >
-              <defs>
-                <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
-                  <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#102132" flood-opacity="0.08" />
-                </filter>
-                <linearGradient id="panelGlow" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stop-color="#ffffff" stop-opacity="0.92" />
-                  <stop offset="100%" stop-color="#f4f8f6" stop-opacity="0.98" />
-                </linearGradient>
-                <linearGradient id="accentLine" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0%" stop-color="#9bbdb9" />
-                  <stop offset="100%" stop-color="#1F6B66" />
-                </linearGradient>
-                <marker id="flowArrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
-                  <path d="M1 1 10 6 1 11" fill="none" stroke="#1F6B66" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
-                </marker>
-              </defs>
-
-              <rect x="8" y="8" width="1184" height="544" rx="30" fill="url(#panelGlow)" />
-              <circle cx="1088" cy="86" r="56" fill="#e3eeea" opacity="0.55" />
-              <circle cx="178" cy="488" r="72" fill="#eef4f2" opacity="0.92" />
-              <path d="M736 36c88 24 154 72 202 144" fill="none" stroke="#dbe8e3" stroke-width="2" stroke-dasharray="5 8" />
-
-              <g filter="url(#softShadow)">
-                <rect x="44" y="70" width="240" height="108" rx="24" fill="#fcfdfc" stroke="#d7dfdb" stroke-width="2" />
-                <rect x="44" y="226" width="240" height="108" rx="24" fill="#fcfdfc" stroke="#d7dfdb" stroke-width="2" />
-                <rect x="44" y="382" width="240" height="108" rx="24" fill="#fcfdfc" stroke="#d7dfdb" stroke-width="2" />
-
-                <g stroke="#22384B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none">
-                  <rect x="64" y="95" width="52" height="52" rx="16" fill="#f6faf8" />
-                  <path d="M78 126h24M82 116h4M92 116h4M102 116h4M82 106h4M92 106h4M102 106h4M90 95v10" />
-                  <circle cx="145" cy="120" r="24" fill="#f6faf8" />
-                  <path d="M131 122c4-12 24-12 28 0M132 128c6 8 20 8 26 0M139 110c1 7 9 7 10 0M151 110c1 7 9 7 10 0" />
-
-                  <rect x="64" y="251" width="52" height="52" rx="16" fill="#f6faf8" />
-                  <path d="M78 282h24M82 272h4M92 272h4M102 272h4M82 262h4M92 262h4M102 262h4M90 251v10" />
-                  <circle cx="145" cy="276" r="24" fill="#f6faf8" />
-                  <path d="M131 278c4-12 24-12 28 0M132 284c6 8 20 8 26 0M139 266c1 7 9 7 10 0M151 266c1 7 9 7 10 0" />
-
-                  <rect x="64" y="407" width="52" height="52" rx="16" fill="#f6faf8" />
-                  <path d="M78 438h24M82 428h4M92 428h4M102 428h4M82 418h4M92 418h4M102 418h4M90 407v10" />
-                  <circle cx="145" cy="432" r="24" fill="#f6faf8" />
-                  <path d="M131 434c4-12 24-12 28 0M132 440c6 8 20 8 26 0M139 422c1 7 9 7 10 0M151 422c1 7 9 7 10 0" />
-                </g>
-
-                <g font-family="Inter, Noto Sans SC, sans-serif" fill="#102132">
-                  <text x="188" y="108" font-size="14" font-weight="700">中心 A</text>
-                  <text x="188" y="130" font-size="12" fill="#4F6373">结构像与任务范式</text>
-                  <text x="188" y="264" font-size="14" font-weight="700">中心 B</text>
-                  <text x="188" y="286" font-size="12" fill="#4F6373">脑电同步与行为数据</text>
-                  <text x="188" y="420" font-size="14" font-weight="700">中心 N</text>
-                  <text x="188" y="442" font-size="12" fill="#4F6373">近红外与持续扩展接入</text>
-                </g>
-
-                <g font-family="Inter, Noto Sans SC, sans-serif" font-size="11" font-weight="700">
-                  <rect x="188" y="146" width="40" height="20" rx="10" fill="#e6eef8" />
-                  <rect x="232" y="146" width="42" height="20" rx="10" fill="#e6f3f0" />
-                  <rect x="188" y="302" width="40" height="20" rx="10" fill="#e6eef8" />
-                  <rect x="232" y="302" width="42" height="20" rx="10" fill="#e6f3f0" />
-                  <rect x="188" y="458" width="40" height="20" rx="10" fill="#e6eef8" />
-                  <rect x="232" y="458" width="42" height="20" rx="10" fill="#f7ecdd" />
-                  <text x="208" y="160" text-anchor="middle" fill="#31597a">MRI</text>
-                  <text x="253" y="160" text-anchor="middle" fill="#1F6B66">EEG</text>
-                  <text x="208" y="316" text-anchor="middle" fill="#31597a">MRI</text>
-                  <text x="253" y="316" text-anchor="middle" fill="#1F6B66">EEG</text>
-                  <text x="208" y="472" text-anchor="middle" fill="#31597a">MRI</text>
-                  <text x="253" y="472" text-anchor="middle" fill="#a16e2c">fNIRS</text>
-                </g>
-              </g>
-
-              <path d="M284 124C322 124 336 148 352 198" fill="none" stroke="url(#accentLine)" stroke-width="2.4" stroke-linecap="round" />
-              <path d="M284 280C332 280 340 276 352 280" fill="none" stroke="url(#accentLine)" stroke-width="2.4" stroke-linecap="round" />
-              <path d="M284 436C322 436 336 412 352 362" fill="none" stroke="url(#accentLine)" stroke-width="2.4" stroke-linecap="round" />
-
-              <g filter="url(#softShadow)">
-                <rect x="354" y="52" width="426" height="456" rx="34" fill="#fcfdfc" stroke="#d7dfdb" stroke-width="2" />
-                <text x="387" y="92" font-family="Inter, Noto Sans SC, sans-serif" font-size="16" font-weight="700" fill="#102132">多模态采集实体图</text>
-                <text x="387" y="116" font-family="Inter, Noto Sans SC, sans-serif" font-size="12" fill="#4F6373">MRI、EEG 与 fNIRS 在同一研究框架内同步设计</text>
-
-                <rect x="387" y="136" width="52" height="22" rx="11" fill="#e6eef8" />
-                <rect x="447" y="136" width="52" height="22" rx="11" fill="#e6f3f0" />
-                <rect x="507" y="136" width="58" height="22" rx="11" fill="#f7ecdd" />
-                <text x="413" y="151" text-anchor="middle" font-family="Inter, Noto Sans SC, sans-serif" font-size="11" font-weight="700" fill="#31597a">MRI</text>
-                <text x="473" y="151" text-anchor="middle" font-family="Inter, Noto Sans SC, sans-serif" font-size="11" font-weight="700" fill="#1F6B66">EEG</text>
-                <text x="536" y="151" text-anchor="middle" font-family="Inter, Noto Sans SC, sans-serif" font-size="11" font-weight="700" fill="#a16e2c">fNIRS</text>
-
-                <ellipse cx="562" cy="286" rx="154" ry="190" fill="#f4f8f6" stroke="#c7d7d2" stroke-width="3" />
-                <ellipse cx="562" cy="286" rx="124" ry="156" fill="none" stroke="#95bcb7" stroke-width="2" stroke-dasharray="9 7" />
-                <ellipse cx="562" cy="286" rx="96" ry="120" fill="#fcfdfc" stroke="#22384B" stroke-width="2.5" />
-                <rect x="518" y="396" width="88" height="48" rx="24" fill="#f8fbfa" stroke="#22384B" stroke-width="2.5" />
-                <circle cx="471" cy="286" r="10" fill="#f8fbfa" stroke="#22384B" stroke-width="2" />
-                <circle cx="653" cy="286" r="10" fill="#f8fbfa" stroke="#22384B" stroke-width="2" />
-
-                <path d="M514 251c18-18 64-18 82 0 18 18 18 58 0 86-20 30-62 42-82 28-22-14-30-40-30-72 0-16 8-30 30-42Z" fill="#edf3f1" stroke="#22384B" stroke-width="2" />
-                <path d="M522 286c8-22 34-34 58-28 24 6 36 24 34 52M520 326c22 18 60 16 82-6" fill="none" stroke="#1F6B66" stroke-width="2.5" stroke-linecap="round" />
-                <path d="M520 210c14-10 34-16 52-16 18 0 38 6 52 16" fill="none" stroke="#1F6B66" stroke-width="2.2" stroke-linecap="round" />
-                <path d="M448 214c18-20 34-24 56-24 24 0 42 8 58 20 16 12 34 18 62 18" fill="none" stroke="#1F6B66" stroke-width="2.2" stroke-linecap="round" />
-                <path d="M438 230c28 0 42 14 60 14 18 0 30-14 48-14 18 0 26 14 44 14 18 0 30-14 48-14 18 0 26 10 38 18" fill="none" stroke="#1F6B66" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
-
-                <g fill="#1F6B66" stroke="#ffffff" stroke-width="1.5">
-                  <circle cx="496" cy="216" r="6" />
-                  <circle cx="520" cy="202" r="6" />
-                  <circle cx="550" cy="194" r="6" />
-                  <circle cx="580" cy="194" r="6" />
-                  <circle cx="608" cy="202" r="6" />
-                  <circle cx="632" cy="216" r="6" />
-                </g>
-
-                <g fill="#d89a3f" stroke="#ffffff" stroke-width="1.5">
-                  <circle cx="606" cy="244" r="7" />
-                  <circle cx="628" cy="256" r="7" />
-                  <circle cx="628" cy="286" r="7" />
-                  <circle cx="606" cy="298" r="7" />
-                </g>
-                <g stroke="#d89a3f" stroke-width="2" stroke-linecap="round">
-                  <path d="M606 244 628 256" />
-                  <path d="M628 256 628 286" />
-                  <path d="M628 286 606 298" />
-                  <path d="M606 298 590 280" />
-                </g>
-
-                <rect x="392" y="355" width="94" height="72" rx="20" fill="#f6faf8" stroke="#d7dfdb" stroke-width="2" />
-                <path d="M410 390c8-12 14-12 22 0s14 12 22 0 14-12 22 0" fill="none" stroke="#1F6B66" stroke-width="2.4" stroke-linecap="round" />
-                <text x="439" y="376" text-anchor="middle" font-family="Inter, Noto Sans SC, sans-serif" font-size="11" font-weight="700" fill="#1F6B66">EEG</text>
-
-                <rect x="637" y="355" width="104" height="72" rx="20" fill="#fbf7ef" stroke="#e6d3b2" stroke-width="2" />
-                <path d="M660 399c10-18 18-26 32-34M688 391c8-16 18-24 30-30" fill="none" stroke="#d89a3f" stroke-width="2.4" stroke-linecap="round" />
-                <circle cx="658" cy="401" r="5" fill="#d89a3f" />
-                <circle cx="684" cy="393" r="5" fill="#d89a3f" />
-                <circle cx="710" cy="377" r="5" fill="#d89a3f" />
-                <text x="689" y="376" text-anchor="middle" font-family="Inter, Noto Sans SC, sans-serif" font-size="11" font-weight="700" fill="#a16e2c">fNIRS</text>
-
-                <rect x="500" y="448" width="124" height="26" rx="13" fill="#e6eef8" />
-                <text x="562" y="466" text-anchor="middle" font-family="Inter, Noto Sans SC, sans-serif" font-size="11" font-weight="700" fill="#31597a">MRI 扫描与统一序列</text>
-              </g>
-
-              <path d="M780 280H816" fill="none" stroke="#1F6B66" stroke-width="2.4" stroke-linecap="round" marker-end="url(#flowArrow)" />
-
-              <g filter="url(#softShadow)">
-                <rect x="820" y="52" width="336" height="456" rx="34" fill="#fcfdfc" stroke="#d7dfdb" stroke-width="2" />
-                <text x="852" y="92" font-family="Inter, Noto Sans SC, sans-serif" font-size="16" font-weight="700" fill="#102132">协作流程</text>
-                <text x="852" y="116" font-family="Inter, Noto Sans SC, sans-serif" font-size="12" fill="#4F6373">从脱敏接入到联合产出，保持跨站点方法一致性</text>
-
-                <rect x="850" y="144" width="122" height="96" rx="22" fill="#f6faf8" stroke="#d7dfdb" stroke-width="2" />
-                <rect x="1002" y="144" width="122" height="96" rx="22" fill="#f6faf8" stroke="#d7dfdb" stroke-width="2" />
-                <rect x="850" y="266" width="122" height="96" rx="22" fill="#f6faf8" stroke="#d7dfdb" stroke-width="2" />
-                <rect x="1002" y="266" width="122" height="96" rx="22" fill="#f6faf8" stroke="#d7dfdb" stroke-width="2" />
-
-                <g stroke="#1F6B66" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none">
-                  <path d="M877 176h28M891 162v28M1032 167h28M1032 183h28M893 292l16 16 26-30M1032 294h22M1032 306h22M1032 318h22" />
-                </g>
-
-                <g font-family="Inter, Noto Sans SC, sans-serif" fill="#102132">
-                  <text x="911" y="202" text-anchor="middle" font-size="14" font-weight="700">脱敏接入</text>
-                  <text x="911" y="223" text-anchor="middle" font-size="11" fill="#4F6373">BIDS 与元数据</text>
-                  <text x="1063" y="202" text-anchor="middle" font-size="14" font-weight="700">统一质控</text>
-                  <text x="1063" y="223" text-anchor="middle" font-size="11" fill="#4F6373">跨模态校准</text>
-                  <text x="911" y="324" text-anchor="middle" font-size="14" font-weight="700">融合分析</text>
-                  <text x="911" y="345" text-anchor="middle" font-size="11" fill="#4F6373">联合特征建模</text>
-                  <text x="1063" y="324" text-anchor="middle" font-size="14" font-weight="700">协作产出</text>
-                  <text x="1063" y="345" text-anchor="middle" font-size="11" fill="#4F6373">论文、代码、衍生库</text>
-                </g>
-
-                <path d="M972 192H998" fill="none" stroke="#1F6B66" stroke-width="2" marker-end="url(#flowArrow)" />
-                <path d="M1063 240v20" fill="none" stroke="#1F6B66" stroke-width="2" marker-end="url(#flowArrow)" />
-                <path d="M1002 314H976" fill="none" stroke="#1F6B66" stroke-width="2" marker-end="url(#flowArrow)" />
-
-                <path d="M911 362v26" fill="none" stroke="#1F6B66" stroke-width="2" marker-end="url(#flowArrow)" />
-
-                <rect x="852" y="398" width="270" height="74" rx="24" fill="#f7faf8" stroke="#d7dfdb" stroke-width="2" />
-                <g font-family="Inter, Noto Sans SC, sans-serif">
-                  <circle cx="912" cy="435" r="18" fill="#e6eef8" />
-                  <ellipse cx="912" cy="431" rx="11" ry="5" fill="none" stroke="#31597a" stroke-width="1.8" />
-                  <path d="M901 431v8c0 3 5 5 11 5s11-2 11-5v-8" fill="none" stroke="#31597a" stroke-width="1.8" />
-                  <text x="912" y="462" text-anchor="middle" font-size="11" font-weight="700" fill="#31597a">数据集</text>
-
-                  <circle cx="988" cy="435" r="18" fill="#e6f3f0" />
-                  <path d="M979 440h18M988 431v18" fill="none" stroke="#1F6B66" stroke-width="1.8" stroke-linecap="round" />
-                  <text x="988" y="462" text-anchor="middle" font-size="11" font-weight="700" fill="#1F6B66">流程</text>
-
-                  <circle cx="1064" cy="435" r="18" fill="#f7ecdd" />
-                  <path d="M1055 426h12M1055 432h12M1055 438h12" fill="none" stroke="#a16e2c" stroke-width="1.8" stroke-linecap="round" />
-                  <text x="1064" y="462" text-anchor="middle" font-size="11" font-weight="700" fill="#a16e2c">论文</text>
-                </g>
-              </g>
-            </svg>
-          </div>
-
-          <div class="mt-6 grid gap-4 md:hidden">
-            <div class="rounded-[24px] border border-border/70 bg-white/85 p-4 shadow-[0_10px_28px_rgba(16,33,50,0.06)]">
-              <div class="flex items-center justify-between gap-3">
-                <div>
-                  <p class="text-[12px] font-semibold uppercase tracking-[0.14em] text-accent">Core Visual</p>
-                  <h3 class="mt-1 text-[20px] font-bold text-ink-deep">多模态采集实体图</h3>
+            <div class="network-map-frame mt-6">
+              <img src="/assets/china-map.svg" alt="SANI 多中心参与网络地图" class="network-map-image" />
+              {siteData.networkMap.map((point) => (
+                <div class="network-map-node" style={`left:${point.x}%; top:${point.y * 700 / 950}%`} aria-label={`${point.city} ${point.count}`}>
+                  <span class="network-map-dot"></span>
+                  <span
+                    class:list={[
+                      "network-map-label",
+                      point.dir === "top" && "network-map-label-top",
+                      point.dir === "right" && "network-map-label-right",
+                      point.dir === "bottom" && "network-map-label-bottom",
+                      point.dir === "left" && "network-map-label-left",
+                    ]}
+                  >
+                    <strong>{point.city}</strong>
+                    <span>{point.count}</span>
+                  </span>
                 </div>
-                <span class="rounded-full border border-accent/15 bg-accent/5 px-3 py-1 text-[12px] font-semibold text-accent">MRI + EEG + fNIRS</span>
-              </div>
-
-              <div class="mt-4 overflow-hidden rounded-[22px] border border-border/60 bg-[linear-gradient(180deg,#f8fbfa_0%,#f2f7f5_100%)] p-4">
-                <svg viewBox="0 0 320 220" class="w-full h-auto" role="img" aria-label="移动端多模态测量示意图">
-                  <ellipse cx="160" cy="112" rx="94" ry="104" fill="#f4f8f6" stroke="#c7d7d2" stroke-width="2.5" />
-                  <ellipse cx="160" cy="112" rx="72" ry="84" fill="#fcfdfc" stroke="#22384B" stroke-width="2.2" />
-                  <path d="M115 66c18-14 34-18 45-18 11 0 27 4 45 18" fill="none" stroke="#1F6B66" stroke-width="2.5" stroke-linecap="round" />
-                  <path d="M92 82c20 0 30 12 42 12 12 0 22-12 34-12 12 0 22 12 34 12s22-12 34-12 22 8 32 14" fill="none" stroke="#1F6B66" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-                  <g fill="#1F6B66" stroke="#ffffff" stroke-width="1.3">
-                    <circle cx="116" cy="66" r="5" />
-                    <circle cx="138" cy="56" r="5" />
-                    <circle cx="160" cy="52" r="5" />
-                    <circle cx="182" cy="56" r="5" />
-                    <circle cx="204" cy="66" r="5" />
-                  </g>
-                  <path d="M136 112c8-20 34-28 56-22 18 5 28 18 30 40M134 146c20 14 48 12 66-6" fill="none" stroke="#1F6B66" stroke-width="2.5" stroke-linecap="round" />
-                  <g fill="#d89a3f" stroke="#ffffff" stroke-width="1.2">
-                    <circle cx="196" cy="96" r="6" />
-                    <circle cx="212" cy="110" r="6" />
-                    <circle cx="210" cy="132" r="6" />
-                    <circle cx="194" cy="144" r="6" />
-                  </g>
-                  <rect x="98" y="176" width="124" height="26" rx="13" fill="#e6eef8" />
-                  <text x="160" y="193" text-anchor="middle" font-family="Inter, Noto Sans SC, sans-serif" font-size="12" font-weight="700" fill="#31597a">统一采集与协作分析</text>
-                </svg>
-              </div>
+              ))}
             </div>
 
-            <div class="grid gap-3">
-              {collaborationVisual.sites.map((site) => (
-                <article class="rounded-[22px] border border-border/70 bg-white/85 p-4 shadow-[0_10px_28px_rgba(16,33,50,0.06)]">
-                  <div class="flex items-start justify-between gap-3">
-                    <div>
-                      <h3 class="text-[18px] font-bold text-ink-deep">{site.name}</h3>
-                      <p class="mt-1 text-[14px] leading-relaxed text-text-secondary">{site.note}</p>
-                    </div>
-                    <div class="flex h-11 w-11 items-center justify-center rounded-2xl border border-border/70 bg-surface-alt/70 text-accent">
-                      <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" aria-hidden="true">
-                        <path d="M5 20V6.5h14V20M9 6.5v-3h6v3M8 11h1M11.5 11h1M15 11h1M8 15h1M11.5 15h1M15 15h1" />
-                      </svg>
-                    </div>
+            <div class="mt-6 flex flex-wrap gap-2">
+              {modalityLegend.map((item) => (
+                <span class:list={["modality-chip", `modality-chip-${item.tone}`]}>{item.label}</span>
+              ))}
+            </div>
+
+            <div class="network-footnote mt-5">
+              <span class="network-footnote-icon" aria-hidden="true"><ProcessIcon name="upload" class="h-5 w-5" /></span>
+              <span>各中心保留原始数据，仅将去标识化、标准化副本接入联盟协作流程。</span>
+            </div>
+          </article>
+
+          <div class="framework-connector hidden lg:flex" aria-hidden="true">
+            <span class="framework-connector-pill">标准化接入</span>
+            <span class="framework-connector-line"></span>
+            <span class="framework-connector-arrow">→</span>
+          </div>
+
+          <article class:list={["framework-panel", "framework-panel-highlight"]}>
+            <span class="panel-label">统一协议与数据治理</span>
+            <h3 class="panel-title mt-4">让多中心与多模态进入同一协作框架</h3>
+            <p class="panel-description mt-3">在统一任务、协议、标准与质控框架下，实现跨站点一致性，确保后续联合分析可比较、可复现、可扩展。</p>
+
+            <div class="hub-desktop mt-8 hidden md:block">
+              <svg class="hub-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+                <path d="M24 22C34 26 42 34 50 50" />
+                <path d="M76 22C66 26 58 34 50 50" />
+                <path d="M24 78C34 74 42 66 50 50" />
+                <path d="M76 78C66 74 58 66 50 50" />
+                <circle cx="50" cy="50" r="18" />
+              </svg>
+
+              <div class="hub-core">
+                <span class="hub-core-kicker">SANI</span>
+                <h4 class="hub-core-title">协作中枢</h4>
+                <p class="hub-core-note">统一协议 · 数据治理 · MRI / EEG / fNIRS</p>
+              </div>
+
+              {collaborationHubModules.map((module) => (
+                <article class:list={["hub-module-card", `hub-module-${module.position}`]}>
+                  <span class="hub-module-icon" aria-hidden="true"><ProcessIcon name={module.icon} class="h-5 w-5" /></span>
+                  <h4 class="hub-module-title">{module.title}</h4>
+                  <p class="hub-module-note">{module.note}</p>
+                </article>
+              ))}
+            </div>
+
+            <div class="mt-6 grid gap-3 md:hidden">
+              <div class="hub-core hub-core-mobile">
+                <span class="hub-core-kicker">SANI</span>
+                <h4 class="hub-core-title">协作中枢</h4>
+                <p class="hub-core-note">统一协议 · 数据治理 · MRI / EEG / fNIRS</p>
+              </div>
+
+              {collaborationHubModules.map((module) => (
+                <article class="hub-module-card-mobile">
+                  <span class="hub-module-icon" aria-hidden="true"><ProcessIcon name={module.icon} class="h-5 w-5" /></span>
+                  <div>
+                    <h4 class="hub-module-title">{module.title}</h4>
+                    <p class="hub-module-note">{module.note}</p>
                   </div>
-                  <div class="mt-3 flex flex-wrap gap-2">
-                    {collaborationVisual.modalities.map((item) => (
-                      <span class:list={["modality-chip", `modality-chip-${item.tone}`]}>{item.label}</span>
-                    ))}
+                </article>
+              ))}
+            </div>
+          </article>
+
+          <div class="framework-connector hidden lg:flex" aria-hidden="true">
+            <span class="framework-connector-pill">联合分析</span>
+            <span class="framework-connector-line"></span>
+            <span class="framework-connector-arrow">→</span>
+          </div>
+
+          <article class="framework-panel">
+            <span class="panel-label">联合分析与协作产出</span>
+            <h3 class="panel-title mt-4">从标准化接入到开放产出</h3>
+            <p class="panel-description mt-3">流程保持单向推进，避免跨站点分析中的协议漂移与数据口径偏差，让结果更稳定地沉淀为共享资源。</p>
+
+            <div class="workflow-stack mt-6">
+              <div class="workflow-rail" aria-hidden="true"></div>
+              {collaborationWorkflow.map((step, idx) => (
+                <article class="workflow-step">
+                  <span class="workflow-step-icon" aria-hidden="true"><ProcessIcon name={step.icon} class="h-5 w-5" /></span>
+                  <div class="workflow-step-body">
+                    <span class="workflow-step-index">0{idx + 1}</span>
+                    <h4 class="workflow-step-title">{step.title}</h4>
+                    <p class="workflow-step-note">{step.note}</p>
                   </div>
                 </article>
               ))}
             </div>
 
-            <div class="grid gap-3 sm:grid-cols-2">
-              {collaborationVisual.steps.map((step, idx) => (
-                <article class="rounded-[22px] border border-border/70 bg-white/85 p-4 shadow-[0_10px_28px_rgba(16,33,50,0.06)]">
-                  <div class="flex items-center justify-between gap-3">
-                    <span class="text-[13px] font-semibold uppercase tracking-[0.14em] text-accent">0{idx + 1}</span>
-                    <span class="h-2.5 w-2.5 rounded-full bg-accent/70"></span>
-                  </div>
-                  <h3 class="mt-3 text-[18px] font-bold text-ink-deep">{step.title}</h3>
-                  <p class="mt-1 text-[14px] leading-relaxed text-text-secondary">{step.note}</p>
-                </article>
-              ))}
+            <div class="outputs-shell mt-6">
+              <span class="outputs-label">协作产出</span>
+              <div class="outputs-grid mt-4">
+                {collaborationOutputs.map((item) => (
+                  <article class="output-card">
+                    <span class="output-icon" aria-hidden="true"><ProcessIcon name={item.icon} class="h-5 w-5" /></span>
+                    <span class="output-title">{item.title}</span>
+                  </article>
+                ))}
+              </div>
             </div>
-          </div>
+          </article>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- The Core Process Flow - Moved from Homepage -->
-  <section class="page-wrap pt-8 pb-20 md:pt-10 md:pb-32">
-    <SectionHeading eyebrow="Workflow" title="协作与产出链路" description="通过标准化预处理与质量控制，为跨中心协同扫除方法偏差。" center={true} />
-    
-    <div class="mt-20 max-w-5xl mx-auto hidden md:block relative">
-      <!-- Horizontal line connector -->
-      <div class="absolute top-[40px] left-[15%] right-[15%] h-[1px] bg-border/60 z-0"></div>
-      
-      <div class="grid grid-cols-4 gap-8 relative z-10">
-        {siteData.collaborationFlow.map((step, idx) => (
-          <div class="flex flex-col items-center text-center group">
-            <div class="w-[82px] h-[82px] rounded-full bg-surface border-border/80 border flex items-center justify-center text-[22px] font-bold text-ink-deep mb-8 group-hover:border-accent group-hover:text-accent transition-all duration-300 shadow-sm relative overflow-hidden">
-               <span class="relative z-10">0{idx + 1}</span>
-               <div class="absolute inset-0 bg-accent/5 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
-            </div>
-            <h3 class="text-[19px] font-bold text-ink-deep mb-4">{step}</h3>
-            <p class="text-[14px] leading-relaxed text-text-secondary px-2 opacity-80 group-hover:opacity-100 transition-opacity">
-              {idx === 0 && "支持多中心影像与量表数据依照规范安全汇聚。"}
-              {idx === 1 && "执行自动化预处理管道，确保数据维度的一致性。"}
-              {idx === 2 && "发起科学假说驱动的联合分析并在联盟审查备案。"}
-              {idx === 3 && "沉淀高复用代码、多中心论著与公共转化成果。"}
-            </p>
-          </div>
-        ))}
-      </div>
-    </div>
-
-    <!-- Mobile Vertical Flow -->
-    <div class="mt-14 md:hidden flex flex-col gap-12 relative">
-      <div class="absolute left-[31px] top-4 bottom-4 w-[1px] bg-border z-0"></div>
-      {siteData.collaborationFlow.map((step, idx) => (
-        <div class="flex items-start gap-6 relative z-10">
-          <div class="w-[62px] h-[62px] shrink-0 rounded-full bg-surface border border-border flex items-center justify-center text-[18px] font-bold text-ink-deep shadow-sm">0{idx+1}</div>
-          <div class="pt-2">
-            <h3 class="text-[18px] font-bold text-ink-deep mb-2">{step}</h3>
-            <p class="text-[15px] leading-relaxed text-text-secondary">
-               {idx === 0 && "支持多中心影像与量表数据依照规范安全汇聚。"}
-               {idx === 1 && "执行自动化预处理管道，确保数据维度的一致性。"}
-               {idx === 2 && "发起科学假说驱动的联合分析并在联盟审查备案。"}
-               {idx === 3 && "沉淀高复用代码、多中心论著与公共转化成果。"}
-            </p>
-          </div>
-        </div>
-      ))}
-    </div>
-  </section>
-
-  <!-- Detail Governance Section -->
   <section class="bg-surface-alt/40 py-24 md:py-32">
-     <div class="page-wrap">
-        <div class="grid gap-16 lg:grid-cols-2 max-w-6xl mx-auto items-start">
-          <div class="sticky top-28">
-            <SectionHeading eyebrow="Governance" title="联盟管理与数据规则" description="构建透明、公平的协作机制是 SANI 长期运行的基石。" />
-            <div class="mt-10 prose-shell surface-card p-10 border-l-4 border-accent text-[15px] leading-[1.85]">
-              <Content />
-            </div>
-          </div>
-          
-          <div class="grid gap-8">
-             {page.data.sections && page.data.sections.map((section) => (
-              <article class="surface-card p-8 border-t-4 border-accent/20 hover:border-accent transition-colors">
-                <span class="inline-block px-2 py-0.5 bg-accent/5 rounded text-[11px] font-bold text-accent uppercase mb-4">Protocol</span>
-                <h3 class="text-[20px] font-bold text-ink-deep mb-4">{section.title}</h3>
-                <p class="text-[15px] leading-[1.7] text-text-secondary">{section.body}</p>
-              </article>
-            ))}
+    <div class="page-wrap">
+      <div class="grid gap-16 lg:grid-cols-2 max-w-6xl mx-auto items-start">
+        <div class="sticky top-28">
+          <SectionHeading eyebrow="Governance" title="联盟管理与数据规则" description="构建透明、公平的协作机制是 SANI 长期运行的基石。" />
+          <div class="mt-10 prose-shell surface-card p-10 border-l-4 border-accent text-[15px] leading-[1.85]">
+            <Content />
           </div>
         </div>
-     </div>
+
+        <div class="grid gap-8">
+          {page.data.sections && page.data.sections.map((section) => (
+            <article class="surface-card p-8 border-t-4 border-accent/20 hover:border-accent transition-colors">
+              <span class="inline-block px-2 py-0.5 bg-accent/5 rounded text-[11px] font-bold text-accent uppercase mb-4">Protocol</span>
+              <h3 class="text-[20px] font-bold text-ink-deep mb-4">{section.title}</h3>
+              <p class="text-[15px] leading-[1.7] text-text-secondary">{section.body}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </div>
   </section>
 
   <style>
     .collaboration-visual-shell {
       background:
-        radial-gradient(circle at 18% 20%, rgba(31, 107, 102, 0.08), transparent 30%),
-        radial-gradient(circle at 84% 16%, rgba(49, 89, 122, 0.08), transparent 24%),
-        linear-gradient(180deg, rgba(252, 253, 252, 0.96) 0%, rgba(243, 247, 245, 0.96) 100%);
+        radial-gradient(circle at 12% 18%, rgba(31, 107, 102, 0.09), transparent 26%),
+        radial-gradient(circle at 88% 14%, rgba(49, 89, 122, 0.08), transparent 24%),
+        linear-gradient(180deg, rgba(252, 253, 252, 0.98) 0%, rgba(244, 248, 246, 0.96) 100%);
     }
 
-    .collaboration-visual-core {
+    .framework-panel {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(215, 223, 219, 0.88);
+      border-radius: 30px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(252, 253, 252, 0.98) 100%);
+      padding: 1.5rem;
+      box-shadow: 0 16px 36px rgba(16, 33, 50, 0.05);
+    }
+
+    .framework-panel-highlight {
       background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0.72) 0%, rgba(250, 252, 251, 0.88) 100%);
-      backdrop-filter: blur(14px);
+        radial-gradient(circle at 50% 14%, rgba(31, 107, 102, 0.08), transparent 30%),
+        linear-gradient(180deg, rgba(252, 253, 252, 0.98) 0%, rgba(248, 251, 250, 0.98) 100%);
+    }
+
+    .framework-panel::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.22), transparent 32%);
+      pointer-events: none;
+    }
+
+    .panel-label {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 0 0.8rem;
+      border-radius: 9999px;
+      background: rgba(31, 107, 102, 0.08);
+      color: #1f6b66;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+    }
+
+    .panel-title {
+      font-family: var(--font-serif);
+      font-size: clamp(1.6rem, 1.2rem + 1vw, 2rem);
+      line-height: 1.2;
+      color: var(--color-ink-deep);
+    }
+
+    .panel-description {
+      color: var(--color-text-secondary);
+      font-size: 0.97rem;
+      line-height: 1.8;
+      max-width: 36rem;
+    }
+
+    .framework-connector {
+      position: relative;
+      align-items: center;
+      justify-content: center;
+      min-height: 100%;
+    }
+
+    .framework-connector-line {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 50%;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(151, 178, 174, 0.2), rgba(31, 107, 102, 0.85), rgba(151, 178, 174, 0.2));
+      transform: translateY(-50%);
+    }
+
+    .framework-connector-pill {
+      position: relative;
+      z-index: 1;
+      padding: 0.38rem 0.75rem;
+      border-radius: 9999px;
+      background: rgba(252, 253, 252, 0.96);
+      border: 1px solid rgba(31, 107, 102, 0.12);
+      color: #1f6b66;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+    }
+
+    .framework-connector-arrow {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      z-index: 1;
+      display: flex;
+      width: 2.25rem;
+      height: 2.25rem;
+      align-items: center;
+      justify-content: center;
+      transform: translateY(-50%);
+      border-radius: 9999px;
+      background: rgba(31, 107, 102, 0.1);
+      color: #1f6b66;
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .network-map-frame {
+      position: relative;
+      overflow: hidden;
+      border-radius: 26px;
+      border: 1px solid rgba(215, 223, 219, 0.9);
+      background:
+        radial-gradient(circle at 50% 50%, rgba(31, 107, 102, 0.06), transparent 46%),
+        linear-gradient(180deg, rgba(248, 251, 250, 1) 0%, rgba(243, 247, 245, 1) 100%);
+      aspect-ratio: 11 / 8;
+      min-height: 280px;
+    }
+
+    .network-map-image {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      opacity: 0.32;
+      transform: scale(1.04);
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .network-map-node {
+      position: absolute;
+      transform: translate(-50%, -50%);
+    }
+
+    .network-map-dot {
+      display: block;
+      width: 0.8rem;
+      height: 0.8rem;
+      border-radius: 9999px;
+      background: var(--color-accent);
+      border: 3px solid rgba(255, 255, 255, 0.95);
+      box-shadow: 0 0 0 6px rgba(31, 107, 102, 0.12), 0 8px 18px rgba(16, 33, 50, 0.15);
+    }
+
+    .network-map-label {
+      position: absolute;
+      display: inline-flex;
+      flex-direction: column;
+      gap: 0.1rem;
+      min-width: max-content;
+      padding: 0.45rem 0.7rem;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(215, 223, 219, 0.9);
+      box-shadow: 0 10px 24px rgba(16, 33, 50, 0.08);
+      line-height: 1.2;
+    }
+
+    .network-map-label strong {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--color-ink-deep);
+    }
+
+    .network-map-label span {
+      font-size: 0.72rem;
+      color: var(--color-text-muted);
+      font-weight: 600;
+    }
+
+    .network-map-label-top {
+      left: 50%;
+      bottom: calc(100% + 0.55rem);
+      transform: translateX(-50%);
+    }
+
+    .network-map-label-right {
+      left: calc(100% + 0.55rem);
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .network-map-label-bottom {
+      left: 50%;
+      top: calc(100% + 0.55rem);
+      transform: translateX(-50%);
+    }
+
+    .network-map-label-left {
+      right: calc(100% + 0.55rem);
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .network-footnote {
+      display: flex;
+      gap: 0.85rem;
+      align-items: center;
+      padding: 0.95rem 1rem;
+      border-radius: 20px;
+      background: rgba(247, 249, 248, 0.92);
+      border: 1px solid rgba(215, 223, 219, 0.86);
+      color: var(--color-text-secondary);
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+
+    .network-footnote-icon,
+    .hub-module-icon,
+    .workflow-step-icon,
+    .output-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--color-accent);
+      background: rgba(31, 107, 102, 0.08);
+    }
+
+    .network-footnote-icon {
+      width: 2.4rem;
+      height: 2.4rem;
+      border-radius: 16px;
+    }
+
+    .hub-desktop {
+      position: relative;
+      min-height: 430px;
+    }
+
+    .hub-lines {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+      pointer-events: none;
+    }
+
+    .hub-lines path,
+    .hub-lines circle {
+      fill: none;
+      stroke: rgba(31, 107, 102, 0.3);
+      stroke-width: 1.3;
+      stroke-dasharray: 5 5;
+    }
+
+    .hub-core {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      display: flex;
+      width: 206px;
+      min-height: 206px;
+      transform: translate(-50%, -50%);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border-radius: 9999px;
+      border: 1px solid rgba(31, 107, 102, 0.16);
+      background: radial-gradient(circle at 50% 30%, rgba(31, 107, 102, 0.11), rgba(252, 253, 252, 0.95) 55%);
+      box-shadow: 0 20px 34px rgba(16, 33, 50, 0.08), inset 0 0 0 10px rgba(31, 107, 102, 0.04);
+      padding: 1.25rem;
+      text-align: center;
+      z-index: 1;
+    }
+
+    .hub-core-mobile {
+      position: relative;
+      left: auto;
+      top: auto;
+      width: 100%;
+      min-height: auto;
+      transform: none;
+      border-radius: 28px;
+    }
+
+    .hub-core-kicker {
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      color: var(--color-accent);
+      text-transform: uppercase;
+    }
+
+    .hub-core-title {
+      margin-top: 0.45rem;
+      font-family: var(--font-serif);
+      font-size: 1.55rem;
+      line-height: 1.15;
+      color: var(--color-ink-deep);
+    }
+
+    .hub-core-note {
+      margin-top: 0.55rem;
+      font-size: 0.84rem;
+      line-height: 1.65;
+      color: var(--color-text-secondary);
+    }
+
+    .hub-module-card {
+      position: absolute;
+      width: 176px;
+      border-radius: 22px;
+      border: 1px solid rgba(215, 223, 219, 0.92);
+      background: rgba(255, 255, 255, 0.92);
+      padding: 1rem;
+      box-shadow: 0 12px 28px rgba(16, 33, 50, 0.06);
+    }
+
+    .hub-module-top-left { left: 0; top: 1rem; }
+    .hub-module-top-right { right: 0; top: 1rem; }
+    .hub-module-bottom-left { left: 0; bottom: 1rem; }
+    .hub-module-bottom-right { right: 0; bottom: 1rem; }
+
+    .hub-module-card-mobile {
+      display: grid;
+      grid-template-columns: 2.9rem minmax(0, 1fr);
+      gap: 0.9rem;
+      align-items: start;
+      border-radius: 22px;
+      border: 1px solid rgba(215, 223, 219, 0.92);
+      background: rgba(255, 255, 255, 0.92);
+      padding: 1rem;
+      box-shadow: 0 10px 24px rgba(16, 33, 50, 0.05);
+    }
+
+    .hub-module-icon,
+    .workflow-step-icon,
+    .output-icon {
+      width: 2.75rem;
+      height: 2.75rem;
+      border-radius: 16px;
+    }
+
+    .hub-module-title {
+      margin-top: 0.75rem;
+      font-size: 1rem;
+      line-height: 1.35;
+      font-weight: 700;
+      color: var(--color-ink-deep);
+    }
+
+    .hub-module-card-mobile .hub-module-title { margin-top: 0.15rem; }
+
+    .hub-module-note {
+      margin-top: 0.35rem;
+      font-size: 0.84rem;
+      line-height: 1.65;
+      color: var(--color-text-secondary);
+    }
+
+    .workflow-stack {
+      position: relative;
+      display: grid;
+      gap: 1rem;
+    }
+
+    .workflow-rail {
+      position: absolute;
+      left: 1.35rem;
+      top: 1rem;
+      bottom: 1rem;
+      width: 2px;
+      background: linear-gradient(180deg, rgba(31, 107, 102, 0.12), rgba(31, 107, 102, 0.75));
+    }
+
+    .workflow-rail::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: -0.15rem;
+      width: 0.72rem;
+      height: 0.72rem;
+      border-right: 2px solid rgba(31, 107, 102, 0.75);
+      border-bottom: 2px solid rgba(31, 107, 102, 0.75);
+      transform: translateX(-50%) rotate(45deg);
+    }
+
+    .workflow-step {
+      position: relative;
+      display: grid;
+      grid-template-columns: 3.6rem minmax(0, 1fr);
+      gap: 1rem;
+      align-items: start;
+      border-radius: 24px;
+      border: 1px solid rgba(215, 223, 219, 0.92);
+      background: rgba(255, 255, 255, 0.9);
+      padding: 1rem;
+      box-shadow: 0 10px 24px rgba(16, 33, 50, 0.05);
+    }
+
+    .workflow-step-index {
+      display: inline-flex;
+      min-height: 24px;
+      align-items: center;
+      padding: 0 0.55rem;
+      border-radius: 9999px;
+      background: rgba(31, 107, 102, 0.08);
+      color: var(--color-accent);
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+    }
+
+    .workflow-step-title {
+      margin-top: 0.45rem;
+      font-size: 1.05rem;
+      line-height: 1.35;
+      font-weight: 700;
+      color: var(--color-ink-deep);
+    }
+
+    .workflow-step-note {
+      margin-top: 0.3rem;
+      font-size: 0.86rem;
+      line-height: 1.7;
+      color: var(--color-text-secondary);
+    }
+
+    .outputs-shell {
+      border-top: 1px solid rgba(215, 223, 219, 0.9);
+      padding-top: 1rem;
+    }
+
+    .outputs-label {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 0 0.55rem;
+      border-radius: 9999px;
+      background: rgba(16, 33, 50, 0.06);
+      color: var(--color-ink-deep);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+    }
+
+    .outputs-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.8rem;
+    }
+
+    .output-card {
+      display: grid;
+      justify-items: center;
+      gap: 0.55rem;
+      border-radius: 22px;
+      border: 1px solid rgba(215, 223, 219, 0.92);
+      background: rgba(247, 250, 248, 0.94);
+      padding: 1rem 0.8rem;
+      text-align: center;
+    }
+
+    .output-title {
+      font-size: 0.88rem;
+      font-weight: 700;
+      line-height: 1.4;
+      color: var(--color-ink-deep);
     }
 
     .modality-chip {
@@ -421,23 +687,22 @@ const collaborationVisual = {
       text-transform: uppercase;
     }
 
-    .modality-chip-mri {
-      background: #e6eef8;
-      border-color: rgba(49, 89, 122, 0.12);
-      color: #31597a;
+    .modality-chip-mri { background: #e6eef8; border-color: rgba(49, 89, 122, 0.12); color: #31597a; }
+    .modality-chip-eeg { background: #e6f3f0; border-color: rgba(31, 107, 102, 0.12); color: #1f6b66; }
+    .modality-chip-fnirs { background: #f7ecdd; border-color: rgba(161, 110, 44, 0.16); color: #a16e2c; }
+
+    @media (max-width: 1023px) {
+      .framework-panel { padding: 1.25rem; }
+      .panel-description { max-width: none; }
+      .network-map-label { padding: 0.38rem 0.55rem; }
+      .network-map-label strong { font-size: 0.76rem; }
+      .network-map-label span { font-size: 0.68rem; }
     }
 
-    .modality-chip-eeg {
-      background: #e6f3f0;
-      border-color: rgba(31, 107, 102, 0.12);
-      color: #1f6b66;
-    }
-
-    .modality-chip-fnirs {
-      background: #f7ecdd;
-      border-color: rgba(161, 110, 44, 0.16);
-      color: #a16e2c;
+    @media (max-width: 767px) {
+      .network-map-frame { min-height: 240px; }
+      .network-map-label { border-radius: 14px; box-shadow: 0 8px 18px rgba(16, 33, 50, 0.06); }
+      .network-footnote { align-items: flex-start; }
     }
   </style>
-
 </BaseLayout>
