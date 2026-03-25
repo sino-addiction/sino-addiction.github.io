@@ -1,0 +1,35 @@
+---
+type Props = {
+  index: number;
+  title: string;
+  description: string;
+  class?: string;
+};
+
+const { index, title, description, class: className = "" } = Astro.props;
+---
+
+<article
+  class:list={[
+    "group relative overflow-hidden rounded-[28px] border border-border/80 bg-[rgba(252,253,252,0.88)] p-6 shadow-[0_16px_40px_rgba(16,33,50,0.06)] transition-all duration-300",
+    "hover:-translate-y-1 hover:border-accent/25 hover:shadow-[0_24px_56px_rgba(16,33,50,0.1)]",
+    className,
+  ]}
+>
+  <div class="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(31,107,102,0.08),transparent_36%,rgba(255,255,255,0.38))] opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+
+  <div class="relative">
+    <div class="flex items-center gap-4">
+      <span class="inline-flex h-11 min-w-11 items-center justify-center rounded-full bg-accent-soft px-3 text-[12px] font-semibold tracking-[0.16em] text-accent">
+        {String(index + 1).padStart(2, "0")}
+      </span>
+      <h3 class="card-title text-ink-deep">
+        {title}
+      </h3>
+    </div>
+
+    <p class="mt-4 text-[15px] leading-[1.8] text-text-secondary md:text-[16px]">
+      {description}
+    </p>
+  </div>
+</article>

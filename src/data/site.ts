@@ -58,7 +58,7 @@ export const siteData: SiteData = {
     { label: "首页", href: "/" },
     { label: "协作模式", href: "/collaboration" },
     { label: "数据看板", href: "/dashboard", hidden: true },
-    { label: "项目管理", href: "/working-groups" },
+    { label: "项目管理", href: "/projects/" },
     { label: "研究成果", href: "/publications" },
     { label: "关于我们", href: "/about" },
   ],

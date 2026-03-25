@@ -1,0 +1,91 @@
+---
+type IconName = "upload" | "check" | "share" | "database" | "play";
+
+type Props = {
+  name: IconName;
+  class?: string;
+};
+
+const { name, class: className = "" } = Astro.props;
+---
+
+{
+  name === "upload" ? (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+      class:list={["shrink-0", className]}
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="1.8"
+    >
+      <path d="M12 16V4" />
+      <path d="m8 8 4-4 4 4" />
+      <path d="M5 16.5V19a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5" />
+      <path d="M7 16.5h10" />
+    </svg>
+  ) : name === "check" ? (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+      class:list={["shrink-0", className]}
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="1.8"
+    >
+      <path d="M20 6 9 17l-5-5" />
+      <path d="M12 3.5a8.5 8.5 0 1 0 0 17 8.5 8.5 0 0 0 0-17Z" />
+    </svg>
+  ) : name === "share" ? (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+      class:list={["shrink-0", className]}
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="1.8"
+    >
+      <circle cx="6" cy="6" r="1.8" />
+      <circle cx="18" cy="6" r="1.8" />
+      <circle cx="12" cy="18" r="1.8" />
+      <path d="M7.4 7.2 11 16" />
+      <path d="m16.6 7.2-3.7 1.8" />
+      <path d="M8 6.7h8" />
+    </svg>
+  ) : name === "database" ? (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+      class:list={["shrink-0", className]}
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="1.8"
+    >
+      <ellipse cx="12" cy="5.5" rx="6.5" ry="2.75" />
+      <path d="M5.5 5.5v6.2c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8V5.5" />
+      <path d="M5.5 11.7v6.2c0 1.5 2.9 2.8 6.5 2.8s6.5-1.3 6.5-2.8v-6.2" />
+    </svg>
+  ) : (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+      class:list={["shrink-0", className]}
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="1.8"
+    >
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M10 8.75 16 12l-6 3.25Z" fill="currentColor" stroke="none" />
+    </svg>
+  )
+}
