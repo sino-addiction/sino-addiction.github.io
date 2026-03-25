@@ -55,6 +55,8 @@ const flowCardClass =
 const projectCardClass =
   "surface-card overflow-hidden border-t-4 border-t-accent transition-shadow hover:shadow-md";
 const researchPlanDownload = downloadEntries[0];
+const flowStepNumberClass =
+  "inline-flex h-9 min-w-9 items-center justify-center rounded-full bg-ink-deep px-3 text-[13px] font-semibold tracking-[0.08em] text-white shadow-sm tabular-nums";
 ---
 
 <BaseLayout
@@ -85,7 +87,7 @@ const researchPlanDownload = downloadEntries[0];
     <div class="relative mx-auto mt-10 max-w-6xl md:mt-12" data-flow-timeline>
       <div class="flow-axis" aria-hidden="true"></div>
 
-      <div class="space-y-6 md:space-y-10">
+      <div class="space-y-[19px] md:space-y-8">
         {flowSteps.map((step, index) => (
           <div data-reveal style={`--reveal-delay:${index * 120}ms;`}>
             <div class="relative pl-14 md:hidden">
@@ -97,8 +99,13 @@ const researchPlanDownload = downloadEntries[0];
               </div>
 
               <article class={flowCardClass}>
-                <h3 class="text-h3 text-[24px] leading-[1.2] md:text-[28px]">
-                  {step.title}
+                <h3 class="flex items-start gap-3 text-[24px] leading-[1.18] font-bold text-ink-deep md:text-[28px]">
+                  <span class={flowStepNumberClass}>
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <span class="flex-1 pt-1">
+                    {step.title}
+                  </span>
                 </h3>
                 <p class="mt-4 text-[15px] leading-[1.85] text-text-secondary md:text-[16px]">
                   {step.description}
@@ -110,8 +117,13 @@ const researchPlanDownload = downloadEntries[0];
               {step.direction === "left" ? (
                 <>
                   <article class={`${flowCardClass} md:justify-self-end`}>
-                    <h3 class="text-h3 text-[24px] leading-[1.18]">
-                      {step.title}
+                    <h3 class="flex items-start gap-3 text-[24px] leading-[1.18] font-bold text-ink-deep">
+                      <span class={flowStepNumberClass}>
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                      <span class="flex-1 pt-1">
+                        {step.title}
+                      </span>
                     </h3>
                     <p class="mt-4 text-[16px] leading-[1.85] text-text-secondary">
                       {step.description}
@@ -139,8 +151,13 @@ const researchPlanDownload = downloadEntries[0];
                   </div>
 
                   <article class={`${flowCardClass} md:justify-self-start`}>
-                    <h3 class="text-h3 text-[24px] leading-[1.18]">
-                      {step.title}
+                    <h3 class="flex items-start gap-3 text-[24px] leading-[1.18] font-bold text-ink-deep">
+                      <span class={flowStepNumberClass}>
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                      <span class="flex-1 pt-1">
+                        {step.title}
+                      </span>
                     </h3>
                     <p class="mt-4 text-[16px] leading-[1.85] text-text-secondary">
                       {step.description}
