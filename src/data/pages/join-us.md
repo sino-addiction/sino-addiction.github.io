@@ -12,7 +12,7 @@ hero:
     label: 填写数据调查表
     href: /site-survey/
   tertiaryCta:
-    label: 下载MOU
+    label: 下载合作备忘录
     href: /assets/downloads/sani-cooperation-mou-v1.doc
     download: SANI合作备忘录v1.doc
 highlights:
@@ -21,7 +21,7 @@ highlights:
     description: 在加入前明确数据类型、样本规模、采集方式与伦理状态，帮助合作快速启动。
   - label: Process
     title: 保持统一协作规则
-    description: 通过数据调查表、MOU 和标准传输流程，明确责任分工、署名规则与数据边界。
+    description: 通过数据调查表、合作备忘录和标准传输流程，明确责任分工、署名规则与数据边界。
   - label: Impact
     title: 支持多中心联合研究
     description: 中心站点统一处理后，更便于特征提取、数据库建设和跨中心比较分析。
@@ -31,7 +31,7 @@ highlights:
 steps:
   - title: 提交数据调查表
     description: 填写可共享的数据类型、样本规模、采集方式与伦理状态，帮助我们快速了解合作基础。
-  - title: 确认合作并签署 MOU
+  - title: 确认合作并签署合作备忘录
     description: 明确数据边界、职责分工、署名规则与共享方式，完成合作备忘录签署。
   - title: 数据传输与入库
     description: 按照统一标准完成脱敏、校验和安全传输，进入中心站点。
