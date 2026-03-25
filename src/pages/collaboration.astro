@@ -17,18 +17,18 @@ const modalityLegend = [
 ];
 
 const collaborationHubModules = [
-  { title: "任务与行为范式", note: "刺激范式对齐与事件标记规范", icon: "play", position: "top-left" },
-  { title: "多模态采集协议", note: "MRI、EEG 与 fNIRS 采集口径统一", icon: "upload", position: "top-right" },
-  { title: "BIDS 与元数据治理", note: "脱敏整理、字段映射与版本管理", icon: "database", position: "bottom-left" },
-  { title: "统一质控与跨中心校准", note: "模态内 QC 与跨站点一致性检查", icon: "check", position: "bottom-right" },
+  { title: "任务范式统一", note: "刺激范式对齐与事件标记规范", icon: "play", position: "top-left" },
+  { title: "采集协议统一", note: "MRI、EEG 与 fNIRS 采集口径统一", icon: "upload", position: "top-right" },
+  { title: "BIDS 与元数据", note: "脱敏整理、字段映射与版本管理", icon: "database", position: "bottom-left" },
+  { title: "统一质控与校准", note: "模态内 QC 与跨站点一致性检查", icon: "check", position: "bottom-right" },
 ] as const;
 
 const collaborationWorkflow = [
   { title: "多中心接入", note: "统一纳入标准与元数据准备", icon: "upload" },
-  { title: "脱敏与 BIDS", note: "原始数据标准化整理与归档", icon: "database" },
+  { title: "脱敏与 BIDS", note: "原始数据标准化整理、归档与映射", icon: "database" },
   { title: "统一质控", note: "跨站点一致性检查与校准", icon: "check" },
   { title: "融合分析", note: "多模态联合建模与特征提取", icon: "share" },
-  { title: "协作产出", note: "数据、流程、代码与论文沉淀", icon: "play" },
+  { title: "协作产出", note: "形成数据、流程、代码与论文等共享成果", icon: "play" },
 ] as const;
 
 const collaborationOutputs = [
@@ -37,6 +37,10 @@ const collaborationOutputs = [
   { title: "代码/工具", icon: "share" },
   { title: "论文/报告", icon: "play" },
 ] as const;
+
+const networkConnections = [
+  ["北京", "上海"], ["北京", "武汉"], ["上海", "武汉"], ["武汉", "广州"], ["武汉", "西安"], ["西安", "成都"], ["成都", "武汉"]
+];
 ---
 
 <BaseLayout title={page.data.title} description={page.data.description}>
@@ -55,13 +59,31 @@ const collaborationOutputs = [
         <div class="grid gap-4 lg:grid-cols-[minmax(280px,1fr)_72px_minmax(380px,1.18fr)_72px_minmax(280px,1fr)] lg:items-stretch">
           <article class="framework-panel">
             <span class="panel-label">多中心参与网络</span>
-            <h3 class="panel-title mt-4">覆盖全国的协作节点</h3>
-            <p class="panel-description mt-3">覆盖 MRI、EEG 与 fNIRS 的跨中心协作节点，先完成本地伦理与元数据准备，再进入联盟统一标准化流程。</p>
+            <h3 class="panel-title mt-4">全国多中心协作节点</h3>
+            <p class="panel-description mt-3">各中心围绕 MRI、EEG 与 fNIRS 参与协作，先完成本地伦理、采集与元数据准备，再按联盟标准进入统一流程。</p>
 
             <div class="network-map-frame mt-6">
               <img src="/assets/china-map.svg" alt="SANI 多中心参与网络地图" class="network-map-image" />
+              
+              <svg class="absolute inset-0 w-full h-full pointer-events-none" style="z-index: 0;">
+                {networkConnections.map((conn) => {
+                  const p1 = siteData.networkMap.find(p => p.city === conn[0]);
+                  const p2 = siteData.networkMap.find(p => p.city === conn[1]);
+                  if (!p1 || !p2) return null;
+                  return (
+                    <line
+                      x1={`${p1.x}%`} y1={`${p1.y * 700 / 950}%`}
+                      x2={`${p2.x}%`} y2={`${p2.y * 700 / 950}%`}
+                      stroke="rgba(31, 107, 102, 0.4)"
+                      stroke-width="1.5"
+                      stroke-dasharray="4 4"
+                    />
+                  );
+                })}
+              </svg>
+
               {siteData.networkMap.map((point) => (
-                <div class="network-map-node" style={`left:${point.x}%; top:${point.y * 700 / 950}%`} aria-label={`${point.city} ${point.count}`}>
+                <div class="network-map-node" style={`left:${point.x}%; top:${point.y * 700 / 950}%; z-index: 10;`} aria-label={`${point.city} ${point.count}`}>
                   <span class="network-map-dot"></span>
                   <span
                     class:list={[
@@ -79,10 +101,14 @@ const collaborationOutputs = [
               ))}
             </div>
 
-            <div class="mt-6 flex flex-wrap gap-2">
-              {modalityLegend.map((item) => (
-                <span class:list={["modality-chip", `modality-chip-${item.tone}`]}>{item.label}</span>
-              ))}
+            <div class="mt-8 flex items-center justify-between text-[13px] font-bold text-accent px-4 py-3 bg-accent/5 rounded-[18px] border border-accent/10">
+              <span class="flex items-center gap-1.5"><ProcessIcon name="upload" class="h-4 w-4" />本地采集</span>
+              <span class="text-accent/30">→</span>
+              <span class="flex items-center gap-1.5"><ProcessIcon name="check" class="h-4 w-4" />本地质控</span>
+              <span class="text-accent/30">→</span>
+              <span class="flex items-center gap-1.5"><ProcessIcon name="database" class="h-4 w-4" />脱敏整理</span>
+              <span class="text-accent/30">→</span>
+              <span class="flex items-center gap-1.5"><ProcessIcon name="share" class="h-4 w-4" />联盟接入</span>
             </div>
 
             <div class="network-footnote mt-5">
@@ -99,8 +125,8 @@ const collaborationOutputs = [
 
           <article class:list={["framework-panel", "framework-panel-highlight"]}>
             <span class="panel-label">统一协议与数据治理</span>
-            <h3 class="panel-title mt-4">让多中心与多模态进入同一协作框架</h3>
-            <p class="panel-description mt-3">在统一任务、协议、标准与质控框架下，实现跨站点一致性，确保后续联合分析可比较、可复现、可扩展。</p>
+            <h3 class="panel-title mt-4">统一多中心与多模态协作框架</h3>
+            <p class="panel-description mt-3">在统一任务、协议、标准与质控框架下，提高跨站点一致性，支撑后续联合分析的可比较、可复现与可扩展。</p>
 
             <div class="hub-desktop mt-8 hidden md:block">
               <svg class="hub-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
@@ -114,7 +140,7 @@ const collaborationOutputs = [
               <div class="hub-core">
                 <span class="hub-core-kicker">SANI</span>
                 <h4 class="hub-core-title">协作中枢</h4>
-                <p class="hub-core-note">统一协议 · 数据治理 · MRI / EEG / fNIRS</p>
+                <p class="hub-core-note">统一协议 · 数据治理<br/>MRI / EEG / fNIRS</p>
               </div>
 
               {collaborationHubModules.map((module) => (
@@ -130,7 +156,7 @@ const collaborationOutputs = [
               <div class="hub-core hub-core-mobile">
                 <span class="hub-core-kicker">SANI</span>
                 <h4 class="hub-core-title">协作中枢</h4>
-                <p class="hub-core-note">统一协议 · 数据治理 · MRI / EEG / fNIRS</p>
+                <p class="hub-core-note">统一协议 · 数据治理<br/>MRI / EEG / fNIRS</p>
               </div>
 
               {collaborationHubModules.map((module) => (
@@ -154,32 +180,32 @@ const collaborationOutputs = [
           <article class="framework-panel">
             <span class="panel-label">联合分析与协作产出</span>
             <h3 class="panel-title mt-4">从标准化接入到开放产出</h3>
-            <p class="panel-description mt-3">流程保持单向推进，避免跨站点分析中的协议漂移与数据口径偏差，让结果更稳定地沉淀为共享资源。</p>
+            <p class="panel-description mt-3">流程单向推进，减少跨站点协作中的协议漂移与数据口径偏差，使结果更稳定地沉淀为共享资源。</p>
 
             <div class="workflow-stack mt-6">
               <div class="workflow-rail" aria-hidden="true"></div>
               {collaborationWorkflow.map((step, idx) => (
-                <article class="workflow-step">
-                  <span class="workflow-step-icon" aria-hidden="true"><ProcessIcon name={step.icon} class="h-5 w-5" /></span>
-                  <div class="workflow-step-body">
-                    <span class="workflow-step-index">0{idx + 1}</span>
-                    <h4 class="workflow-step-title">{step.title}</h4>
-                    <p class="workflow-step-note">{step.note}</p>
-                  </div>
-                </article>
-              ))}
-            </div>
-
-            <div class="outputs-shell mt-6">
-              <span class="outputs-label">协作产出</span>
-              <div class="outputs-grid mt-4">
-                {collaborationOutputs.map((item) => (
-                  <article class="output-card">
-                    <span class="output-icon" aria-hidden="true"><ProcessIcon name={item.icon} class="h-5 w-5" /></span>
-                    <span class="output-title">{item.title}</span>
+                <div class="flex flex-col gap-5">
+                  <article class="workflow-step relative">
+                    <span class="workflow-step-icon" aria-hidden="true"><ProcessIcon name={step.icon} class="h-5 w-5" /></span>
+                    <div class="workflow-step-body">
+                      <span class="workflow-step-index">0{idx + 1}</span>
+                      <h4 class="workflow-step-title">{step.title}</h4>
+                      <p class="workflow-step-note">{step.note}</p>
+                    </div>
                   </article>
-                ))}
-              </div>
+                  {idx === 4 && (
+                    <div class="outputs-grid ml-[4.6rem] relative z-10">
+                      {collaborationOutputs.map((item) => (
+                        <article class="output-card shadow-[0_4px_12px_rgba(16,33,50,0.04)] hover:-translate-y-0.5 transition-transform duration-200">
+                          <span class="output-icon" aria-hidden="true"><ProcessIcon name={item.icon} class="h-5 w-5" /></span>
+                          <span class="output-title">{item.title}</span>
+                        </article>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
             </div>
           </article>
         </div>
@@ -334,7 +360,7 @@ const collaborationOutputs = [
       width: 100%;
       height: 100%;
       object-fit: contain;
-      opacity: 0.32;
+      opacity: 0.55;
       transform: scale(1.04);
       user-select: none;
       pointer-events: none;
@@ -463,19 +489,19 @@ const collaborationOutputs = [
       left: 50%;
       top: 50%;
       display: flex;
-      width: 206px;
-      min-height: 206px;
+      width: 236px;
+      min-height: 236px;
       transform: translate(-50%, -50%);
       flex-direction: column;
       align-items: center;
       justify-content: center;
       border-radius: 9999px;
-      border: 1px solid rgba(31, 107, 102, 0.16);
-      background: radial-gradient(circle at 50% 30%, rgba(31, 107, 102, 0.11), rgba(252, 253, 252, 0.95) 55%);
-      box-shadow: 0 20px 34px rgba(16, 33, 50, 0.08), inset 0 0 0 10px rgba(31, 107, 102, 0.04);
-      padding: 1.25rem;
+      border: 1px solid rgba(31, 107, 102, 0.22);
+      background: radial-gradient(circle at 50% 30%, rgba(31, 107, 102, 0.14), rgba(252, 253, 252, 0.98) 55%);
+      box-shadow: 0 24px 44px rgba(16, 33, 50, 0.08), inset 0 0 0 12px rgba(31, 107, 102, 0.05);
+      padding: 1.5rem;
       text-align: center;
-      z-index: 1;
+      z-index: 10;
     }
 
     .hub-core-mobile {
@@ -573,9 +599,10 @@ const collaborationOutputs = [
       position: absolute;
       left: 1.35rem;
       top: 1rem;
-      bottom: 1rem;
+      bottom: 2rem;
       width: 2px;
-      background: linear-gradient(180deg, rgba(31, 107, 102, 0.12), rgba(31, 107, 102, 0.75));
+      background: linear-gradient(180deg, rgba(31, 107, 102, 0.15), rgba(31, 107, 102, 0.85));
+      z-index: 0;
     }
 
     .workflow-rail::after {
@@ -598,9 +625,25 @@ const collaborationOutputs = [
       align-items: start;
       border-radius: 24px;
       border: 1px solid rgba(215, 223, 219, 0.92);
-      background: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.96);
       padding: 1rem;
-      box-shadow: 0 10px 24px rgba(16, 33, 50, 0.05);
+      box-shadow: 0 10px 24px rgba(16, 33, 50, 0.06);
+      z-index: 1;
+    }
+
+    .workflow-step::after {
+      content: "↓";
+      position: absolute;
+      bottom: -1.45rem;
+      left: 1.05rem;
+      font-size: 0.95rem;
+      color: rgba(31, 107, 102, 0.5);
+      font-weight: bold;
+      z-index: 2;
+    }
+    
+    .workflow-stack > div:last-child .workflow-step::after {
+      display: none;
     }
 
     .workflow-step-index {
