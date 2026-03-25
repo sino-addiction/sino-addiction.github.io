@@ -15,17 +15,13 @@ type JoinFlowAction = {
   variant: "primary" | "secondary";
 };
 
-type JoinFlowMeta = {
-  icon: "upload" | "check" | "share" | "database" | "play";
-  direction: "left" | "right";
-  action?: JoinFlowAction;
-};
-
 type JoinFlowStep = {
   title: string;
   description: string;
+  phase: string;
   icon: "upload" | "check" | "share" | "database" | "play";
   direction: "left" | "right";
+  align: "start" | "end";
   action?: JoinFlowAction;
 };
 
@@ -48,10 +44,12 @@ const mouTemplate = [
 
 const mouDownloadHref = `data:text/plain;charset=utf-8,${encodeURIComponent(mouTemplate)}`;
 
-const joinFlowMeta: JoinFlowMeta[] = [
+const joinFlowMeta: Omit<JoinFlowStep, "title" | "description">[] = [
   {
+    phase: "数据调查",
     icon: "upload",
     direction: "left",
+    align: "start",
     action: {
       label: "填写数据调查表",
       href: "/site-survey/",
@@ -59,8 +57,10 @@ const joinFlowMeta: JoinFlowMeta[] = [
     },
   },
   {
+    phase: "MOU 签署",
     icon: "check",
     direction: "right",
+    align: "start",
     action: {
       label: "下载 MOU",
       href: mouDownloadHref,
@@ -69,23 +69,31 @@ const joinFlowMeta: JoinFlowMeta[] = [
     },
   },
   {
+    phase: "安全传输",
     icon: "share",
     direction: "left",
+    align: "start",
   },
   {
+    phase: "中心处理",
     icon: "database",
     direction: "right",
+    align: "start",
   },
   {
+    phase: "研究开放",
     icon: "play",
     direction: "left",
+    align: "start",
   },
 ];
 
 const joinFlowSteps = (page.data.steps ?? []).map((step, index): JoinFlowStep => {
   const meta = joinFlowMeta[index] ?? {
+    phase: `步骤 ${String(index + 1).padStart(2, "0")}`,
     icon: index % 2 === 0 ? "upload" : "play",
     direction: index % 2 === 0 ? "left" : "right",
+    align: "start",
   };
 
   return {
@@ -96,6 +104,16 @@ const joinFlowSteps = (page.data.steps ?? []).map((step, index): JoinFlowStep =>
 
 const flowCardClass =
   "surface-card flex h-full flex-col border-t-4 border-t-accent transition-shadow hover:shadow-md md:max-w-[540px]";
+
+const badgeRowClass = (align: "start" | "end") =>
+  align === "end"
+    ? "flex flex-row-reverse items-center justify-end gap-3"
+    : "flex items-center gap-3";
+
+const contentClass = (align: "start" | "end") =>
+  align === "end"
+    ? "flex flex-col gap-4 items-end text-right"
+    : "flex flex-col gap-4 items-start text-left";
 
 const buttonClass = (variant: "primary" | "secondary") =>
   variant === "primary"
@@ -117,7 +135,7 @@ const buttonClass = (variant: "primary" | "secondary") =>
     <div class="relative mx-auto mt-10 max-w-6xl md:mt-12" data-join-flow-timeline>
       <div class="flow-axis" aria-hidden="true"></div>
 
-      <div class="space-y-[10px] md:space-y-[13px]">
+      <div class="space-y-4 md:space-y-5">
         {joinFlowSteps.map((step, index) => (
           <div data-reveal style={`--reveal-delay:${index * 110}ms;`}>
             <div class="relative pl-10 md:hidden">
@@ -129,57 +147,69 @@ const buttonClass = (variant: "primary" | "secondary") =>
               </div>
 
               <article class={flowCardClass}>
-                <h3 class="flex items-baseline gap-2 text-[24px] leading-[1.18] font-bold text-ink-deep md:text-[28px]">
-                  <span class="shrink-0 text-[13px] font-semibold tracking-[0.16em] text-accent tabular-nums">
+                <div class={badgeRowClass(step.align)}>
+                  <span class="inline-flex h-10 min-w-10 items-center justify-center rounded-full bg-ink-deep text-[14px] font-bold text-white shadow-sm">
                     {String(index + 1).padStart(2, "0")}
                   </span>
-                  <span>
-                    {step.title}
+                  <span class="inline-flex items-center rounded-full bg-accent-soft px-3 py-1 text-[12px] font-semibold text-accent">
+                    {step.phase}
                   </span>
-                </h3>
-                <p class="mt-4 text-[15px] leading-[1.85] text-text-secondary md:text-[16px]">
-                  {step.description}
-                </p>
+                </div>
 
-                {step.action && (
-                  <a
-                    href={step.action.href}
-                    class:list={[buttonClass(step.action.variant), "mt-5 self-start"]}
-                    download={step.action.download}
-                  >
-                    {step.action.label}
-                    <span aria-hidden="true" class="ml-2 font-normal opacity-70">&rarr;</span>
-                  </a>
-                )}
+                <div class={contentClass(step.align)}>
+                  <h3 class="mt-1 text-[24px] leading-[1.2] font-bold text-ink-deep md:text-[28px]">
+                    {step.title}
+                  </h3>
+                  <p class="text-[15px] leading-[1.85] text-text-secondary md:text-[16px]">
+                    {step.description}
+                  </p>
+
+                  {step.action && (
+                    <a
+                      href={step.action.href}
+                      class:list={[buttonClass(step.action.variant), step.align === "end" ? "self-end" : "self-start"]}
+                      download={step.action.download}
+                    >
+                      {step.action.label}
+                      <span aria-hidden="true" class="ml-2 font-normal opacity-70">&rarr;</span>
+                    </a>
+                  )}
+                </div>
               </article>
             </div>
 
-            <div class="hidden md:grid md:grid-cols-[minmax(0,1fr)_56px_minmax(0,1fr)] md:items-center md:gap-[8px]">
+            <div class="hidden md:grid md:grid-cols-[minmax(0,1fr)_56px_minmax(0,1fr)] md:items-center md:gap-3">
               {step.direction === "left" ? (
                 <>
                   <article class={`${flowCardClass} md:justify-self-end`}>
-                    <h3 class="flex items-baseline gap-2 text-[24px] leading-[1.18] font-bold text-ink-deep">
-                      <span class="shrink-0 text-[13px] font-semibold tracking-[0.16em] text-accent tabular-nums">
-                        {String(index + 1).padStart(2, "0")}
-                      </span>
-                      <span>
-                        {step.title}
-                      </span>
-                    </h3>
-                    <p class="mt-4 text-[16px] leading-[1.85] text-text-secondary">
-                      {step.description}
-                    </p>
+                    <div class={contentClass(step.align)}>
+                      <div class={badgeRowClass(step.align)}>
+                        <span class="inline-flex h-10 min-w-10 items-center justify-center rounded-full bg-ink-deep text-[14px] font-bold text-white shadow-sm">
+                          {String(index + 1).padStart(2, "0")}
+                        </span>
+                        <span class="inline-flex items-center rounded-full bg-accent-soft px-3 py-1 text-[12px] font-semibold text-accent">
+                          {step.phase}
+                        </span>
+                      </div>
 
-                    {step.action && (
-                      <a
-                        href={step.action.href}
-                        class:list={[buttonClass(step.action.variant), "mt-5 self-start"]}
-                        download={step.action.download}
-                      >
-                        {step.action.label}
-                        <span aria-hidden="true" class="ml-2 font-normal opacity-70">&rarr;</span>
-                      </a>
-                    )}
+                      <h3 class="mt-1 text-[24px] leading-[1.18] font-bold text-ink-deep">
+                        {step.title}
+                      </h3>
+                      <p class="text-[16px] leading-[1.85] text-text-secondary">
+                        {step.description}
+                      </p>
+
+                      {step.action && (
+                        <a
+                          href={step.action.href}
+                          class:list={[buttonClass(step.action.variant), step.align === "end" ? "self-end" : "self-start"]}
+                          download={step.action.download}
+                        >
+                          {step.action.label}
+                          <span aria-hidden="true" class="ml-2 font-normal opacity-70">&rarr;</span>
+                        </a>
+                      )}
+                    </div>
                   </article>
 
                   <div class="flow-node hidden md:flex md:justify-self-center" aria-hidden="true" data-join-flow-node>
@@ -203,28 +233,34 @@ const buttonClass = (variant: "primary" | "secondary") =>
                   </div>
 
                   <article class={`${flowCardClass} md:justify-self-start`}>
-                    <h3 class="flex items-baseline gap-2 text-[24px] leading-[1.18] font-bold text-ink-deep">
-                      <span class="shrink-0 text-[13px] font-semibold tracking-[0.16em] text-accent tabular-nums">
-                        {String(index + 1).padStart(2, "0")}
-                      </span>
-                      <span>
-                        {step.title}
-                      </span>
-                    </h3>
-                    <p class="mt-4 text-[16px] leading-[1.85] text-text-secondary">
-                      {step.description}
-                    </p>
+                    <div class={contentClass(step.align)}>
+                      <div class={badgeRowClass(step.align)}>
+                        <span class="inline-flex h-10 min-w-10 items-center justify-center rounded-full bg-ink-deep text-[14px] font-bold text-white shadow-sm">
+                          {String(index + 1).padStart(2, "0")}
+                        </span>
+                        <span class="inline-flex items-center rounded-full bg-accent-soft px-3 py-1 text-[12px] font-semibold text-accent">
+                          {step.phase}
+                        </span>
+                      </div>
 
-                    {step.action && (
-                      <a
-                        href={step.action.href}
-                        class:list={[buttonClass(step.action.variant), "mt-5 self-start"]}
-                        download={step.action.download}
-                      >
-                        {step.action.label}
-                        <span aria-hidden="true" class="ml-2 font-normal opacity-70">&rarr;</span>
-                      </a>
-                    )}
+                      <h3 class="mt-1 text-[24px] leading-[1.18] font-bold text-ink-deep">
+                        {step.title}
+                      </h3>
+                      <p class="text-[16px] leading-[1.85] text-text-secondary">
+                        {step.description}
+                      </p>
+
+                      {step.action && (
+                        <a
+                          href={step.action.href}
+                          class:list={[buttonClass(step.action.variant), step.align === "end" ? "self-end" : "self-start"]}
+                          download={step.action.download}
+                        >
+                          {step.action.label}
+                          <span aria-hidden="true" class="ml-2 font-normal opacity-70">&rarr;</span>
+                        </a>
+                      )}
+                    </div>
                   </article>
                 </>
               )}
