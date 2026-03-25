@@ -4,21 +4,167 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Hero from "../components/Hero.astro";
 import SectionHeading from "../components/SectionHeading.astro";
 import FeatureGrid from "../components/FeatureGrid.astro";
-import Timeline from "../components/Timeline.astro";
-import CtaPanel from "../components/CtaPanel.astro";
+import ProcessIcon from "../components/ProcessIcon.astro";
 import { siteData } from "../data/site";
 import { requirePage } from "../lib/content";
 
+type JoinFlowMeta = {
+  phase: string;
+  icon: "upload" | "check" | "share" | "database" | "play";
+  direction: "left" | "right";
+};
+
 const page = await requirePage("join-us");
 const { Content } = await render(page);
+
+const joinFlowMeta: JoinFlowMeta[] = [
+  { phase: "数据调查", icon: "upload", direction: "left" },
+  { phase: "MOU 签署", icon: "check", direction: "right" },
+  { phase: "安全传输", icon: "share", direction: "left" },
+  { phase: "中心处理", icon: "database", direction: "right" },
+  { phase: "研究开放", icon: "play", direction: "left" },
+];
+
+const joinFlowSteps = (page.data.steps ?? []).map((step, index) => {
+  const meta = joinFlowMeta[index] ?? {
+    phase: `步骤 ${String(index + 1).padStart(2, "0")}`,
+    icon: index % 2 === 0 ? "upload" : "play",
+    direction: index % 2 === 0 ? "left" : "right",
+  };
+
+  return {
+    ...step,
+    ...meta,
+  };
+});
+
+const flowCardClass =
+  "surface-card flex h-full flex-col border-t-4 border-t-accent transition-shadow hover:shadow-md";
 ---
 
 <BaseLayout title={page.data.title} description={page.data.description}>
   <Hero {...page.data.hero} compact={true} />
 
+  <section id="join-flow" class="page-wrap py-20 md:py-32 scroll-mt-24">
+    <SectionHeading
+      eyebrow="How To Join"
+      title="加入流程"
+      description="从提交数据概况到中心站点统一处理，形成长期协作。"
+      center={true}
+    />
+
+    <div class="relative mx-auto mt-10 max-w-6xl md:mt-12" data-join-flow-timeline>
+      <div class="flow-axis" aria-hidden="true"></div>
+
+      <div class="space-y-6 md:space-y-10">
+        {joinFlowSteps.map((step, index) => (
+          <div data-reveal style={`--reveal-delay:${index * 120}ms;`}>
+            <div class="relative pl-14 md:hidden">
+              <div class="flow-node flow-node--compact absolute left-0 top-4" data-join-flow-node>
+                <span class="flow-node-ring"></span>
+                <span class="flow-node-core">
+                  <ProcessIcon name={step.icon} class="h-4 w-4" />
+                </span>
+              </div>
+
+              <article class={flowCardClass}>
+                <div class="flex flex-wrap items-center gap-3">
+                  <span class="inline-flex h-10 min-w-10 items-center justify-center rounded-full bg-ink-deep text-[14px] font-bold text-white shadow-sm">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <span class="inline-flex items-center rounded-full bg-accent-soft px-3 py-1 text-[12px] font-semibold text-accent">
+                    {step.phase}
+                  </span>
+                </div>
+
+                <h3 class="mt-4 text-[24px] leading-[1.2] font-bold text-ink-deep md:text-[28px]">
+                  {step.title}
+                </h3>
+                <p class="mt-4 text-[15px] leading-[1.85] text-text-secondary md:text-[16px]">
+                  {step.description}
+                </p>
+              </article>
+            </div>
+
+            <div class="hidden md:grid md:grid-cols-[minmax(0,1fr)_88px_minmax(0,1fr)] md:items-center md:gap-6">
+              {step.direction === "left" ? (
+                <>
+                  <article class={`${flowCardClass} md:justify-self-end`}>
+                    <div class="flex items-center gap-3">
+                      <span class="inline-flex h-10 min-w-10 items-center justify-center rounded-full bg-ink-deep text-[14px] font-bold text-white shadow-sm">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                      <span class="inline-flex items-center rounded-full bg-accent-soft px-3 py-1 text-[12px] font-semibold text-accent">
+                        {step.phase}
+                      </span>
+                    </div>
+
+                    <h3 class="mt-4 text-[24px] leading-[1.18] font-bold text-ink-deep">
+                      {step.title}
+                    </h3>
+                    <p class="mt-4 text-[16px] leading-[1.85] text-text-secondary">
+                      {step.description}
+                    </p>
+                  </article>
+
+                  <div class="flow-node hidden md:flex md:justify-self-center" aria-hidden="true" data-join-flow-node>
+                    <span class="flow-node-ring"></span>
+                    <span class="flow-node-core">
+                      <ProcessIcon name={step.icon} class="h-5 w-5" />
+                    </span>
+                  </div>
+
+                  <div aria-hidden="true"></div>
+                </>
+              ) : (
+                <>
+                  <div aria-hidden="true"></div>
+
+                  <div class="flow-node hidden md:flex md:justify-self-center" aria-hidden="true" data-join-flow-node>
+                    <span class="flow-node-ring"></span>
+                    <span class="flow-node-core">
+                      <ProcessIcon name={step.icon} class="h-5 w-5" />
+                    </span>
+                  </div>
+
+                  <article class={`${flowCardClass} md:justify-self-start`}>
+                    <div class="flex items-center gap-3">
+                      <span class="inline-flex h-10 min-w-10 items-center justify-center rounded-full bg-ink-deep text-[14px] font-bold text-white shadow-sm">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                      <span class="inline-flex items-center rounded-full bg-accent-soft px-3 py-1 text-[12px] font-semibold text-accent">
+                        {step.phase}
+                      </span>
+                    </div>
+
+                    <h3 class="mt-4 text-[24px] leading-[1.18] font-bold text-ink-deep">
+                      {step.title}
+                    </h3>
+                    <p class="mt-4 text-[16px] leading-[1.85] text-text-secondary">
+                      {step.description}
+                    </p>
+                  </article>
+                </>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <p class="mt-8 text-center text-[14px] leading-[1.8] text-text-muted">
+      中心站点将定期更新数据处理进展，并在数据积累成熟后向成员发布可提研究计划。
+    </p>
+  </section>
+
   {page.data.highlights && (
-    <section class="page-wrap section-shell">
-      <SectionHeading eyebrow="Why Join" title="为什么加入 SANI" description="在保持联盟规则清晰的前提下，让更多机构能够共享数据、问题与研究体系。" center={true} />
+    <section class="page-wrap section-shell pt-0">
+      <SectionHeading
+        eyebrow="Why Join"
+        title="为什么加入 SANI"
+        description="在统一规则下共享数据、问题与研究体系，减少重复建设。"
+        center={true}
+      />
       <div class="mt-12">
         <FeatureGrid items={page.data.highlights} columns={4} />
       </div>
@@ -26,51 +172,195 @@ const { Content } = await render(page);
   )}
 
   <section class="page-wrap section-shell pt-0">
-    {page.data.cta ? (
-      <div class="grid gap-12 lg:grid-cols-[1fr_360px] items-start">
-        <div class="flex flex-col">
-          <SectionHeading eyebrow="How To Join" title="加入流程" description="当前阶段重点是通过邮件把合作意向、数据边界与角色预期说明清楚。" />
-          {page.data.steps && (
-            <div class="mt-8 surface-card p-8 md:p-12 border-t-4 border-t-accent">
-              <Timeline steps={page.data.steps} />
-            </div>
-          )}
-        </div>
-        <div class="sticky top-24 w-full">
-          <CtaPanel {...page.data.cta} />
-        </div>
-      </div>
-    ) : (
-      <div class="max-w-4xl mx-auto flex flex-col">
-        <SectionHeading eyebrow="How To Join" title="加入流程" description="联系意向说明。" />
-        {page.data.steps && (
-           <div class="mt-8 surface-card p-8 md:p-12 border-t-4 border-t-accent w-full">
-              <Timeline steps={page.data.steps} />
-           </div>
-        )}
-      </div>
-    )}
-  </section>
-
-  <section class="page-wrap section-shell pt-0">
     <div class="max-w-5xl mx-auto flex flex-col items-center">
-      <SectionHeading eyebrow="Contact Mode" title="机构联系方式" description="当前提供官方邮箱接口对接学术服务。" center={true} />
+      <SectionHeading
+        eyebrow="Contact Mode"
+        title="机构联系方式"
+        description="如果您希望先确认数据边界、伦理要求或传输方式，可以直接通过邮箱联系。"
+        center={true}
+      />
+
       <div class="mt-12 w-full grid gap-10 lg:grid-cols-[1.2fr_1fr] items-stretch surface-card p-10 md:p-12">
         <div class="prose-shell flex flex-col justify-center">
           <Content />
         </div>
+
         <div class="h-full flex flex-col justify-center bg-surface-alt p-8 rounded-lg border border-border">
           <span class="eyebrow ring-1 ring-inset ring-accent/10 mb-5 max-w-min">Email</span>
-          <h3 class="text-[20px] leading-snug font-bold text-ink-deep font-sans break-all">{siteData.contact.email}</h3>
+          <h3 class="text-[20px] leading-snug font-bold text-ink-deep font-sans break-all">
+            {siteData.contact.email}
+          </h3>
           <p class="mt-4 text-[15px] leading-relaxed text-text-secondary">{siteData.contact.note}</p>
           <div class="mt-8 pt-6 border-t border-border">
             <a href={`mailto:${siteData.contact.email}`} class="btn-primary w-full shadow-sm text-[14px]">
               发送合作邮件
-              <span aria-hidden="true" class="ml-2 font-normal opacity-70">↗</span>
+              <span aria-hidden="true" class="ml-2 font-normal opacity-70">&rarr;</span>
             </a>
           </div>
         </div>
       </div>
     </div>
   </section>
+
+  <script is:inline>
+    (() => {
+      const revealNodes = document.querySelectorAll("[data-reveal]");
+      const timeline = document.querySelector("[data-join-flow-timeline]");
+      const timelineNodes = timeline ? Array.from(timeline.querySelectorAll("[data-join-flow-node]")) : [];
+
+      const visibleNodes = () => timelineNodes.filter((node) => node.getClientRects().length > 0);
+
+      const updateTimeline = () => {
+        if (!timeline) return;
+
+        const nodes = visibleNodes();
+        if (nodes.length === 0) return;
+
+        const firstNode = nodes[0];
+        const lastNode = nodes[nodes.length - 1];
+        const timelineRect = timeline.getBoundingClientRect();
+        const firstRect = firstNode.getBoundingClientRect();
+        const lastRect = lastNode.getBoundingClientRect();
+
+        const topOffset = firstRect.top + firstRect.height / 2 - timelineRect.top;
+        const bottomOffset = timelineRect.bottom - (lastRect.top + lastRect.height / 2);
+
+        timeline.style.setProperty("--timeline-line-top", `${Math.max(0, topOffset)}px`);
+        timeline.style.setProperty("--timeline-line-bottom", `${Math.max(0, bottomOffset)}px`);
+      };
+
+      const scheduleTimelineUpdate = () => {
+        if (typeof window.requestAnimationFrame === "function") {
+          window.requestAnimationFrame(updateTimeline);
+        } else {
+          updateTimeline();
+        }
+      };
+
+      if (!("IntersectionObserver" in window)) {
+        revealNodes.forEach((node) => node.classList.add("is-visible"));
+      } else {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("is-visible");
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          {
+            threshold: 0.18,
+            rootMargin: "0px 0px -8% 0px",
+          },
+        );
+
+        revealNodes.forEach((node) => observer.observe(node));
+      }
+
+      scheduleTimelineUpdate();
+      window.addEventListener("load", scheduleTimelineUpdate, { once: true });
+      window.addEventListener("resize", scheduleTimelineUpdate);
+
+      if ("ResizeObserver" in window && timeline) {
+        const resizeObserver = new ResizeObserver(scheduleTimelineUpdate);
+        resizeObserver.observe(timeline);
+        timelineNodes.forEach((node) => resizeObserver.observe(node));
+      }
+    })();
+  </script>
+
+  <style>
+    .flow-axis {
+      position: absolute;
+      left: 22px;
+      top: var(--timeline-line-top, 0px);
+      bottom: var(--timeline-line-bottom, 0px);
+      width: 2px;
+      transform: translateX(-50%);
+      pointer-events: none;
+      border-radius: 9999px;
+      background: rgba(31, 107, 102, 0.36);
+      z-index: 0;
+    }
+
+    @media (min-width: 768px) {
+      .flow-axis {
+        left: 50%;
+      }
+    }
+
+    .flow-node {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 74px;
+      height: 74px;
+      z-index: 1;
+    }
+
+    .flow-node--compact {
+      width: 44px;
+      height: 44px;
+    }
+
+    .flow-node-ring {
+      position: absolute;
+      inset: 0;
+      border-radius: 9999px;
+      border: 1px solid rgba(215, 223, 219, 0.95);
+      background: rgba(252, 253, 252, 0.82);
+    }
+
+    .flow-node-core {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 52px;
+      height: 52px;
+      border-radius: 9999px;
+      background: var(--color-accent);
+      color: white;
+    }
+
+    .flow-node--compact .flow-node-core {
+      width: 30px;
+      height: 30px;
+    }
+
+    .flow-node-core svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .flow-node--compact .flow-node-core svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    [data-reveal] {
+      opacity: 0;
+      transform: translateY(18px);
+      transition:
+        opacity 700ms cubic-bezier(0.2, 0.75, 0.2, 1),
+        transform 700ms cubic-bezier(0.2, 0.75, 0.2, 1);
+      transition-delay: var(--reveal-delay, 0ms);
+    }
+
+    [data-reveal].is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      [data-reveal] {
+        opacity: 1;
+        transform: none;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
 </BaseLayout>

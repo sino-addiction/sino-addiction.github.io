@@ -1,44 +1,40 @@
 ---
 title: 加入我们 - SANI
-description: 了解为什么加入 SANI，以及当前阶段的加入流程与联系方式。
+description: 了解加入 SANI 的流程、合作规则与联系方式。
 hero:
   kicker: Join The Network
   title: 成为 SANI 的一员
-  subtitle: 无论您希望贡献数据、发起研究问题，还是参与方法与分析合作，SANI 都欢迎在明确规则下开展长期协作。
+  subtitle: 如果您希望贡献数据、发起研究问题，或参与方法与分析合作，SANI 欢迎在明确规则下开展长期协作。
   primaryCta:
-    label: 发送合作邮件
-    href: mailto:sani@placeholder.org
-    external: true
+    label: 查看加入流程
+    href: "#join-flow"
   secondaryCta:
     label: 查看协作模式
     href: /collaboration
 highlights:
   - label: Access
-    title: 访问更大规模的数据资源
-    description: 在统一治理框架下参与覆盖多种成瘾类型的神经影像、临床与相关衍生数据协作。
+    title: 了解可共享的数据资源
+    description: 在加入前明确数据类型、样本规模、采集方式与伦理状态，帮助合作快速启动。
+  - label: Process
+    title: 保持统一协作规则
+    description: 通过数据调查表、MOU 和标准传输流程，明确责任分工、署名规则与数据边界。
   - label: Impact
-    title: 提升研究影响力
-    description: 通过多中心研究设计提高统计效能与结论稳健性，形成更高质量的联合产出。
+    title: 支持多中心联合研究
+    description: 中心站点统一处理后，更便于特征提取、数据库建设和跨中心比较分析。
   - label: Network
-    title: 拓展合作网络
-    description: 与不同机构的成瘾研究、临床和计算分析团队建立持续合作关系。
-  - label: Tools
-    title: 共享分析流程
-    description: 复用联盟沉淀的预处理、质控与分析基线，降低重复建设成本。
+    title: 进入成员协作网络
+    description: 在稳定的合作机制下共享研究计划、处理进展与联合发表机会。
 steps:
-  - title: 提交合作意向
-    description: 通过邮箱发送个人或团队简介，并说明可贡献的数据、方向或期望参与的项目。
-  - title: 对接合作边界
-    description: 在初步沟通后明确伦理、数据范围、参与角色与预期资源，避免后续责任不清。
-  - title: 进入协作网络
-    description: 完成共识后进入相应工作链路，获得相关资料、模板与持续沟通渠道。
-cta:
-  eyebrow: Contact
-  title: 当前通过邮箱接收合作申请
-  description: 本期网站保持纯静态部署，不提供在线提交表单。所有合作沟通统一通过公开邮箱收集和回复。
-  label: sani@placeholder.org
-  href: mailto:sani@placeholder.org
-  external: true
+  - title: 提交数据调查表
+    description: 填写可共享的数据类型、样本规模、采集方式与伦理状态，帮助我们快速了解合作基础。
+  - title: 确认合作并签署 MOU
+    description: 明确数据边界、职责分工、署名规则与共享方式，完成合作备忘录签署。
+  - title: 数据传输与入库
+    description: 按照统一标准完成脱敏、校验和安全传输，进入中心站点。
+  - title: 中心站点统一处理
+    description: 进行标准化预处理、特征提取与数据库建设，并定期更新处理进展。
+  - title: 开放研究提案
+    description: 当数据积累到一定规模后，向成员发布可提研究计划，支持联合研究。
 ---
 
-如果您正在建设相关队列、具备影像处理或统计建模能力，或者希望围绕特定问题发起多中心合作，欢迎与 SANI 联系。当前阶段最重要的是在合作开始前把目标、边界与贡献方式说清楚。
+如果您正在建设相关队列、具备影像处理或统计建模能力，或者希望围绕特定问题发起多中心合作，欢迎与 SANI 联系。提交合作意向前，请先准备数据调查表，以便我们确认可共享数据类型、伦理状态和传输边界。
