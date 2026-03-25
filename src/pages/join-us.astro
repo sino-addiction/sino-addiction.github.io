@@ -8,28 +8,92 @@ import ProcessIcon from "../components/ProcessIcon.astro";
 import { siteData } from "../data/site";
 import { requirePage } from "../lib/content";
 
-type JoinFlowMeta = {
+type JoinFlowAction = {
+  label: string;
+  href: string;
+  download?: string;
+  variant: "primary" | "secondary";
+};
+
+type JoinFlowStep = {
+  title: string;
+  description: string;
   phase: string;
   icon: "upload" | "check" | "share" | "database" | "play";
   direction: "left" | "right";
+  align: "start" | "end";
+  action?: JoinFlowAction;
 };
 
 const page = await requirePage("join-us");
 const { Content } = await render(page);
 
-const joinFlowMeta: JoinFlowMeta[] = [
-  { phase: "数据调查", icon: "upload", direction: "left" },
-  { phase: "MOU 签署", icon: "check", direction: "right" },
-  { phase: "安全传输", icon: "share", direction: "left" },
-  { phase: "中心处理", icon: "database", direction: "right" },
-  { phase: "研究开放", icon: "play", direction: "left" },
+const mouTemplate = [
+  "SANI 合作备忘录（MOU）模板",
+  "",
+  "以下内容为页面占位模板，后续可替换为正式版 MOU 文档：",
+  "",
+  "1. 合作目标与范围",
+  "2. 数据边界与共享方式",
+  "3. 伦理审批与合规要求",
+  "4. 责任分工与联系人",
+  "5. 署名与发表原则",
+  "6. 数据传输与安全要求",
+  "7. 协议期限与更新机制",
+].join("\n");
+
+const mouDownloadHref = `data:text/plain;charset=utf-8,${encodeURIComponent(mouTemplate)}`;
+
+const joinFlowMeta: Omit<JoinFlowStep, "title" | "description">[] = [
+  {
+    phase: "数据调查",
+    icon: "upload",
+    direction: "left",
+    align: "end",
+    action: {
+      label: "填写数据调查表",
+      href: "/site-survey/",
+      variant: "primary",
+    },
+  },
+  {
+    phase: "MOU 签署",
+    icon: "check",
+    direction: "right",
+    align: "start",
+    action: {
+      label: "下载 MOU",
+      href: mouDownloadHref,
+      download: "SANI-MOU-template.txt",
+      variant: "secondary",
+    },
+  },
+  {
+    phase: "安全传输",
+    icon: "share",
+    direction: "left",
+    align: "end",
+  },
+  {
+    phase: "中心处理",
+    icon: "database",
+    direction: "right",
+    align: "start",
+  },
+  {
+    phase: "研究开放",
+    icon: "play",
+    direction: "left",
+    align: "end",
+  },
 ];
 
-const joinFlowSteps = (page.data.steps ?? []).map((step, index) => {
+const joinFlowSteps = (page.data.steps ?? []).map((step, index): JoinFlowStep => {
   const meta = joinFlowMeta[index] ?? {
     phase: `步骤 ${String(index + 1).padStart(2, "0")}`,
     icon: index % 2 === 0 ? "upload" : "play",
     direction: index % 2 === 0 ? "left" : "right",
+    align: index % 2 === 0 ? "end" : "start",
   };
 
   return {
@@ -39,7 +103,22 @@ const joinFlowSteps = (page.data.steps ?? []).map((step, index) => {
 });
 
 const flowCardClass =
-  "surface-card flex h-full flex-col border-t-4 border-t-accent transition-shadow hover:shadow-md";
+  "surface-card flex h-full flex-col border-t-4 border-t-accent transition-shadow hover:shadow-md md:max-w-[540px]";
+
+const badgeRowClass = (align: "start" | "end") =>
+  align === "end"
+    ? "flex flex-row-reverse items-center justify-end gap-3"
+    : "flex items-center gap-3";
+
+const contentClass = (align: "start" | "end") =>
+  align === "end"
+    ? "flex flex-col gap-4 items-end text-right"
+    : "flex flex-col gap-4 items-start text-left";
+
+const buttonClass = (variant: "primary" | "secondary") =>
+  variant === "primary"
+    ? "btn-primary h-11 w-fit px-5 text-[13px] shadow-sm"
+    : "btn-secondary h-11 w-fit px-5 text-[13px]";
 ---
 
 <BaseLayout title={page.data.title} description={page.data.description}>
@@ -56,10 +135,10 @@ const flowCardClass =
     <div class="relative mx-auto mt-10 max-w-6xl md:mt-12" data-join-flow-timeline>
       <div class="flow-axis" aria-hidden="true"></div>
 
-      <div class="space-y-6 md:space-y-10">
+      <div class="space-y-5 md:space-y-6">
         {joinFlowSteps.map((step, index) => (
-          <div data-reveal style={`--reveal-delay:${index * 120}ms;`}>
-            <div class="relative pl-14 md:hidden">
+          <div data-reveal style={`--reveal-delay:${index * 110}ms;`}>
+            <div class="relative pl-12 md:hidden">
               <div class="flow-node flow-node--compact absolute left-0 top-4" data-join-flow-node>
                 <span class="flow-node-ring"></span>
                 <span class="flow-node-core">
@@ -68,7 +147,7 @@ const flowCardClass =
               </div>
 
               <article class={flowCardClass}>
-                <div class="flex flex-wrap items-center gap-3">
+                <div class={badgeRowClass(step.align)}>
                   <span class="inline-flex h-10 min-w-10 items-center justify-center rounded-full bg-ink-deep text-[14px] font-bold text-white shadow-sm">
                     {String(index + 1).padStart(2, "0")}
                   </span>
@@ -77,34 +156,60 @@ const flowCardClass =
                   </span>
                 </div>
 
-                <h3 class="mt-4 text-[24px] leading-[1.2] font-bold text-ink-deep md:text-[28px]">
-                  {step.title}
-                </h3>
-                <p class="mt-4 text-[15px] leading-[1.85] text-text-secondary md:text-[16px]">
-                  {step.description}
-                </p>
+                <div class={contentClass(step.align)}>
+                  <h3 class="mt-1 text-[24px] leading-[1.2] font-bold text-ink-deep md:text-[28px]">
+                    {step.title}
+                  </h3>
+                  <p class="text-[15px] leading-[1.85] text-text-secondary md:text-[16px]">
+                    {step.description}
+                  </p>
+
+                  {step.action && (
+                    <a
+                      href={step.action.href}
+                      class:list={[buttonClass(step.action.variant), step.align === "end" ? "self-end" : "self-start"]}
+                      download={step.action.download}
+                    >
+                      {step.action.label}
+                      <span aria-hidden="true" class="ml-2 font-normal opacity-70">&rarr;</span>
+                    </a>
+                  )}
+                </div>
               </article>
             </div>
 
-            <div class="hidden md:grid md:grid-cols-[minmax(0,1fr)_88px_minmax(0,1fr)] md:items-center md:gap-6">
+            <div class="hidden md:grid md:grid-cols-[minmax(0,1fr)_72px_minmax(0,1fr)] md:items-center md:gap-4">
               {step.direction === "left" ? (
                 <>
                   <article class={`${flowCardClass} md:justify-self-end`}>
-                    <div class="flex items-center gap-3">
-                      <span class="inline-flex h-10 min-w-10 items-center justify-center rounded-full bg-ink-deep text-[14px] font-bold text-white shadow-sm">
-                        {String(index + 1).padStart(2, "0")}
-                      </span>
-                      <span class="inline-flex items-center rounded-full bg-accent-soft px-3 py-1 text-[12px] font-semibold text-accent">
-                        {step.phase}
-                      </span>
-                    </div>
+                    <div class={contentClass(step.align)}>
+                      <div class={badgeRowClass(step.align)}>
+                        <span class="inline-flex h-10 min-w-10 items-center justify-center rounded-full bg-ink-deep text-[14px] font-bold text-white shadow-sm">
+                          {String(index + 1).padStart(2, "0")}
+                        </span>
+                        <span class="inline-flex items-center rounded-full bg-accent-soft px-3 py-1 text-[12px] font-semibold text-accent">
+                          {step.phase}
+                        </span>
+                      </div>
 
-                    <h3 class="mt-4 text-[24px] leading-[1.18] font-bold text-ink-deep">
-                      {step.title}
-                    </h3>
-                    <p class="mt-4 text-[16px] leading-[1.85] text-text-secondary">
-                      {step.description}
-                    </p>
+                      <h3 class="mt-1 text-[24px] leading-[1.18] font-bold text-ink-deep">
+                        {step.title}
+                      </h3>
+                      <p class="text-[16px] leading-[1.85] text-text-secondary">
+                        {step.description}
+                      </p>
+
+                      {step.action && (
+                        <a
+                          href={step.action.href}
+                          class:list={[buttonClass(step.action.variant), step.align === "end" ? "self-end" : "self-start"]}
+                          download={step.action.download}
+                        >
+                          {step.action.label}
+                          <span aria-hidden="true" class="ml-2 font-normal opacity-70">&rarr;</span>
+                        </a>
+                      )}
+                    </div>
                   </article>
 
                   <div class="flow-node hidden md:flex md:justify-self-center" aria-hidden="true" data-join-flow-node>
@@ -128,21 +233,34 @@ const flowCardClass =
                   </div>
 
                   <article class={`${flowCardClass} md:justify-self-start`}>
-                    <div class="flex items-center gap-3">
-                      <span class="inline-flex h-10 min-w-10 items-center justify-center rounded-full bg-ink-deep text-[14px] font-bold text-white shadow-sm">
-                        {String(index + 1).padStart(2, "0")}
-                      </span>
-                      <span class="inline-flex items-center rounded-full bg-accent-soft px-3 py-1 text-[12px] font-semibold text-accent">
-                        {step.phase}
-                      </span>
-                    </div>
+                    <div class={contentClass(step.align)}>
+                      <div class={badgeRowClass(step.align)}>
+                        <span class="inline-flex h-10 min-w-10 items-center justify-center rounded-full bg-ink-deep text-[14px] font-bold text-white shadow-sm">
+                          {String(index + 1).padStart(2, "0")}
+                        </span>
+                        <span class="inline-flex items-center rounded-full bg-accent-soft px-3 py-1 text-[12px] font-semibold text-accent">
+                          {step.phase}
+                        </span>
+                      </div>
 
-                    <h3 class="mt-4 text-[24px] leading-[1.18] font-bold text-ink-deep">
-                      {step.title}
-                    </h3>
-                    <p class="mt-4 text-[16px] leading-[1.85] text-text-secondary">
-                      {step.description}
-                    </p>
+                      <h3 class="mt-1 text-[24px] leading-[1.18] font-bold text-ink-deep">
+                        {step.title}
+                      </h3>
+                      <p class="text-[16px] leading-[1.85] text-text-secondary">
+                        {step.description}
+                      </p>
+
+                      {step.action && (
+                        <a
+                          href={step.action.href}
+                          class:list={[buttonClass(step.action.variant), step.align === "end" ? "self-end" : "self-start"]}
+                          download={step.action.download}
+                        >
+                          {step.action.label}
+                          <span aria-hidden="true" class="ml-2 font-normal opacity-70">&rarr;</span>
+                        </a>
+                      )}
+                    </div>
                   </article>
                 </>
               )}
@@ -273,7 +391,7 @@ const flowCardClass =
   <style>
     .flow-axis {
       position: absolute;
-      left: 22px;
+      left: 18px;
       top: var(--timeline-line-top, 0px);
       bottom: var(--timeline-line-bottom, 0px);
       width: 2px;
@@ -295,14 +413,14 @@ const flowCardClass =
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 74px;
-      height: 74px;
+      width: 68px;
+      height: 68px;
       z-index: 1;
     }
 
     .flow-node--compact {
-      width: 44px;
-      height: 44px;
+      width: 40px;
+      height: 40px;
     }
 
     .flow-node-ring {
@@ -319,26 +437,26 @@ const flowCardClass =
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 52px;
-      height: 52px;
+      width: 46px;
+      height: 46px;
       border-radius: 9999px;
       background: var(--color-accent);
       color: white;
     }
 
     .flow-node--compact .flow-node-core {
-      width: 30px;
-      height: 30px;
+      width: 28px;
+      height: 28px;
     }
 
     .flow-node-core svg {
-      width: 22px;
-      height: 22px;
+      width: 20px;
+      height: 20px;
     }
 
     .flow-node--compact .flow-node-core svg {
-      width: 14px;
-      height: 14px;
+      width: 13px;
+      height: 13px;
     }
 
     [data-reveal] {
