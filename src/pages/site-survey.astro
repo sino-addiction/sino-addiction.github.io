@@ -39,18 +39,6 @@ const modalityOptions: ChoiceOption[] = [
   value: toSlug(option.label),
 }));
 
-const dataOptions: ChoiceOption[] = [
-  { label: "原始数据", note: "raw" },
-  { label: "预处理数据", note: "preprocessed" },
-  { label: "行为 / 量表", note: "questionnaires" },
-  { label: "临床 / 诊断", note: "diagnosis" },
-  { label: "遗传 / 基因型", note: "genetics" },
-  { label: "元数据 / 清单", note: "BIDS / inventory" },
-].map((option) => ({
-  ...option,
-  value: toSlug(option.label),
-}));
-
 const surveySubmitUrl = import.meta.env.PUBLIC_SURVEY_ENDPOINT?.trim() ?? "";
 ---
 
@@ -283,71 +271,9 @@ const surveySubmitUrl = import.meta.env.PUBLIC_SURVEY_ENDPOINT?.trim() ?? "";
 
             <div>
               <p class="survey-label mb-3">数据类型</p>
-              <div class="survey-choice-grid">
-                {dataOptions.map((option) => {
-                  const checkboxId = `data-${option.value}`;
-                  const caseName = `data_case_${option.value}`;
-                  const controlName = `data_control_${option.value}`;
-                  const caseId = `${checkboxId}-case`;
-                  const controlId = `${checkboxId}-control`;
-
-                  return (
-                    <div
-                      class="survey-choice-card"
-                      data-survey-choice
-                      data-survey-choice-group="data_types"
-                      data-item-label={option.label}
-                      data-case-name={caseName}
-                      data-control-name={controlName}
-                    >
-                      <label class="survey-choice-main" for={checkboxId}>
-                        <input
-                          class="survey-choice-toggle"
-                          type="checkbox"
-                          id={checkboxId}
-                          name="data_types"
-                          value={option.label}
-                          data-survey-toggle
-                        />
-                        <span>
-                          <strong>{option.label}</strong>
-                          <small>{option.note}</small>
-                        </span>
-                      </label>
-
-                      <div class="survey-choice-counts" data-survey-counts hidden>
-                        <div class="survey-count-field">
-                          <label class="survey-count-label" for={caseId}>Case 数</label>
-                          <input
-                            class="survey-control survey-count-control"
-                            id={caseId}
-                            name={caseName}
-                            type="number"
-                            min="0"
-                            step="1"
-                            inputmode="numeric"
-                            placeholder="0"
-                          />
-                        </div>
-
-                        <div class="survey-count-field">
-                          <label class="survey-count-label" for={controlId}>Control 数</label>
-                          <input
-                            class="survey-control survey-count-control"
-                            id={controlId}
-                            name={controlName}
-                            type="number"
-                            min="0"
-                            step="1"
-                            inputmode="numeric"
-                            placeholder="0"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
+              <p class="survey-note">
+                目前不预设数据类型选项，如需补充可写在“备注”中。
+              </p>
             </div>
           </div>
         </fieldset>
