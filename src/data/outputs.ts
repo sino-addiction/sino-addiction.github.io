@@ -40,6 +40,14 @@ export const researchTools: OutputTool[] = [
     tags: ["MATLAB", "EEG", "Pipeline"],
   },
   {
+    name: "ManualQC",
+    description: "EEGLAB 的 MATLAB 插件，用于 EEG 数据的人工/可视化质控，整合坏段、坏通道与 IC 处理流程。",
+    href: "https://github.com/zh1peng/ManualQC",
+    sourceLabel: "GitHub",
+    linkLabel: "打开仓库",
+    tags: ["MATLAB", "EEG", "QC"],
+  },
+  {
     name: "roiflow",
     description: "用于 ROI 影像数据分析、预处理、质控与聚类的 R 工作流。",
     href: "https://github.com/zh1peng/roiflow",
