@@ -10,9 +10,8 @@ import { listPublishedNews, sortFeaturedFirst } from "../lib/content";
 // Fetch contents
 const news = (await listPublishedNews()).slice(0, 1);
 const projects = sortFeaturedFirst(await getCollection("projects")).slice(0, 1);
-const publications = sortFeaturedFirst(await getCollection("publications")).slice(0, 1);
 
-const carouselItems: { type: "项目" | "新闻" | "成果"; title: string; description: string; url: string; meta: string; }[] = [];
+const carouselItems: { type: "项目" | "新闻"; title: string; description: string; url: string; meta: string; }[] = [];
 
 news.forEach((n) => {
   const dateStr = n.data.date.toLocaleDateString("zh-CN", { year: "numeric", month: "long", day: "numeric" });
@@ -32,16 +31,6 @@ projects.forEach((p) => {
     description: p.body ?? "",
     url: "/projects/",
     meta: p.data.lead || "SANI Team",
-  });
-});
-
-publications.forEach((p) => {
-  carouselItems.push({
-    type: "成果",
-    title: p.data.title,
-    description: p.body || p.data.authors,
-    url: p.data.externalUrl || "/publications",
-    meta: `${p.data.journal} / ${p.data.year}`,
   });
 });
 ---

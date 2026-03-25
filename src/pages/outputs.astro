@@ -1,0 +1,53 @@
+---
+import { render } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import ToolCard from "../components/ToolCard.astro";
+import { paperPlaceholder, researchTools } from "../data/outputs";
+import { requirePage } from "../lib/content";
+
+const page = await requirePage("outputs");
+const { Content } = await render(page);
+---
+
+<BaseLayout title={page.data.title} description={page.data.description}>
+  <Hero {...page.data.hero} compact={true} />
+
+  <section id="papers" class="page-wrap section-shell scroll-mt-24">
+    <div class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(320px,420px)] lg:items-start">
+      <div class="flex flex-col pt-4">
+        <SectionHeading
+          eyebrow="Research Papers"
+          title="研究论文"
+          description="正式成果完成后，再按真实信息持续更新。"
+        />
+        <div class="prose-shell mt-8 surface-card p-8 md:p-10 border-l-4 border-l-status-integrating">
+          <Content />
+        </div>
+      </div>
+
+      <article class="surface-card flex h-full flex-col gap-4 border-t-4 border-t-status-planned p-8 md:p-10">
+        <span class="status-badge status-planned w-fit">{paperPlaceholder.eyebrow}</span>
+        <h3 class="text-[24px] md:text-[30px] leading-[1.25] font-serif font-bold text-ink-deep">
+          {paperPlaceholder.title}
+        </h3>
+        <p class="text-[15px] leading-relaxed text-text-secondary">{paperPlaceholder.description}</p>
+        <p class="text-[13px] font-medium uppercase tracking-[0.12em] text-text-muted">
+          当前不展示虚构题目、作者、期刊或 DOI。
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <section id="tools" class="page-wrap section-shell pt-0 scroll-mt-24">
+    <SectionHeading
+      eyebrow="Research Tools"
+      title="研究工具"
+      description="优先收录联盟已公开、可复用的协作工具与任务框架。"
+    />
+    <div class="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+      {researchTools.map((tool) => <ToolCard tool={tool} />)}
+    </div>
+  </section>
+</BaseLayout>

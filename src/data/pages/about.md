@@ -7,7 +7,7 @@ hero:
   subtitle: SANI 由成瘾研究、神经影像、精神医学和计算分析等多个方向的研究者共同推动，强调长期协作与规范化治理。
   primaryCta:
     label: 查看研究成果
-    href: /publications
+    href: /outputs
   secondaryCta:
     label: 加入我们
     href: /join-us

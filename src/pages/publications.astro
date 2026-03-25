@@ -1,53 +1,23 @@
 ---
-import { getCollection, render } from "astro:content";
-import BaseLayout from "../layouts/BaseLayout.astro";
-import Hero from "../components/Hero.astro";
-import SectionHeading from "../components/SectionHeading.astro";
-import PublicationCard from "../components/PublicationCard.astro";
-import { requirePage, sortFeaturedFirst } from "../lib/content";
-
-const page = await requirePage("publications");
-const { Content } = await render(page);
-const publications = sortFeaturedFirst(await getCollection("publications")).sort((a, b) => {
-  if (a.data.featured !== b.data.featured) {
-    return Number(b.data.featured) - Number(a.data.featured);
-  }
-
-  return b.data.year - a.data.year;
-});
+const target = "/outputs";
 ---
 
-<BaseLayout title={page.data.title} description={page.data.description}>
-  <Hero {...page.data.hero} compact={true} />
-
-  <section class="page-wrap section-shell">
-    <div class="grid gap-12 lg:grid-cols-12 lg:items-start">
-      <div class="lg:col-span-5 flex flex-col pt-4">
-        <SectionHeading eyebrow="Output Philosophy" title="研究产出" description="展现多中心协作框架下沉淀的方法与转化成果。" />
-        <div class="prose-shell mt-8 surface-card p-8 md:p-10 border-l-4 border-l-status-integrating">
-          <Content />
-        </div>
-      </div>
-      
-      {page.data.sections && (
-        <div class="lg:col-span-7 grid gap-6">
-          {page.data.sections.map((section) => (
-            <article class="surface-card p-8 md:p-10 border-t-4 border-t-accent">
-              <h3 class="text-[22px] leading-snug font-bold text-ink-deep mb-4">{section.title}</h3>
-              <p class="text-[15px] leading-relaxed text-text-secondary">{section.body}</p>
-            </article>
-          ))}
-        </div>
-      )}
-    </div>
-  </section>
-
-  <section class="page-wrap section-shell pt-0">
-    <SectionHeading eyebrow="Publications" title="论著目录" description="按推荐度与年份顺序展示。" center={true} />
-    <div class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-      {publications.map((entry) => (
-        <PublicationCard entry={entry} />
-      ))}
-    </div>
-  </section>
-</BaseLayout>
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="refresh" content={`0; url=${target}`} />
+    <meta name="robots" content="noindex,nofollow" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Outputs | SANI</title>
+    <link rel="canonical" href={target} />
+  </head>
+  <body>
+    <p>
+      Redirecting to <a href={target}>/outputs</a>.
+    </p>
+    <script is:inline>
+      window.location.replace("/outputs");
+    </script>
+  </body>
+</html>
