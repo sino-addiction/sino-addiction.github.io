@@ -76,9 +76,9 @@ const placeholderCardClass =
 
       <div class="space-y-6 md:space-y-10">
         {flowSteps.map((step, index) => (
-          <div class="group" data-reveal style={`--reveal-delay:${index * 120}ms;`}>
+          <div data-reveal style={`--reveal-delay:${index * 120}ms;`}>
             <div class="relative pl-14 md:hidden">
-              <div class="flow-node flow-node--compact absolute left-0 top-4 transition-transform duration-300 group-hover:scale-105">
+              <div class="flow-node flow-node--compact absolute left-0 top-4">
                 <span class="flow-node-ring"></span>
                 <span class="flow-node-core">
                   <ProcessIcon name={step.icon} class="h-4 w-4" />
@@ -107,7 +107,7 @@ const placeholderCardClass =
                     </p>
                   </article>
 
-                  <div class="flow-node hidden md:flex transition-transform duration-300 group-hover:scale-105" aria-hidden="true">
+                  <div class="flow-node hidden md:flex" aria-hidden="true">
                     <span class="flow-node-ring"></span>
                     <span class="flow-node-core">
                       <ProcessIcon name={step.icon} class="h-5 w-5" />
@@ -120,7 +120,7 @@ const placeholderCardClass =
                 <>
                   <div aria-hidden="true"></div>
 
-                  <div class="flow-node hidden md:flex transition-transform duration-300 group-hover:scale-105" aria-hidden="true">
+                  <div class="flow-node hidden md:flex" aria-hidden="true">
                     <span class="flow-node-ring"></span>
                     <span class="flow-node-core">
                       <ProcessIcon name={step.icon} class="h-5 w-5" />
@@ -218,62 +218,19 @@ const placeholderCardClass =
       left: 50%;
       top: 0;
       bottom: 0;
-      width: 2px;
+      width: 1px;
       transform: translateX(-50%);
-      background: linear-gradient(
-        180deg,
-        rgba(31, 107, 102, 0.05) 0%,
-        rgba(31, 107, 102, 0.35) 50%,
-        rgba(31, 107, 102, 0.05) 100%
-      );
-      box-shadow: 0 0 30px rgba(31, 107, 102, 0.15);
-    }
-
-    .flow-axis::after {
-      content: "";
-      position: absolute;
-      left: 50%;
-      top: -14%;
-      width: 16px;
-      height: 28%;
-      transform: translateX(-50%);
-      background: linear-gradient(
-        180deg,
-        transparent 0%,
-        rgba(31, 107, 102, 0.28) 45%,
-        rgba(31, 107, 102, 0.12) 70%,
-        transparent 100%
-      );
-      filter: blur(8px);
-      animation: axis-glide 7.5s ease-in-out infinite;
+      background: var(--color-border);
     }
 
     .flow-axis-mobile {
       position: absolute;
-      left: 17px;
+      left: 22px;
       top: 0;
       bottom: 0;
-      width: 2px;
+      width: 1px;
       pointer-events: none;
-      background: linear-gradient(
-        180deg,
-        rgba(31, 107, 102, 0.05) 0%,
-        rgba(31, 107, 102, 0.32) 50%,
-        rgba(31, 107, 102, 0.05) 100%
-      );
-    }
-
-    .flow-axis-mobile::after {
-      content: "";
-      position: absolute;
-      left: 50%;
-      top: 0;
-      width: 10px;
-      height: 26%;
-      transform: translateX(-50%);
-      background: linear-gradient(180deg, transparent, rgba(31, 107, 102, 0.25), transparent);
-      filter: blur(6px);
-      animation: axis-glide 7.5s ease-in-out infinite;
+      background: var(--color-border);
     }
 
     .flow-node {
@@ -295,16 +252,8 @@ const placeholderCardClass =
       position: absolute;
       inset: 0;
       border-radius: 9999px;
-      border: 1px solid rgba(31, 107, 102, 0.16);
-      background: radial-gradient(
-        circle at 30% 30%,
-        rgba(31, 107, 102, 0.12),
-        rgba(31, 107, 102, 0.02) 58%,
-        rgba(255, 255, 255, 0.88) 100%
-      );
-      box-shadow:
-        0 0 0 12px rgba(31, 107, 102, 0.03),
-        0 0 28px rgba(31, 107, 102, 0.16);
+      border: 1px solid rgba(215, 223, 219, 0.95);
+      background: rgba(252, 253, 252, 0.94);
     }
 
     .flow-node-core {
@@ -316,9 +265,8 @@ const placeholderCardClass =
       width: 52px;
       height: 52px;
       border-radius: 9999px;
-      background: linear-gradient(135deg, rgba(16, 33, 50, 0.96), rgba(31, 107, 102, 0.92));
+      background: var(--color-accent);
       color: white;
-      box-shadow: 0 12px 24px rgba(16, 33, 50, 0.18);
     }
 
     .flow-node--compact .flow-node-core {
@@ -369,37 +317,7 @@ const placeholderCardClass =
       transform: translateY(0);
     }
 
-    @keyframes axis-glide {
-      0%,
-      100% {
-        transform: translateX(-50%) translateY(-10%);
-        opacity: 0;
-      }
-
-      15% {
-        opacity: 1;
-      }
-
-      50% {
-        opacity: 1;
-      }
-
-      85% {
-        opacity: 1;
-      }
-
-      100% {
-        transform: translateX(-50%) translateY(170%);
-        opacity: 0;
-      }
-    }
-
     @media (prefers-reduced-motion: reduce) {
-      .flow-axis::after,
-      .flow-axis-mobile::after {
-        animation: none !important;
-      }
-
       [data-reveal] {
         opacity: 1;
         transform: none;
