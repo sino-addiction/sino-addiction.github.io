@@ -3,6 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Hero from "../components/Hero.astro";
 import ProcessIcon from "../components/ProcessIcon.astro";
 import SectionHeading from "../components/SectionHeading.astro";
+import { downloadEntries } from "../data/downloads";
 
 type FlowStep = {
   title: string;
@@ -53,6 +54,7 @@ const flowCardClass =
   "surface-card flex h-full flex-col border-t-4 border-t-accent transition-shadow hover:shadow-md";
 const placeholderCardClass =
   "surface-card relative w-[min(100%,720px)] shrink-0 overflow-hidden border-t-4 border-t-accent transition-shadow hover:shadow-md";
+const researchPlanDownload = downloadEntries[0];
 ---
 
 <BaseLayout
@@ -71,12 +73,13 @@ const placeholderCardClass =
     <SectionHeading eyebrow="Workflow" title="项目申请流程" center={true} />
 
     <div class="mt-8 flex justify-center md:mt-10">
-      <button
-        type="button"
-        class="inline-flex h-[58px] items-center justify-center rounded-full bg-accent px-8 text-[15px] font-semibold text-white shadow-[0_16px_34px_rgba(31,107,102,0.22)] hover:bg-accent-hover hover:shadow-[0_18px_38px_rgba(31,107,102,0.26)] md:h-[64px] md:px-10 md:text-[16px]"
+      <a
+        href={researchPlanDownload?.href ?? "#"}
+        download={researchPlanDownload?.filename}
+        class="inline-flex min-w-[240px] h-[64px] items-center justify-center rounded-full bg-accent px-10 text-[16px] font-semibold text-white shadow-[0_16px_34px_rgba(31,107,102,0.22)] transition hover:bg-accent-hover hover:shadow-[0_18px_38px_rgba(31,107,102,0.26)] md:h-[70px] md:px-12 md:text-[17px]"
       >
         下载研究计划
-      </button>
+      </a>
     </div>
 
     <div class="relative mx-auto mt-10 max-w-6xl md:mt-12" data-flow-timeline>
@@ -103,7 +106,7 @@ const placeholderCardClass =
               </article>
             </div>
 
-            <div class="hidden md:grid md:grid-cols-[minmax(0,1fr)_96px_minmax(0,1fr)] md:items-center md:gap-6">
+            <div class="hidden md:grid md:grid-cols-[minmax(0,1fr)_88px_minmax(0,1fr)] md:items-center md:gap-6">
               {step.direction === "left" ? (
                 <>
                   <article class={`${flowCardClass} md:justify-self-end`}>
@@ -115,7 +118,7 @@ const placeholderCardClass =
                     </p>
                   </article>
 
-                  <div class="flow-node hidden md:flex" aria-hidden="true" data-flow-node>
+                  <div class="flow-node hidden md:flex md:justify-self-center" aria-hidden="true" data-flow-node>
                     <span class="flow-node-ring"></span>
                     <span class="flow-node-core">
                       <ProcessIcon name={step.icon} class="h-5 w-5" />
@@ -128,7 +131,7 @@ const placeholderCardClass =
                 <>
                   <div aria-hidden="true"></div>
 
-                  <div class="flow-node hidden md:flex" aria-hidden="true" data-flow-node>
+                  <div class="flow-node hidden md:flex md:justify-self-center" aria-hidden="true" data-flow-node>
                     <span class="flow-node-ring"></span>
                     <span class="flow-node-core">
                       <ProcessIcon name={step.icon} class="h-5 w-5" />
@@ -212,11 +215,9 @@ const placeholderCardClass =
         const firstRect = firstNode.getBoundingClientRect();
         const lastRect = lastNode.getBoundingClientRect();
 
-        const centerX = firstRect.left + firstRect.width / 2 - timelineRect.left;
         const topOffset = firstRect.top + firstRect.height / 2 - timelineRect.top;
         const bottomOffset = timelineRect.bottom - (lastRect.top + lastRect.height / 2);
 
-        timeline.style.setProperty("--timeline-line-x", `${centerX}px`);
         timeline.style.setProperty("--timeline-line-top", `${Math.max(0, topOffset)}px`);
         timeline.style.setProperty("--timeline-line-bottom", `${Math.max(0, bottomOffset)}px`);
       };
@@ -265,7 +266,7 @@ const placeholderCardClass =
   <style>
     .flow-axis {
       position: absolute;
-      left: var(--timeline-line-x, 50%);
+      left: 22px;
       top: var(--timeline-line-top, 0px);
       bottom: var(--timeline-line-bottom, 0px);
       width: 2px;
@@ -274,6 +275,12 @@ const placeholderCardClass =
       border-radius: 9999px;
       background: rgba(31, 107, 102, 0.36);
       z-index: 0;
+    }
+
+    @media (min-width: 768px) {
+      .flow-axis {
+        left: 50%;
+      }
     }
 
     .flow-node {
