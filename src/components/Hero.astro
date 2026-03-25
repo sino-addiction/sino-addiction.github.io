@@ -3,6 +3,7 @@ type Link = {
   label: string;
   href: string;
   external?: boolean;
+  download?: string;
 };
 
 type Props = {
@@ -11,11 +12,12 @@ type Props = {
   subtitle: string;
   primaryCta?: Link;
   secondaryCta?: Link;
+  tertiaryCta?: Link;
   compact?: boolean;
   accentLabel?: string[];
 };
 
-const { kicker, title, subtitle, primaryCta, secondaryCta, compact = false, accentLabel = [] } = Astro.props;
+const { kicker, title, subtitle, primaryCta, secondaryCta, tertiaryCta, compact = false, accentLabel = [] } = Astro.props;
 ---
 
 <section class:list={["page-wrap pt-16 md:pt-28 pb-16 md:pb-20 flex flex-col items-center text-center", compact ? "pt-12 md:pt-16 pb-12" : ""]}>
@@ -41,16 +43,21 @@ const { kicker, title, subtitle, primaryCta, secondaryCta, compact = false, acce
       </div>
     )}
 
-    {(primaryCta || secondaryCta) && (
+    {(primaryCta || secondaryCta || tertiaryCta) && (
       <div class="mt-12 flex flex-wrap gap-4 items-center justify-center w-full">
         {primaryCta && (
-          <a href={primaryCta.href} class="btn-primary" target={primaryCta.external ? "_blank" : undefined} rel={primaryCta.external ? "noreferrer" : undefined}>
+          <a href={primaryCta.href} class="btn-primary" download={primaryCta.download} target={primaryCta.external ? "_blank" : undefined} rel={primaryCta.external ? "noreferrer" : undefined}>
             {primaryCta.label}
           </a>
         )}
         {secondaryCta && (
-          <a href={secondaryCta.href} class="btn-secondary" target={secondaryCta.external ? "_blank" : undefined} rel={secondaryCta.external ? "noreferrer" : undefined}>
+          <a href={secondaryCta.href} class="btn-secondary" download={secondaryCta.download} target={secondaryCta.external ? "_blank" : undefined} rel={secondaryCta.external ? "noreferrer" : undefined}>
             {secondaryCta.label}
+          </a>
+        )}
+        {tertiaryCta && (
+          <a href={tertiaryCta.href} class="btn-secondary" download={tertiaryCta.download} target={tertiaryCta.external ? "_blank" : undefined} rel={tertiaryCta.external ? "noreferrer" : undefined}>
+            {tertiaryCta.label}
           </a>
         )}
       </div>

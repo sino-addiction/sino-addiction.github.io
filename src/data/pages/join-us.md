@@ -9,8 +9,12 @@ hero:
     label: 查看加入流程
     href: "#join-flow"
   secondaryCta:
-    label: 查看协作模式
-    href: /collaboration
+    label: 填写数据调查表
+    href: /site-survey/
+  tertiaryCta:
+    label: 下载MOU
+    href: /assets/downloads/sani-cooperation-mou-v1.doc
+    download: SANI合作备忘录v1.doc
 highlights:
   - label: Access
     title: 了解可共享的数据资源

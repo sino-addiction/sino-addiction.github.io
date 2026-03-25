@@ -6,6 +6,7 @@ const linkSchema = z.object({
   label: z.string(),
   href: z.string(),
   external: z.boolean().optional(),
+  download: z.string().optional(),
 });
 
 const heroSchema = z.object({
@@ -14,6 +15,7 @@ const heroSchema = z.object({
   subtitle: z.string(),
   primaryCta: linkSchema.optional(),
   secondaryCta: linkSchema.optional(),
+  tertiaryCta: linkSchema.optional(),
 });
 
 const highlightSchema = z.object({
