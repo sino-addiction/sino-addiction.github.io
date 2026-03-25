@@ -1,5 +1,4 @@
 ---
-import { render } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Hero from "../components/Hero.astro";
 import SectionHeading from "../components/SectionHeading.astro";
@@ -8,7 +7,6 @@ import { paperPlaceholder, researchTools } from "../data/outputs";
 import { requirePage } from "../lib/content";
 
 const page = await requirePage("outputs");
-const { Content } = await render(page);
 ---
 
 <BaseLayout title={page.data.title} description={page.data.description}>
@@ -22,10 +20,6 @@ const { Content } = await render(page);
       center={true}
     />
 
-    <div class="mx-auto mt-8 max-w-4xl text-center text-[16px] leading-[1.85] text-text-secondary md:text-[17px]">
-      <Content />
-    </div>
-
     <article class="mx-auto mt-10 flex max-w-6xl flex-col gap-6 overflow-hidden rounded-[32px] border border-border/80 bg-[rgba(252,253,252,0.92)] p-8 shadow-[0_18px_42px_rgba(16,33,50,0.06)] transition-shadow hover:shadow-[0_24px_56px_rgba(16,33,50,0.1)] lg:flex-row lg:items-center lg:justify-between lg:gap-10 md:p-10">
       <div class="max-w-3xl">
         <span class="status-badge status-planned w-fit">{paperPlaceholder.eyebrow}</span>
@@ -36,10 +30,6 @@ const { Content } = await render(page);
           {paperPlaceholder.description}
         </p>
       </div>
-
-      <div class="rounded-[28px] border border-dashed border-accent/25 bg-accent-soft/35 px-5 py-4 text-[13px] font-medium leading-[1.75] text-text-secondary lg:max-w-[280px] lg:text-right">
-        当前不展示虚构题目、作者、期刊或 DOI。
-      </div>
     </article>
   </section>
 
@@ -48,6 +38,7 @@ const { Content } = await render(page);
       eyebrow="Research Tools"
       title="研究工具"
       description="优先收录联盟已公开、可复用的协作工具与任务框架。"
+      center={true}
     />
     <div class="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
       {researchTools.map((tool) => <ToolCard tool={tool} />)}
