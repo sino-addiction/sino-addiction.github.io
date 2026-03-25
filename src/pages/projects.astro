@@ -1,184 +1,135 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
 import ProcessIcon from "../components/ProcessIcon.astro";
-import ProjectFlowCard from "../components/ProjectFlowCard.astro";
-import { requirePage } from "../lib/content";
-
-const page = await requirePage("projects");
-const stepIcons = ["upload", "check", "share", "database", "play"] as const;
+import SectionHeading from "../components/SectionHeading.astro";
 
 type FlowStep = {
   title: string;
   description: string;
-  icon: (typeof stepIcons)[number];
+  icon: "upload" | "check" | "share" | "database" | "play";
   direction: "left" | "right";
 };
 
-const flowSteps: FlowStep[] = (page.data.steps ?? []).slice(0, 5).map((step, index) => ({
-  title: step.title,
-  description: step.description,
-  icon: stepIcons[index] ?? "play",
-  direction: index % 2 === 0 ? "left" : "right",
-}));
-
-const hero = page.data.hero;
-const primaryCta = hero.primaryCta ?? { label: "项目申请流程", href: "#project-flow" };
-const secondaryCta = hero.secondaryCta ?? { label: "浏览当前项目", href: "#current-projects" };
+const flowSteps: FlowStep[] = [
+  {
+    title: "提交研究计划",
+    description:
+      "参与站点提交研究计划与基础信息，明确研究目标、样本范围、执行条件和协作边界。",
+    icon: "upload",
+    direction: "left",
+  },
+  {
+    title: "可行性评估与反馈",
+    description:
+      "中心站点评估方案匹配度、资源条件与实施风险，并给出修改建议或确认反馈。",
+    icon: "check",
+    direction: "right",
+  },
+  {
+    title: "研究计划分发",
+    description:
+      "根据评估结果将确认后的研究计划分发到相关站点，完成协作确认与同步。",
+    icon: "share",
+    direction: "left",
+  },
+  {
+    title: "数据准备",
+    description:
+      "围绕采集规范、字段映射和上传规则完成数据配置、校验与准备工作。",
+    icon: "database",
+    direction: "right",
+  },
+  {
+    title: "项目启动",
+    description:
+      "项目正式进入执行阶段，开始后续协同、研究实施与持续沟通。",
+    icon: "play",
+    direction: "left",
+  },
+];
 ---
 
-<BaseLayout title={page.data.title} description={page.data.description}>
-  <section class="projects-hero">
-    <div class="page-wrap relative z-10 pt-16 pb-14 md:pt-24 md:pb-20">
-      <div class="grid gap-10 lg:grid-cols-[minmax(0,1.08fr)_minmax(320px,0.92fr)] lg:items-center">
-        <div class="max-w-3xl" data-reveal style="--reveal-delay:0ms;">
-          {hero.kicker && (
-            <span class="inline-flex items-center rounded-full border border-accent/15 bg-accent-soft px-3 py-1 text-[12px] font-semibold tracking-[0.16em] text-accent">
-              {hero.kicker}
-            </span>
-          )}
+<BaseLayout
+  title="项目管理 - SANI"
+  description="展示研究计划从提交到项目启动的标准化流程，以及当前在研项目的横向卡片展示位。"
+>
+  <Hero
+    title="项目管理"
+    subtitle="围绕研究计划的提交、评估、分发、数据准备和项目启动，统一展示标准化协作流程。"
+    compact={true}
+    primaryCta={{ label: "项目申请流程", href: "#project-flow" }}
+    secondaryCta={{ label: "浏览当前项目", href: "#current-projects" }}
+  />
 
-          <h1 class="mt-6 font-serif text-[44px] font-bold leading-[1.08] text-ink-deep text-balance md:text-[60px]">
-            {hero.title}
-          </h1>
+  <section id="project-flow" class="page-wrap py-20 md:py-32 scroll-mt-24">
+    <SectionHeading eyebrow="Workflow" title="项目申请流程" center={true} />
 
-          <p class="mt-6 max-w-2xl text-[17px] leading-[1.8] text-text-secondary text-balance md:text-[19px]">
-            {hero.subtitle}
-          </p>
-
-          <div class="mt-10 flex flex-wrap gap-4">
-            <a href={primaryCta.href} class="btn-primary px-7 shadow-[0_14px_30px_rgba(31,107,102,0.18)]">
-              {primaryCta.label}
-            </a>
-            <a href={secondaryCta.href} class="btn-secondary px-7">
-              {secondaryCta.label}
-            </a>
-          </div>
-        </div>
-
-        <div class="relative" data-reveal style="--reveal-delay:120ms;">
-          <div class="projects-hero-panel relative overflow-hidden rounded-[34px] border border-white/70 bg-[rgba(252,253,252,0.82)] p-6 shadow-[0_18px_50px_rgba(16,33,50,0.08)] backdrop-blur-md md:p-8">
-            <div class="pointer-events-none absolute -right-12 -top-12 h-44 w-44 rounded-full bg-accent/10 blur-3xl"></div>
-            <div class="pointer-events-none absolute left-4 bottom-4 h-28 w-28 rounded-full bg-ink-deep/5 blur-2xl"></div>
-
-            <div class="relative">
-              <div class="flex items-start justify-between gap-4">
-                <div>
-                  <span class="text-[12px] font-semibold uppercase tracking-[0.18em] text-text-muted">
-                    流程预览
-                  </span>
-                  <h2 class="mt-4 text-[22px] font-serif font-bold text-ink-deep md:text-[26px]">
-                    从提交到启动
-                  </h2>
-                </div>
-
-                <div class="flex h-14 w-14 items-center justify-center rounded-full border border-accent/15 bg-accent-soft text-accent shadow-sm">
-                  <ProcessIcon name="share" class="h-6 w-6" />
-                </div>
-              </div>
-
-              <div class="mt-8 space-y-4">
-                {flowSteps.map((step, index) => (
-                  <div
-                    class="group flex items-center gap-4 rounded-[22px] border border-border/70 bg-[rgba(252,253,252,0.72)] p-3 shadow-[0_10px_26px_rgba(16,33,50,0.04)] backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-accent/20"
-                    data-reveal
-                    style={`--reveal-delay:${180 + index * 70}ms;`}
-                  >
-                    <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-border bg-surface text-accent shadow-sm">
-                      <ProcessIcon name={step.icon} class="h-4 w-4" />
-                    </div>
-
-                    <div class="min-w-0 flex-1">
-                      <div class="flex items-center justify-between gap-3">
-                        <span class="truncate text-[14px] font-semibold text-ink-deep">
-                          {step.title}
-                        </span>
-                        <span class="text-[12px] font-medium tabular-nums text-text-muted">
-                          {String(index + 1).padStart(2, "0")}
-                        </span>
-                      </div>
-                      <div class="hero-step-bar mt-2 h-2 overflow-hidden rounded-full bg-[rgba(215,223,219,0.55)]">
-                        <span
-                          class="block h-full rounded-full"
-                          style={`width:${((index + 1) / flowSteps.length) * 100}%`}
-                        ></span>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <div class="mt-8 rounded-[24px] border border-border/70 bg-surface/85 p-5">
-                <p class="text-[14px] leading-[1.75] text-text-secondary">
-                  页面按照“先总览、再解释、再浏览”的节奏组织信息，适合快速理解协作路径。
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="project-flow" class="page-wrap section-shell scroll-mt-24">
-    <div class="mb-10 md:mb-12">
-      <h2 class="text-h2">项目申请流程</h2>
-    </div>
-
-    <div class="relative mx-auto max-w-6xl">
+    <div class="relative mx-auto mt-16 max-w-6xl md:mt-20">
       <div class="flow-axis hidden md:block" aria-hidden="true"></div>
       <div class="flow-axis-mobile md:hidden" aria-hidden="true"></div>
 
-      <div class="space-y-6 md:space-y-8">
+      <div class="space-y-6 md:space-y-10">
         {flowSteps.map((step, index) => (
-          <div data-reveal style={`--reveal-delay:${index * 120}ms;`} class="group">
-            <div class="relative pl-11 md:hidden">
-              <div class="flow-node flow-node--compact absolute left-0 top-5 md:hidden transition-transform duration-300 group-hover:scale-105">
+          <div class="group" data-reveal style={`--reveal-delay:${index * 120}ms;`}>
+            <div class="relative pl-14 md:hidden">
+              <div class="flow-node flow-node--compact absolute left-0 top-4 transition-transform duration-300 group-hover:scale-105">
                 <span class="flow-node-ring"></span>
                 <span class="flow-node-core">
                   <ProcessIcon name={step.icon} class="h-4 w-4" />
                 </span>
               </div>
 
-              <ProjectFlowCard
-                index={index}
-                title={step.title}
-                description={step.description}
-                class="w-full"
-              />
+              <article class="flow-card">
+                <h3 class="text-h3 text-[24px] leading-[1.2] md:text-[28px]">
+                  {step.title}
+                </h3>
+                <p class="mt-4 text-[15px] leading-[1.85] text-text-secondary md:text-[16px]">
+                  {step.description}
+                </p>
+              </article>
             </div>
 
-            <div class="hidden items-center gap-6 md:grid md:grid-cols-[minmax(0,1fr)_96px_minmax(0,1fr)] md:items-center">
+            <div class="hidden md:grid md:grid-cols-[minmax(0,1fr)_96px_minmax(0,1fr)] md:items-center md:gap-6">
               {step.direction === "left" ? (
                 <>
-                  <ProjectFlowCard
-                    index={index}
-                    title={step.title}
-                    description={step.description}
-                    class="w-full max-w-[560px] justify-self-end"
-                  />
+                  <article class="flow-card md:justify-self-end">
+                    <h3 class="text-h3 text-[24px] leading-[1.18]">
+                      {step.title}
+                    </h3>
+                    <p class="mt-4 text-[16px] leading-[1.85] text-text-secondary">
+                      {step.description}
+                    </p>
+                  </article>
+
                   <div class="flow-node hidden md:flex transition-transform duration-300 group-hover:scale-105" aria-hidden="true">
                     <span class="flow-node-ring"></span>
                     <span class="flow-node-core">
                       <ProcessIcon name={step.icon} class="h-5 w-5" />
                     </span>
                   </div>
+
                   <div aria-hidden="true"></div>
                 </>
               ) : (
                 <>
                   <div aria-hidden="true"></div>
+
                   <div class="flow-node hidden md:flex transition-transform duration-300 group-hover:scale-105" aria-hidden="true">
                     <span class="flow-node-ring"></span>
                     <span class="flow-node-core">
                       <ProcessIcon name={step.icon} class="h-5 w-5" />
                     </span>
                   </div>
-                  <ProjectFlowCard
-                    index={index}
-                    title={step.title}
-                    description={step.description}
-                    class="w-full max-w-[560px] justify-self-start"
-                  />
+
+                  <article class="flow-card md:justify-self-start">
+                    <h3 class="text-h3 text-[24px] leading-[1.18]">
+                      {step.title}
+                    </h3>
+                    <p class="mt-4 text-[16px] leading-[1.85] text-text-secondary">
+                      {step.description}
+                    </p>
+                  </article>
                 </>
               )}
             </div>
@@ -188,40 +139,40 @@ const secondaryCta = hero.secondaryCta ?? { label: "浏览当前项目", href: "
     </div>
   </section>
 
-  <section id="current-projects" class="page-wrap section-shell scroll-mt-24 pt-0">
-    <div class="border-t border-border pt-12 md:pt-16">
-      <div class="mb-8 md:mb-10">
-        <h2 class="text-h2">当前在研项目</h2>
-      </div>
+  <section id="current-projects" class="bg-surface-alt/40 py-24 md:py-32 scroll-mt-24">
+    <div class="page-wrap">
+      <SectionHeading eyebrow="Projects" title="当前在研项目" center={true} />
 
-      <div class="project-strip overflow-x-auto pb-4">
+      <div class="project-strip mt-16 overflow-x-auto pb-4 md:mt-20">
         <div class="flex min-w-max gap-6 pr-2">
-          <article class="group relative w-full shrink-0 overflow-hidden rounded-[32px] border border-border/80 bg-[rgba(252,253,252,0.88)] p-6 shadow-[0_18px_42px_rgba(16,33,50,0.06)] transition-transform duration-300 hover:-translate-y-1 md:w-[380px] md:p-7 lg:w-[400px]">
-            <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(31,107,102,0.10),transparent_56%)]"></div>
-            <div class="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(31,107,102,0.06),transparent_35%,rgba(255,255,255,0.4))] opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+          <article class="project-placeholder group relative w-[min(100%,720px)] shrink-0 overflow-hidden rounded-[32px] border border-border/80 bg-[rgba(252,253,252,0.9)] p-6 shadow-[0_18px_42px_rgba(16,33,50,0.06)] transition-all duration-300 hover:-translate-y-1 hover:border-accent/25 hover:shadow-[0_24px_56px_rgba(16,33,50,0.1)] md:p-7">
+            <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(31,107,102,0.12),transparent_52%)]"></div>
+            <div class="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(31,107,102,0.08),transparent_36%,rgba(255,255,255,0.4))] opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
 
-            <div class="relative flex h-full flex-col justify-between gap-6">
+            <div class="relative grid gap-6 md:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] md:items-end">
               <div>
                 <span class="inline-flex items-center rounded-full bg-accent-soft px-3 py-1 text-[12px] font-semibold text-accent">
                   Placeholder
                 </span>
-                <h3 class="mt-4 text-[24px] font-serif font-bold text-ink-deep md:text-[28px]">
+                <h3 class="mt-4 text-[28px] font-serif font-bold text-ink-deep md:text-[34px]">
                   在研项目横向卡片位
                 </h3>
-                <p class="mt-4 text-[16px] leading-[1.8] text-text-secondary">
-                  这里后续将用于展示在研项目的横向卡片流。每张卡可包含项目名称、摘要、合作站点和阶段说明。
+                <p class="mt-4 max-w-xl text-[16px] leading-[1.85] text-text-secondary md:text-[17px]">
+                  后续在研项目将以横向卡片流展示，单卡固定宽度，适合桌面端浏览与移动端横滑。
                 </p>
               </div>
 
-              <div class="rounded-[24px] border border-dashed border-accent/25 bg-accent-soft/40 p-5">
+              <div class="rounded-[28px] border border-dashed border-accent/25 bg-accent-soft/35 p-5">
                 <div class="space-y-3">
-                  <div class="h-3 w-24 rounded-full bg-accent/18"></div>
+                  <div class="h-3 w-28 rounded-full bg-accent/20"></div>
                   <div class="h-3 w-full rounded-full bg-accent/12"></div>
                   <div class="h-3 w-5/6 rounded-full bg-accent/10"></div>
-                  <div class="mt-4 grid grid-cols-2 gap-3">
-                    <div class="h-12 rounded-2xl bg-white/70"></div>
-                    <div class="h-12 rounded-2xl bg-white/70"></div>
-                  </div>
+                </div>
+
+                <div class="mt-5 grid grid-cols-3 gap-3">
+                  <div class="h-24 rounded-3xl bg-white/70"></div>
+                  <div class="h-[72px] rounded-3xl bg-white/55"></div>
+                  <div class="h-28 rounded-3xl bg-white/80"></div>
                 </div>
               </div>
             </div>
@@ -260,46 +211,6 @@ const secondaryCta = hero.secondaryCta ?? { label: "浏览当前项目", href: "
   </script>
 
   <style>
-    .projects-hero {
-      position: relative;
-      overflow: hidden;
-      border-bottom: 1px solid var(--color-border);
-      background:
-        linear-gradient(180deg, rgba(243, 245, 244, 0.96) 0%, rgba(252, 253, 252, 0.88) 100%);
-    }
-
-    .projects-hero::before {
-      content: "";
-      position: absolute;
-      inset: -10% -10% auto;
-      height: 420px;
-      pointer-events: none;
-      background:
-        radial-gradient(circle at 20% 20%, rgba(31, 107, 102, 0.16), transparent 48%),
-        radial-gradient(circle at 82% 18%, rgba(16, 33, 50, 0.1), transparent 36%);
-    }
-
-    .projects-hero::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      opacity: 0.55;
-      background-image:
-        linear-gradient(rgba(16, 33, 50, 0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(16, 33, 50, 0.025) 1px, transparent 1px);
-      background-size: 42px 42px;
-      mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.3), transparent 70%);
-    }
-
-    .projects-hero-panel::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      background: radial-gradient(circle at top, rgba(31, 107, 102, 0.1), transparent 56%);
-    }
-
     .flow-axis {
       position: absolute;
       left: 50%;
@@ -423,19 +334,38 @@ const secondaryCta = hero.secondaryCta ?? { label: "浏览当前项目", href: "
       height: 14px;
     }
 
-    .hero-step-bar > span {
+    .flow-card {
       position: relative;
-      background: linear-gradient(90deg, rgba(31, 107, 102, 0.45), rgba(31, 107, 102, 0.96));
-      box-shadow: 0 0 18px rgba(31, 107, 102, 0.18);
+      overflow: hidden;
+      border-radius: 30px;
+      border: 1px solid rgba(215, 223, 219, 0.82);
+      background: rgba(252, 253, 252, 0.9);
+      padding: 1.5rem;
+      box-shadow: 0 16px 40px rgba(16, 33, 50, 0.06);
+      transition:
+        transform 300ms ease,
+        border-color 300ms ease,
+        box-shadow 300ms ease;
     }
 
-    .hero-step-bar > span::after {
+    .flow-card::before {
       content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
-      transform: translateX(-100%);
-      animation: bar-shine 3.8s ease-in-out infinite;
+      pointer-events: none;
+      background: linear-gradient(135deg, rgba(31, 107, 102, 0.08), transparent 38%, rgba(255, 255, 255, 0.35));
+      opacity: 0;
+      transition: opacity 300ms ease;
+    }
+
+    .flow-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(31, 107, 102, 0.25);
+      box-shadow: 0 24px 56px rgba(16, 33, 50, 0.1);
+    }
+
+    .flow-card:hover::before {
+      opacity: 1;
     }
 
     .project-strip {
@@ -496,33 +426,15 @@ const secondaryCta = hero.secondaryCta ?? { label: "浏览当前项目", href: "
       }
     }
 
-    @keyframes bar-shine {
-      0% {
-        transform: translateX(-100%);
-      }
-
-      55% {
-        transform: translateX(120%);
-      }
-
-      100% {
-        transform: translateX(120%);
-      }
-    }
-
     @media (max-width: 1023px) {
-      .projects-hero {
-        background:
-          linear-gradient(180deg, rgba(243, 245, 244, 0.98) 0%, rgba(252, 253, 252, 0.92) 100%);
+      .flow-card {
+        padding: 1.25rem;
       }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .projects-hero::before,
-      .projects-hero::after,
       .flow-axis::after,
-      .flow-axis-mobile::after,
-      .hero-step-bar > span::after {
+      .flow-axis-mobile::after {
         animation: none !important;
       }
 
