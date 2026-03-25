@@ -63,8 +63,8 @@ export const siteData: SiteData = {
     { label: "关于我们", href: "/about" },
   ],
   footerLinks: [
-    { label: "隐私政策", href: "mailto:sani@placeholder.org", external: true },
-    { label: "联系我们", href: "mailto:sani@placeholder.org", external: true },
+    { label: "隐私政策", href: "mailto:contact@sino-addiction.org", external: true },
+    { label: "联系我们", href: "mailto:contact@sino-addiction.org", external: true },
   ],
   portal: {
     label: "数据门户",
@@ -72,7 +72,7 @@ export const siteData: SiteData = {
     note: "数据门户正在整理公开访问规则，当前站点仅展示合作信息。",
   },
   contact: {
-    email: "sani@placeholder.org",
+    email: "contact@sino-addiction.org",
     note: "当前阶段为静态站点，合作申请与问题咨询统一通过邮箱收取。",
   },
   homepage: {
