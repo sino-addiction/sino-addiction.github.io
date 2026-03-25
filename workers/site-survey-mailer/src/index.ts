@@ -246,26 +246,25 @@ export default {
     const { subject, text, html } = buildEmail(payload);
     const submitterEmail = textValue(payload.email);
 
+    const resendPayload: Record<string, unknown> = {
+      from: env.MAIL_FROM,
+      to: [env.MAIL_TO],
+      subject,
+      text,
+      html,
+    };
+
+    if (submitterEmail) {
+      resendPayload.reply_to = submitterEmail;
+    }
+
     const emailResponse = await fetch(RESEND_ENDPOINT, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${env.RESEND_API_KEY}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        from: env.MAIL_FROM,
-        to: [env.MAIL_TO],
-        subject,
-        text,
-        html,
-        ...(submitterEmail
-          ? {
-              headers: {
-                "Reply-To": submitterEmail,
-              },
-            }
-          : {}),
-      }),
+      body: JSON.stringify(resendPayload),
     });
 
     if (!emailResponse.ok) {
