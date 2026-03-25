@@ -117,7 +117,7 @@ const buttonClass = (variant: "primary" | "secondary") =>
     <div class="relative mx-auto mt-10 max-w-6xl md:mt-12" data-join-flow-timeline>
       <div class="flow-axis" aria-hidden="true"></div>
 
-      <div class="space-y-[13px] md:space-y-4">
+      <div class="space-y-[10px] md:space-y-[13px]">
         {joinFlowSteps.map((step, index) => (
           <div data-reveal style={`--reveal-delay:${index * 110}ms;`}>
             <div class="relative pl-10 md:hidden">
@@ -129,11 +129,11 @@ const buttonClass = (variant: "primary" | "secondary") =>
               </div>
 
               <article class={flowCardClass}>
-                <h3 class="flex items-start gap-3 text-[24px] leading-[1.18] font-bold text-ink-deep md:text-[28px]">
-                  <span class="inline-flex h-9 min-w-9 items-center justify-center rounded-full bg-ink-deep px-3 text-[13px] font-semibold tracking-[0.08em] text-white shadow-sm tabular-nums">
+                <h3 class="flex items-baseline gap-2 text-[24px] leading-[1.18] font-bold text-ink-deep md:text-[28px]">
+                  <span class="shrink-0 text-[13px] font-semibold tracking-[0.16em] text-accent tabular-nums">
                     {String(index + 1).padStart(2, "0")}
                   </span>
-                  <span class="flex-1 pt-1">
+                  <span>
                     {step.title}
                   </span>
                 </h3>
@@ -154,15 +154,15 @@ const buttonClass = (variant: "primary" | "secondary") =>
               </article>
             </div>
 
-            <div class="hidden md:grid md:grid-cols-[minmax(0,1fr)_56px_minmax(0,1fr)] md:items-center md:gap-[10px]">
+            <div class="hidden md:grid md:grid-cols-[minmax(0,1fr)_56px_minmax(0,1fr)] md:items-center md:gap-[8px]">
               {step.direction === "left" ? (
                 <>
                   <article class={`${flowCardClass} md:justify-self-end`}>
-                    <h3 class="flex items-start gap-3 text-[24px] leading-[1.18] font-bold text-ink-deep">
-                      <span class="inline-flex h-9 min-w-9 items-center justify-center rounded-full bg-ink-deep px-3 text-[13px] font-semibold tracking-[0.08em] text-white shadow-sm tabular-nums">
+                    <h3 class="flex items-baseline gap-2 text-[24px] leading-[1.18] font-bold text-ink-deep">
+                      <span class="shrink-0 text-[13px] font-semibold tracking-[0.16em] text-accent tabular-nums">
                         {String(index + 1).padStart(2, "0")}
                       </span>
-                      <span class="flex-1 pt-1">
+                      <span>
                         {step.title}
                       </span>
                     </h3>
@@ -203,11 +203,11 @@ const buttonClass = (variant: "primary" | "secondary") =>
                   </div>
 
                   <article class={`${flowCardClass} md:justify-self-start`}>
-                    <h3 class="flex items-start gap-3 text-[24px] leading-[1.18] font-bold text-ink-deep">
-                      <span class="inline-flex h-9 min-w-9 items-center justify-center rounded-full bg-ink-deep px-3 text-[13px] font-semibold tracking-[0.08em] text-white shadow-sm tabular-nums">
+                    <h3 class="flex items-baseline gap-2 text-[24px] leading-[1.18] font-bold text-ink-deep">
+                      <span class="shrink-0 text-[13px] font-semibold tracking-[0.16em] text-accent tabular-nums">
                         {String(index + 1).padStart(2, "0")}
                       </span>
-                      <span class="flex-1 pt-1">
+                      <span>
                         {step.title}
                       </span>
                     </h3>
