@@ -1,4 +1,4 @@
----
+﻿---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { siteData } from "../data/site";
 
@@ -67,6 +67,8 @@ const dataOptions: ChoiceOption[] = [
   { label: "遗传 / 基因型", note: "genetics" },
   { label: "元数据 / 清单", note: "BIDS / inventory" },
 ] as const;
+
+const surveySubmitUrl = import.meta.env.PUBLIC_SURVEY_ENDPOINT?.trim() ?? "";
 ---
 
 <BaseLayout
@@ -119,6 +121,7 @@ const dataOptions: ChoiceOption[] = [
       <form
         class="survey-form grid gap-8"
         data-site-survey-form
+        data-submit-url={surveySubmitUrl}
         data-contact-email={siteData.contact.email}
         action={`mailto:${siteData.contact.email}`}
         method="post"
@@ -368,6 +371,145 @@ const dataOptions: ChoiceOption[] = [
 
         window.location.href = mailto;
       });
+    })();
+  </script>
+
+  <script is:inline>
+    (() => {
+      const form = document.querySelector("[data-site-survey-form]");
+      if (!(form instanceof HTMLFormElement)) return;
+
+      const submitUrl = form.dataset.submitUrl?.trim() ?? "";
+      if (!submitUrl) return;
+
+      const contactEmail = form.dataset.contactEmail || "";
+      const submitButton = form.querySelector(".survey-submit-button");
+
+      const getValue = (formData, name) => {
+        const value = formData.get(name);
+        return typeof value === "string" ? value.trim() : "";
+      };
+
+      const getValues = (formData, name) =>
+        formData
+          .getAll(name)
+          .map((value) => (typeof value === "string" ? value.trim() : ""))
+          .filter(Boolean);
+
+      const buildSection = (title, entries) => {
+        const lines = [];
+
+        entries.forEach(([label, rawValue]) => {
+          const value = String(rawValue || "").trim();
+          if (!value) return;
+
+          const parts = value.split(/\r?\n/);
+          lines.push(`- ${label}: ${parts[0]}`);
+          parts.slice(1).forEach((line) => {
+            lines.push(`  ${line}`);
+          });
+        });
+
+        if (lines.length === 0) return null;
+
+        return [`[${title}]`, ...lines].join("\n");
+      };
+
+      const buildMailBody = (formData) => {
+        const sections = [
+          buildSection("基本信息", [
+            ["站点 / 研究名称", getValue(formData, "study_name")],
+            ["PI", getValue(formData, "pi_name")],
+            ["机构", getValue(formData, "institution")],
+            ["邮箱", getValue(formData, "email")],
+            ["补充联系人", getValue(formData, "additional_contact")],
+          ]),
+          buildSection("成瘾类别", [
+            ["主要成瘾类别", getValue(formData, "addiction_category")],
+            ["补充类别说明", getValue(formData, "addiction_detail")],
+          ]),
+          buildSection("相关文章", [["文章信息", getValue(formData, "article_reference")]]),
+          buildSection("模态与数据", [
+            ["可提供模态", getValues(formData, "modalities").join(", ")],
+            ["数据类型", getValues(formData, "data_types").join(", ")],
+          ]),
+          buildSection("备注", [["补充说明", getValue(formData, "notes")]]),
+        ].filter(Boolean);
+
+        const subject = `SANI site survey - ${getValue(formData, "study_name") || "new submission"}`;
+        const body = ["SANI Site Survey", ...sections].join("\n\n");
+
+        return { subject, body };
+      };
+
+      const buildPayload = (formData) => ({
+        study_name: getValue(formData, "study_name"),
+        pi_name: getValue(formData, "pi_name"),
+        institution: getValue(formData, "institution"),
+        email: getValue(formData, "email"),
+        additional_contact: getValue(formData, "additional_contact"),
+        addiction_category: getValue(formData, "addiction_category"),
+        addiction_detail: getValue(formData, "addiction_detail"),
+        article_reference: getValue(formData, "article_reference"),
+        modalities: getValues(formData, "modalities"),
+        data_types: getValues(formData, "data_types"),
+        notes: getValue(formData, "notes"),
+        submitted_at: new Date().toISOString(),
+        page_path: window.location.pathname,
+      });
+
+      const openMailClient = (formData) => {
+        const { subject, body } = buildMailBody(formData);
+        const mailto = `mailto:${contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        window.location.href = mailto;
+      };
+
+      form.addEventListener(
+        "submit",
+        async (event) => {
+          event.preventDefault();
+          event.stopImmediatePropagation();
+
+          if (!form.reportValidity()) return;
+
+          const formData = new FormData(form);
+          const payload = buildPayload(formData);
+
+          const button = submitButton instanceof HTMLElement ? submitButton : null;
+          const originalLabel = button?.textContent?.trim() || "提交并发送";
+          const setButtonLabel = (label) => {
+            if (button) {
+              button.textContent = label;
+            }
+          };
+
+          try {
+            setButtonLabel("发送中...");
+            const response = await fetch(submitUrl, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+              },
+              body: JSON.stringify(payload),
+            });
+
+            if (!response.ok) {
+              throw new Error(await response.text());
+            }
+
+            form.reset();
+            setButtonLabel("已发送");
+            window.setTimeout(() => setButtonLabel(originalLabel), 2500);
+          } catch (error) {
+            console.error(error);
+            setButtonLabel("打开邮箱");
+            window.setTimeout(() => setButtonLabel(originalLabel), 2500);
+            openMailClient(formData);
+          }
+        },
+        true,
+      );
     })();
   </script>
 
@@ -680,3 +822,4 @@ const dataOptions: ChoiceOption[] = [
     }
   </style>
 </BaseLayout>
+

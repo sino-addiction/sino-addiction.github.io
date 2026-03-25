@@ -40,6 +40,8 @@ jobs:
 
       - name: Build and upload site
         uses: withastro/action@v4
+        env:
+          PUBLIC_SURVEY_ENDPOINT: ${{ vars.PUBLIC_SURVEY_ENDPOINT }}
         with:
           path: .
           package-manager: npm
