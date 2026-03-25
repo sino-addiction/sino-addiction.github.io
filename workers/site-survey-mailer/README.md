@@ -6,9 +6,9 @@ This is a minimal Cloudflare Worker that receives the site survey form and forwa
 
 1. Create a Resend account.
 2. Verify a sending domain or subdomain in Resend.
-   - Recommended: a subdomain such as `mail.sino-addiction.org`.
+   - Recommended: a subdomain such as `resend.sino-addiction.org`.
 3. Set the `MAIL_FROM` value in `wrangler.toml` to a verified sender, for example:
-   - `SANI Survey <survey@mail.sino-addiction.org>`
+   - `SANI Survey <survey@resend.sino-addiction.org>`
 4. Set the recipient address in `MAIL_TO`.
 5. Create a Resend API key and store it as a Cloudflare secret:
    - `npx wrangler secret put RESEND_API_KEY`

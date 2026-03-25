@@ -5,17 +5,24 @@ interface Env {
   ALLOWED_ORIGINS: string;
 }
 
+type SelectedItem = {
+  label?: string;
+  case_count?: string;
+  control_count?: string;
+};
+
 type SurveyPayload = {
   study_name?: string;
   pi_name?: string;
   institution?: string;
   email?: string;
+  wechat_number?: string;
   additional_contact?: string;
   addiction_category?: string;
   addiction_detail?: string;
   article_reference?: string;
-  modalities?: string[];
-  data_types?: string[];
+  modalities?: SelectedItem[] | string[];
+  data_types?: SelectedItem[] | string[];
   notes?: string;
   company_website?: string;
   submitted_at?: string;
@@ -32,14 +39,36 @@ const parseCsv = (value: string) =>
 
 const textValue = (value: unknown) => (typeof value === "string" ? value.trim() : "");
 
-const listValue = (value: unknown) => {
-  if (Array.isArray(value)) {
-    return value.map((item) => textValue(item)).filter(Boolean);
-  }
+const normalizeSelectedItems = (value: unknown) => {
+  if (!Array.isArray(value)) return [];
 
-  const single = textValue(value);
-  return single ? [single] : [];
+  return value
+    .map((item) => {
+      if (typeof item === "string") {
+        const label = textValue(item);
+        return label ? { label, case_count: "", control_count: "" } : null;
+      }
+
+      if (!item || typeof item !== "object") return null;
+
+      const record = item as Record<string, unknown>;
+      const label = textValue(record.label);
+      if (!label) return null;
+
+      return {
+        label,
+        case_count: textValue(record.case_count),
+        control_count: textValue(record.control_count),
+      };
+    })
+    .filter(Boolean) as SelectedItem[];
 };
+
+const formatSelectedItems = (items: SelectedItem[]) =>
+  items.map((item) => [
+    item.label || "",
+    `case: ${item.case_count || "未填写"}，control: ${item.control_count || "未填写"}`,
+  ] as [string, string]);
 
 const escapeHtml = (value: string) =>
   value.replace(/[&<>"']/g, (character) => {
@@ -128,60 +157,60 @@ const buildHtmlSection = (title: string, entries: Array<[string, string | string
 const buildEmail = (payload: SurveyPayload) => {
   const submittedAt = payload.submitted_at || new Date().toISOString();
   const pagePath = payload.page_path || "/";
+  const modalities = normalizeSelectedItems(payload.modalities);
+  const dataTypes = normalizeSelectedItems(payload.data_types);
 
   const sections = [
-    buildTextSection("Basic information", [
-      ["Study / site name", textValue(payload.study_name)],
-      ["PI name", textValue(payload.pi_name)],
-      ["Institution", textValue(payload.institution)],
-      ["Email", textValue(payload.email)],
-      ["Additional contact", textValue(payload.additional_contact)],
+    buildTextSection("站点基本信息", [
+      ["站点 / 研究名称", textValue(payload.study_name)],
+      ["PI 姓名", textValue(payload.pi_name)],
+      ["机构", textValue(payload.institution)],
+      ["邮箱", textValue(payload.email)],
+      ["微信号", textValue(payload.wechat_number)],
+      ["补充联系人", textValue(payload.additional_contact)],
     ]),
-    buildTextSection("Addiction category", [
-      ["Main category", textValue(payload.addiction_category)],
-      ["Detail", textValue(payload.addiction_detail)],
+    buildTextSection("成瘾类别", [
+      ["主要成瘾类别", textValue(payload.addiction_category)],
+      ["补充类别说明", textValue(payload.addiction_detail)],
     ]),
-    buildTextSection("Article", [["Reference", textValue(payload.article_reference)]]),
-    buildTextSection("Modalities and data", [
-      ["Modalities", listValue(payload.modalities)],
-      ["Data types", listValue(payload.data_types)],
-    ]),
-    buildTextSection("Notes", [["Notes", textValue(payload.notes)]]),
-    buildTextSection("Metadata", [
-      ["Submitted at", submittedAt],
-      ["Page path", pagePath],
+    buildTextSection("文章信息", [["文章信息", textValue(payload.article_reference)]]),
+    buildTextSection("模态", formatSelectedItems(modalities)),
+    buildTextSection("数据类型", formatSelectedItems(dataTypes)),
+    buildTextSection("备注", [["补充说明", textValue(payload.notes)]]),
+    buildTextSection("元数据", [
+      ["提交时间", submittedAt],
+      ["页面路径", pagePath],
     ]),
   ].filter(Boolean) as string[];
 
-  const text = ["SANI site survey submission", ...sections].join("\n\n");
+  const text = ["SANI 站点调查表提交", ...sections].join("\n\n");
   const html = `
     <div style="font-family:Inter,Arial,sans-serif;color:#162434;line-height:1.6;">
-      <h2 style="margin:0 0 16px;font-size:22px;line-height:1.25;color:#102132;">SANI site survey submission</h2>
-      ${buildHtmlSection("Basic information", [
-        ["Study / site name", textValue(payload.study_name)],
-        ["PI name", textValue(payload.pi_name)],
-        ["Institution", textValue(payload.institution)],
-        ["Email", textValue(payload.email)],
-        ["Additional contact", textValue(payload.additional_contact)],
+      <h2 style="margin:0 0 16px;font-size:22px;line-height:1.25;color:#102132;">SANI 站点调查表提交</h2>
+      ${buildHtmlSection("站点基本信息", [
+        ["站点 / 研究名称", textValue(payload.study_name)],
+        ["PI 姓名", textValue(payload.pi_name)],
+        ["机构", textValue(payload.institution)],
+        ["邮箱", textValue(payload.email)],
+        ["微信号", textValue(payload.wechat_number)],
+        ["补充联系人", textValue(payload.additional_contact)],
       ])}
-      ${buildHtmlSection("Addiction category", [
-        ["Main category", textValue(payload.addiction_category)],
-        ["Detail", textValue(payload.addiction_detail)],
+      ${buildHtmlSection("成瘾类别", [
+        ["主要成瘾类别", textValue(payload.addiction_category)],
+        ["补充类别说明", textValue(payload.addiction_detail)],
       ])}
-      ${buildHtmlSection("Article", [["Reference", textValue(payload.article_reference)]])}
-      ${buildHtmlSection("Modalities and data", [
-        ["Modalities", listValue(payload.modalities)],
-        ["Data types", listValue(payload.data_types)],
-      ])}
-      ${buildHtmlSection("Notes", [["Notes", textValue(payload.notes)]])}
-      ${buildHtmlSection("Metadata", [
-        ["Submitted at", submittedAt],
-        ["Page path", pagePath],
+      ${buildHtmlSection("文章信息", [["文章信息", textValue(payload.article_reference)]])}
+      ${buildHtmlSection("模态", formatSelectedItems(modalities))}
+      ${buildHtmlSection("数据类型", formatSelectedItems(dataTypes))}
+      ${buildHtmlSection("备注", [["补充说明", textValue(payload.notes)]])}
+      ${buildHtmlSection("元数据", [
+        ["提交时间", submittedAt],
+        ["页面路径", pagePath],
       ])}
     </div>
   `;
 
-  const subject = `SANI site survey - ${textValue(payload.study_name) || "new submission"}`;
+  const subject = `SANI 站点调查表 - ${textValue(payload.study_name) || "新提交"}`;
 
   return { subject, text, html };
 };
@@ -210,34 +239,11 @@ export default {
     }
 
     const contentType = request.headers.get("Content-Type") || "";
-    let payload: SurveyPayload;
-
-    if (contentType.includes("application/json")) {
-      payload = (await request.json()) as SurveyPayload;
-    } else if (
-      contentType.includes("application/x-www-form-urlencoded") ||
-      contentType.includes("multipart/form-data")
-    ) {
-      const formData = await request.formData();
-      payload = {
-        study_name: textValue(formData.get("study_name")),
-        pi_name: textValue(formData.get("pi_name")),
-        institution: textValue(formData.get("institution")),
-        email: textValue(formData.get("email")),
-        additional_contact: textValue(formData.get("additional_contact")),
-        addiction_category: textValue(formData.get("addiction_category")),
-        addiction_detail: textValue(formData.get("addiction_detail")),
-        article_reference: textValue(formData.get("article_reference")),
-        modalities: listValue(formData.getAll("modalities")),
-        data_types: listValue(formData.getAll("data_types")),
-        notes: textValue(formData.get("notes")),
-        company_website: textValue(formData.get("company_website")),
-        submitted_at: textValue(formData.get("submitted_at")),
-        page_path: textValue(formData.get("page_path")),
-      };
-    } else {
+    if (!contentType.includes("application/json")) {
       return json({ error: "Unsupported content type" }, 415, cors);
     }
+
+    const payload = (await request.json()) as SurveyPayload;
 
     if (textValue(payload.company_website)) {
       return json({ ok: true, skipped: true }, 200, cors);

@@ -6,7 +6,14 @@ import { siteData } from "../data/site";
 type ChoiceOption = {
   label: string;
   note: string;
+  value: string;
 };
+
+const toSlug = (value: string) =>
+  value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 
 const addictionOptions = [
   "酒精",
@@ -27,7 +34,10 @@ const modalityOptions: ChoiceOption[] = [
   { label: "DTI", note: "扩散成像" },
   { label: "EEG", note: "头皮脑电" },
   { label: "fNIRS", note: "近红外" },
-] as const;
+].map((option) => ({
+  ...option,
+  value: toSlug(option.label),
+}));
 
 const dataOptions: ChoiceOption[] = [
   { label: "原始数据", note: "raw" },
@@ -36,18 +46,21 @@ const dataOptions: ChoiceOption[] = [
   { label: "临床 / 诊断", note: "diagnosis" },
   { label: "遗传 / 基因型", note: "genetics" },
   { label: "元数据 / 清单", note: "BIDS / inventory" },
-] as const;
+].map((option) => ({
+  ...option,
+  value: toSlug(option.label),
+}));
 
 const surveySubmitUrl = import.meta.env.PUBLIC_SURVEY_ENDPOINT?.trim() ?? "";
 ---
 
 <BaseLayout
   title="站点调查表 | SANI"
-  description="精简版 site survey，收集站点基本信息、成瘾类别、相关文章、模态和数据概况。"
+  description="用于收集站点基本信息、成瘾类别、文章信息、模态和数据概况。"
 >
   <Hero
     title="站点调查表"
-    subtitle="简化版 site survey，用于收集站点基本信息、成瘾类别、相关文章、模态和数据概况。"
+    subtitle="用于收集站点基本信息、成瘾类别、相关文章、模态和数据概况。请按发表文章对应的数据填写，便于我们后续按 study 整理和提取；同一套数据若发表了多篇文章，请在文章信息中一并列出，未发表数据请填写“未发表”。"
     compact={true}
   />
 
@@ -55,8 +68,11 @@ const surveySubmitUrl = import.meta.env.PUBLIC_SURVEY_ENDPOINT?.trim() ?? "";
     <div class="survey-panel">
       <div class="survey-panel-head">
         <h2 class="font-serif text-[28px] md:text-[34px] font-bold text-ink-deep leading-[1.18]">
-          只填必要项即可提交
+          请按文章对应的数据填写
         </h2>
+        <p class="survey-note">
+          我们按文章整理 study；同一套数据若发表了多篇文章，请在“文章信息”中一并列出，未发表数据请填写“未发表”。
+        </p>
       </div>
 
       <form
@@ -64,9 +80,6 @@ const surveySubmitUrl = import.meta.env.PUBLIC_SURVEY_ENDPOINT?.trim() ?? "";
         data-site-survey-form
         data-submit-url={surveySubmitUrl}
         data-contact-email={siteData.contact.email}
-        action={`mailto:${siteData.contact.email}`}
-        method="post"
-        enctype="text/plain"
       >
         <fieldset class="survey-section">
           <legend class="survey-section-title">基本信息</legend>
@@ -124,6 +137,18 @@ const surveySubmitUrl = import.meta.env.PUBLIC_SURVEY_ENDPOINT?.trim() ?? "";
             </div>
 
             <div class="survey-field">
+              <label class="survey-label" for="wechat_number">微信号（推荐）</label>
+              <input
+                class="survey-control"
+                id="wechat_number"
+                name="wechat_number"
+                type="text"
+                autocomplete="off"
+                placeholder="便于后续沟通，例如 wechat_id"
+              />
+            </div>
+
+            <div class="survey-field">
               <label class="survey-label" for="additional_contact">补充联系人（可选）</label>
               <input
                 class="survey-control"
@@ -162,49 +187,166 @@ const surveySubmitUrl = import.meta.env.PUBLIC_SURVEY_ENDPOINT?.trim() ?? "";
         </fieldset>
 
         <fieldset class="survey-section">
-          <legend class="survey-section-title">相关文章</legend>
+          <legend class="survey-section-title">文章信息</legend>
+          <p class="survey-note">
+            请填写能唯一定位该数据集的文献信息，建议包含题目、作者、期刊、年份、DOI / PMID / URL。我们按文章对应的数据整理 study：
+            例如一篇文章包含 50 case / 50 control，就按这一套数据记录；如果同一套数据发表了多篇文章，请在此处一并列出；未发表数据请填写“未发表”。
+          </p>
           <div class="survey-field">
-            <label class="survey-label" for="article_reference">文章信息（可选）</label>
+            <label class="survey-label" for="article_reference">文章信息（必填）</label>
             <textarea
               class="survey-control"
               id="article_reference"
               name="article_reference"
               rows="4"
-              placeholder="题目、作者、期刊、年份、DOI / PMID / URL，写你最方便定位这篇文章的信息即可。"
+              required
+              placeholder="题目、作者、期刊、年份、DOI / PMID / URL；如有多篇文章请一并列出；未发表请填写“未发表”。"
             ></textarea>
           </div>
         </fieldset>
 
         <fieldset class="survey-section">
           <legend class="survey-section-title">模态与数据</legend>
+          <p class="survey-note">
+            勾选后请填写对应的 case / control 数量；如果暂时没有精确数值，可以先留空，后续再补。
+          </p>
+
           <div class="grid gap-6 lg:grid-cols-2">
             <div>
               <p class="survey-label mb-3">可提供模态</p>
               <div class="survey-choice-grid">
-                {modalityOptions.map((option) => (
-                  <label class="survey-choice">
-                    <input type="checkbox" name="modalities" value={option.label} />
-                    <span>
-                      <strong>{option.label}</strong>
-                      <small>{option.note}</small>
-                    </span>
-                  </label>
-                ))}
+                {modalityOptions.map((option) => {
+                  const checkboxId = `modality-${option.value}`;
+                  const caseName = `modality_case_${option.value}`;
+                  const controlName = `modality_control_${option.value}`;
+                  const caseId = `${checkboxId}-case`;
+                  const controlId = `${checkboxId}-control`;
+
+                  return (
+                    <div
+                      class="survey-choice-card"
+                      data-survey-choice
+                      data-survey-choice-group="modalities"
+                      data-item-label={option.label}
+                      data-case-name={caseName}
+                      data-control-name={controlName}
+                    >
+                      <label class="survey-choice-main" for={checkboxId}>
+                        <input
+                          class="survey-choice-toggle"
+                          type="checkbox"
+                          id={checkboxId}
+                          name="modalities"
+                          value={option.label}
+                          data-survey-toggle
+                        />
+                        <span>
+                          <strong>{option.label}</strong>
+                          <small>{option.note}</small>
+                        </span>
+                      </label>
+
+                      <div class="survey-choice-counts" data-survey-counts hidden>
+                        <div class="survey-count-field">
+                          <label class="survey-count-label" for={caseId}>Case 数</label>
+                          <input
+                            class="survey-control survey-count-control"
+                            id={caseId}
+                            name={caseName}
+                            type="number"
+                            min="0"
+                            step="1"
+                            inputmode="numeric"
+                            placeholder="0"
+                          />
+                        </div>
+
+                        <div class="survey-count-field">
+                          <label class="survey-count-label" for={controlId}>Control 数</label>
+                          <input
+                            class="survey-control survey-count-control"
+                            id={controlId}
+                            name={controlName}
+                            type="number"
+                            min="0"
+                            step="1"
+                            inputmode="numeric"
+                            placeholder="0"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
 
             <div>
               <p class="survey-label mb-3">数据类型</p>
               <div class="survey-choice-grid">
-                {dataOptions.map((option) => (
-                  <label class="survey-choice">
-                    <input type="checkbox" name="data_types" value={option.label} />
-                    <span>
-                      <strong>{option.label}</strong>
-                      <small>{option.note}</small>
-                    </span>
-                  </label>
-                ))}
+                {dataOptions.map((option) => {
+                  const checkboxId = `data-${option.value}`;
+                  const caseName = `data_case_${option.value}`;
+                  const controlName = `data_control_${option.value}`;
+                  const caseId = `${checkboxId}-case`;
+                  const controlId = `${checkboxId}-control`;
+
+                  return (
+                    <div
+                      class="survey-choice-card"
+                      data-survey-choice
+                      data-survey-choice-group="data_types"
+                      data-item-label={option.label}
+                      data-case-name={caseName}
+                      data-control-name={controlName}
+                    >
+                      <label class="survey-choice-main" for={checkboxId}>
+                        <input
+                          class="survey-choice-toggle"
+                          type="checkbox"
+                          id={checkboxId}
+                          name="data_types"
+                          value={option.label}
+                          data-survey-toggle
+                        />
+                        <span>
+                          <strong>{option.label}</strong>
+                          <small>{option.note}</small>
+                        </span>
+                      </label>
+
+                      <div class="survey-choice-counts" data-survey-counts hidden>
+                        <div class="survey-count-field">
+                          <label class="survey-count-label" for={caseId}>Case 数</label>
+                          <input
+                            class="survey-control survey-count-control"
+                            id={caseId}
+                            name={caseName}
+                            type="number"
+                            min="0"
+                            step="1"
+                            inputmode="numeric"
+                            placeholder="0"
+                          />
+                        </div>
+
+                        <div class="survey-count-field">
+                          <label class="survey-count-label" for={controlId}>Control 数</label>
+                          <input
+                            class="survey-control survey-count-control"
+                            id={controlId}
+                            name={controlName}
+                            type="number"
+                            min="0"
+                            step="1"
+                            inputmode="numeric"
+                            placeholder="0"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -226,17 +368,16 @@ const surveySubmitUrl = import.meta.env.PUBLIC_SURVEY_ENDPOINT?.trim() ?? "";
 
         <div class="survey-submit-row">
           <p class="survey-help">
-            提交后会打开你的邮件客户端，并把内容整理成一封发往
-            <a class="underline decoration-accent/30 underline-offset-2 hover:text-accent-hover" href={`mailto:${siteData.contact.email}`}>
-              {siteData.contact.email}
-            </a>
-            的邮件。
+            提交后信息将直接发送至 <span class="font-medium">{siteData.contact.email}</span>。
+            若发送异常，请直接发送邮件至 <span class="font-medium">{siteData.contact.email}</span>，我们会尽快回复。
           </p>
 
           <button type="submit" class="btn-primary survey-submit-button w-full sm:w-auto px-8">
             提交并发送
           </button>
         </div>
+
+        <p class="survey-status" data-survey-status aria-live="polite"></p>
       </form>
     </div>
   </section>
@@ -246,141 +387,85 @@ const surveySubmitUrl = import.meta.env.PUBLIC_SURVEY_ENDPOINT?.trim() ?? "";
       const form = document.querySelector("[data-site-survey-form]");
       if (!(form instanceof HTMLFormElement)) return;
 
-      const contactEmail = form.dataset.contactEmail || "";
-
-      const getValue = (formData, name) => {
-        const value = formData.get(name);
-        return typeof value === "string" ? value.trim() : "";
-      };
-
-      const getValues = (formData, name) =>
-        formData
-          .getAll(name)
-          .map((value) => (typeof value === "string" ? value.trim() : ""))
-          .filter(Boolean);
-
-      const buildSection = (title, entries) => {
-        const lines = [];
-
-        entries.forEach(([label, rawValue]) => {
-          const value = String(rawValue || "").trim();
-          if (!value) return;
-
-          const parts = value.split(/\r?\n/);
-          lines.push(`- ${label}: ${parts[0]}`);
-          parts.slice(1).forEach((line) => {
-            lines.push(`  ${line}`);
-          });
-        });
-
-        if (lines.length === 0) return null;
-
-        return [`[${title}]`, ...lines].join("\n");
-      };
-
-      form.addEventListener("submit", (event) => {
-        event.preventDefault();
-
-        if (!form.reportValidity()) return;
-
-        const formData = new FormData(form);
-        const studyName = getValue(formData, "study_name") || "new submission";
-
-        const sections = [
-          buildSection("基本信息", [
-            ["站点 / 研究名称", getValue(formData, "study_name")],
-            ["PI", getValue(formData, "pi_name")],
-            ["机构", getValue(formData, "institution")],
-            ["邮箱", getValue(formData, "email")],
-            ["补充联系人", getValue(formData, "additional_contact")],
-          ]),
-          buildSection("成瘾类别", [
-            ["主要成瘾类别", getValue(formData, "addiction_category")],
-            ["补充类别说明", getValue(formData, "addiction_detail")],
-          ]),
-          buildSection("相关文章", [["文章信息", getValue(formData, "article_reference")]]),
-          buildSection("模态与数据", [
-            ["可提供模态", getValues(formData, "modalities").join(", ")],
-            ["数据类型", getValues(formData, "data_types").join(", ")],
-          ]),
-          buildSection("备注", [["补充说明", getValue(formData, "notes")]]),
-        ].filter(Boolean);
-
-        const subject = `SANI site survey - ${studyName}`;
-        const body = ["SANI Site Survey", ...sections].join("\n\n");
-        const mailto = `mailto:${contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
-        window.location.href = mailto;
-      });
-    })();
-  </script>
-
-  <script is:inline>
-    (() => {
-      const form = document.querySelector("[data-site-survey-form]");
-      if (!(form instanceof HTMLFormElement)) return;
-
       const submitUrl = form.dataset.submitUrl?.trim() ?? "";
-      if (!submitUrl) return;
-
       const contactEmail = form.dataset.contactEmail || "";
       const submitButton = form.querySelector(".survey-submit-button");
+      const statusEl = form.querySelector("[data-survey-status]");
+      const choiceCards = Array.from(form.querySelectorAll("[data-survey-choice]"));
 
       const getValue = (formData, name) => {
         const value = formData.get(name);
         return typeof value === "string" ? value.trim() : "";
       };
 
-      const getValues = (formData, name) =>
-        formData
-          .getAll(name)
-          .map((value) => (typeof value === "string" ? value.trim() : ""))
-          .filter(Boolean);
-
-      const buildSection = (title, entries) => {
-        const lines = [];
-
-        entries.forEach(([label, rawValue]) => {
-          const value = String(rawValue || "").trim();
-          if (!value) return;
-
-          const parts = value.split(/\r?\n/);
-          lines.push(`- ${label}: ${parts[0]}`);
-          parts.slice(1).forEach((line) => {
-            lines.push(`  ${line}`);
-          });
-        });
-
-        if (lines.length === 0) return null;
-
-        return [`[${title}]`, ...lines].join("\n");
+      const setStatus = (state, message) => {
+        if (statusEl instanceof HTMLElement) {
+          statusEl.dataset.state = state;
+          statusEl.textContent = message;
+        }
       };
 
-      const buildMailBody = (formData) => {
-        const sections = [
-          buildSection("基本信息", [
-            ["站点 / 研究名称", getValue(formData, "study_name")],
-            ["PI", getValue(formData, "pi_name")],
-            ["机构", getValue(formData, "institution")],
-            ["邮箱", getValue(formData, "email")],
-            ["补充联系人", getValue(formData, "additional_contact")],
-          ]),
-          buildSection("成瘾类别", [
-            ["主要成瘾类别", getValue(formData, "addiction_category")],
-            ["补充类别说明", getValue(formData, "addiction_detail")],
-          ]),
-          buildSection("相关文章", [["文章信息", getValue(formData, "article_reference")]]),
-          buildSection("模态与数据", [
-            ["可提供模态", getValues(formData, "modalities").join(", ")],
-            ["数据类型", getValues(formData, "data_types").join(", ")],
-          ]),
-          buildSection("备注", [["补充说明", getValue(formData, "notes")]]),
-        ].filter(Boolean);
+      const buildSelections = (groupName, formData) => {
+        const selections = [];
 
-        const subject = `SANI site survey - ${getValue(formData, "study_name") || "new submission"}`;
-        const body = ["SANI Site Survey", ...sections].join("\n\n");
+        for (const card of choiceCards) {
+          if (!(card instanceof HTMLElement)) continue;
+          if (card.dataset.surveyChoiceGroup !== groupName) continue;
 
-        return { subject, body };
+          const toggle = card.querySelector("[data-survey-toggle]");
+          if (!(toggle instanceof HTMLInputElement) || !toggle.checked) continue;
+
+          const label = card.dataset.itemLabel || "";
+          if (!label) continue;
+
+          selections.push({
+            label,
+            case_count: getValue(formData, card.dataset.caseName || ""),
+            control_count: getValue(formData, card.dataset.controlName || ""),
+          });
+        }
+
+        return selections;
+      };
+
+          const syncChoiceCard = (card) => {
+        if (!(card instanceof HTMLElement)) return () => {};
+
+        const toggle = card.querySelector("[data-survey-toggle]");
+        const counts = card.querySelector("[data-survey-counts]");
+        const countInputs = counts instanceof HTMLElement ? Array.from(counts.querySelectorAll("input")) : [];
+
+          const update = () => {
+            const isSelected = toggle instanceof HTMLInputElement ? toggle.checked : false;
+            card.dataset.state = isSelected ? "selected" : "idle";
+
+          if (counts instanceof HTMLElement) {
+            counts.hidden = !isSelected;
+          }
+
+            for (const input of countInputs) {
+              if (!(input instanceof HTMLInputElement)) continue;
+              input.disabled = !isSelected;
+              input.required = false;
+              if (!isSelected) {
+                input.value = "";
+              }
+            }
+        };
+
+        if (toggle instanceof HTMLInputElement) {
+          toggle.addEventListener("change", update);
+        }
+
+        update();
+        return update;
+      };
+
+      const choiceControllers = choiceCards.map((card) => syncChoiceCard(card));
+      const syncAllChoices = () => {
+        for (const update of choiceControllers) {
+          update();
+        }
       };
 
       const buildPayload = (formData) => ({
@@ -388,69 +473,70 @@ const surveySubmitUrl = import.meta.env.PUBLIC_SURVEY_ENDPOINT?.trim() ?? "";
         pi_name: getValue(formData, "pi_name"),
         institution: getValue(formData, "institution"),
         email: getValue(formData, "email"),
+        wechat_number: getValue(formData, "wechat_number"),
         additional_contact: getValue(formData, "additional_contact"),
         addiction_category: getValue(formData, "addiction_category"),
         addiction_detail: getValue(formData, "addiction_detail"),
         article_reference: getValue(formData, "article_reference"),
-        modalities: getValues(formData, "modalities"),
-        data_types: getValues(formData, "data_types"),
+        modalities: buildSelections("modalities", formData),
+        data_types: buildSelections("data_types", formData),
         notes: getValue(formData, "notes"),
         submitted_at: new Date().toISOString(),
         page_path: window.location.pathname,
       });
 
-      const openMailClient = (formData) => {
-        const { subject, body } = buildMailBody(formData);
-        const mailto = `mailto:${contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-        window.location.href = mailto;
+      const setButtonState = (label, disabled) => {
+        if (submitButton instanceof HTMLButtonElement) {
+          submitButton.textContent = label;
+          submitButton.disabled = disabled;
+        }
       };
 
-      form.addEventListener(
-        "submit",
-        async (event) => {
-          event.preventDefault();
-          event.stopImmediatePropagation();
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        event.stopImmediatePropagation();
 
-          if (!form.reportValidity()) return;
+        if (!form.reportValidity()) return;
 
-          const formData = new FormData(form);
-          const payload = buildPayload(formData);
+        if (!submitUrl) {
+          setStatus("error", `提交服务暂不可用，请直接发送邮件至 ${contactEmail}，我们会尽快回复。`);
+          return;
+        }
 
-          const button = submitButton instanceof HTMLElement ? submitButton : null;
-          const originalLabel = button?.textContent?.trim() || "提交并发送";
-          const setButtonLabel = (label) => {
-            if (button) {
-              button.textContent = label;
-            }
-          };
+        const formData = new FormData(form);
+        const payload = buildPayload(formData);
+        const originalLabel =
+          submitButton instanceof HTMLButtonElement && submitButton.textContent
+            ? submitButton.textContent.trim()
+            : "提交并发送";
 
-          try {
-            setButtonLabel("发送中...");
-            const response = await fetch(submitUrl, {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json",
-              },
-              body: JSON.stringify(payload),
-            });
+        try {
+          setButtonState("发送中...", true);
+          setStatus("info", "信息正在发送，请稍候。");
 
-            if (!response.ok) {
-              throw new Error(await response.text());
-            }
+          const response = await fetch(submitUrl, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+            body: JSON.stringify(payload),
+          });
 
-            form.reset();
-            setButtonLabel("已发送");
-            window.setTimeout(() => setButtonLabel(originalLabel), 2500);
-          } catch (error) {
-            console.error(error);
-            setButtonLabel("打开邮箱");
-            window.setTimeout(() => setButtonLabel(originalLabel), 2500);
-            openMailClient(formData);
+          if (!response.ok) {
+            throw new Error(await response.text());
           }
-        },
-        true,
-      );
+
+          form.reset();
+          syncAllChoices();
+          setStatus("success", "您的信息已发送，我们将尽快与您取得联系。");
+          window.setTimeout(() => setButtonState(originalLabel, false), 2200);
+        } catch (error) {
+          console.error(error);
+          setStatus("error", `信息发送失败，请稍后重试，或直接发送邮件至 ${contactEmail}，我们会尽快回复。`);
+          window.setTimeout(() => setButtonState(originalLabel, false), 2200);
+        }
+      });
     })();
   </script>
 
@@ -460,7 +546,7 @@ const surveySubmitUrl = import.meta.env.PUBLIC_SURVEY_ENDPOINT?.trim() ?? "";
       border-radius: 32px;
       border: 1px solid rgba(215, 223, 219, 0.9);
       background: rgba(255, 255, 255, 0.98);
-      box-shadow: 0 12px 28px rgba(16, 33, 50, 0.05);
+      box-shadow: none;
     }
 
     .survey-panel-head {
@@ -469,6 +555,13 @@ const surveySubmitUrl = import.meta.env.PUBLIC_SURVEY_ENDPOINT?.trim() ?? "";
       gap: 0.75rem;
       padding: 1.5rem 1.25rem;
       border-bottom: 1px solid rgba(215, 223, 219, 0.8);
+    }
+
+    .survey-note {
+      color: var(--color-text-secondary);
+      font-size: 0.92rem;
+      line-height: 1.75;
+      max-width: 62rem;
     }
 
     .survey-form {
@@ -525,11 +618,6 @@ const surveySubmitUrl = import.meta.env.PUBLIC_SURVEY_ENDPOINT?.trim() ?? "";
       font: inherit;
       font-size: 0.95rem;
       color: var(--color-text-primary);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.82);
-      transition:
-        border-color 180ms ease,
-        box-shadow 180ms ease,
-        background-color 180ms ease;
     }
 
     .survey-control::placeholder {
@@ -539,7 +627,6 @@ const surveySubmitUrl = import.meta.env.PUBLIC_SURVEY_ENDPOINT?.trim() ?? "";
     .survey-control:focus {
       outline: none;
       border-color: rgba(31, 107, 102, 0.42);
-      box-shadow: 0 0 0 4px rgba(31, 107, 102, 0.08);
     }
 
     textarea.survey-control {
@@ -565,26 +652,28 @@ const surveySubmitUrl = import.meta.env.PUBLIC_SURVEY_ENDPOINT?.trim() ?? "";
       gap: 0.75rem;
     }
 
-    .survey-choice {
-      display: flex;
-      gap: 0.8rem;
-      align-items: flex-start;
+    .survey-choice-card {
+      display: grid;
+      gap: 0.85rem;
       border-radius: 18px;
       border: 1px solid rgba(215, 223, 219, 0.95);
-      background: rgba(252, 253, 252, 0.96);
+      background: rgba(252, 253, 252, 0.98);
       padding: 0.9rem 1rem;
-      transition:
-        border-color 180ms ease,
-        background-color 180ms ease,
-        box-shadow 180ms ease;
     }
 
-    .survey-choice:hover {
-      border-color: rgba(31, 107, 102, 0.22);
+    .survey-choice-card[data-state="selected"] {
+      border-color: rgba(31, 107, 102, 0.25);
       background: rgba(247, 250, 248, 0.98);
     }
 
-    .survey-choice input {
+    .survey-choice-main {
+      display: flex;
+      gap: 0.8rem;
+      align-items: flex-start;
+      cursor: pointer;
+    }
+
+    .survey-choice-toggle {
       margin-top: 0.18rem;
       flex-shrink: 0;
       width: 1rem;
@@ -592,28 +681,70 @@ const surveySubmitUrl = import.meta.env.PUBLIC_SURVEY_ENDPOINT?.trim() ?? "";
       accent-color: var(--color-accent);
     }
 
-    .survey-choice span {
+    .survey-choice-main span {
       display: grid;
       gap: 0.15rem;
     }
 
-    .survey-choice strong {
+    .survey-choice-main strong {
       color: var(--color-ink-deep);
       font-size: 0.94rem;
       line-height: 1.35;
       font-weight: 700;
     }
 
-    .survey-choice small {
+    .survey-choice-main small {
       color: var(--color-text-secondary);
       font-size: 0.82rem;
       line-height: 1.5;
+    }
+
+    .survey-choice-counts {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.75rem;
+    }
+
+    .survey-count-field {
+      display: grid;
+      gap: 0.4rem;
+    }
+
+    .survey-count-label {
+      color: var(--color-text-secondary);
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .survey-count-control {
+      min-height: 2.75rem;
+      padding: 0.7rem 0.9rem;
+      border-radius: 16px;
     }
 
     .survey-help {
       color: var(--color-text-secondary);
       font-size: 0.9rem;
       line-height: 1.7;
+    }
+
+    .survey-status {
+      min-height: 1.5rem;
+      color: var(--color-text-secondary);
+      font-size: 0.92rem;
+      line-height: 1.7;
+    }
+
+    .survey-status[data-state="success"] {
+      color: #1f6b66;
+    }
+
+    .survey-status[data-state="error"] {
+      color: #a34444;
+    }
+
+    .survey-status[data-state="info"] {
+      color: var(--color-text-secondary);
     }
 
     .survey-submit-row {
@@ -630,7 +761,6 @@ const surveySubmitUrl = import.meta.env.PUBLIC_SURVEY_ENDPOINT?.trim() ?? "";
       min-width: 180px;
     }
 
-    .survey-panel {
     @media (max-width: 767px) {
       .survey-panel-head,
       .survey-form {
@@ -644,6 +774,10 @@ const surveySubmitUrl = import.meta.env.PUBLIC_SURVEY_ENDPOINT?.trim() ?? "";
 
       .survey-submit-button {
         width: 100%;
+      }
+
+      .survey-choice-counts {
+        grid-template-columns: 1fr;
       }
     }
   </style>

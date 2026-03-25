@@ -3,7 +3,7 @@ title: 加入我们 - SANI
 description: 了解加入 SANI 的流程、合作规则与联系方式。
 hero:
   kicker: Join The Network
-  title: 成为 SANI 的一员
+  title: 加入我们
   subtitle: 如果您希望贡献数据、发起研究问题，或参与方法与分析合作，SANI 欢迎在明确规则下开展长期协作。
   primaryCta:
     label: 查看加入流程
