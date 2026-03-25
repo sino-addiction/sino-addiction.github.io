@@ -1,4 +1,4 @@
-name = "sani-site-survey-mailer"
+name = "sino-collect-forms"
 main = "src/index.ts"
 compatibility_date = "2026-03-25"
 
