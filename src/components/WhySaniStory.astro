@@ -1,0 +1,523 @@
+---
+import ProcessIcon from "./ProcessIcon.astro";
+
+type IconName = "upload" | "check" | "share" | "database" | "play" | "users" | "sliders" | "shield" | "network" | "workflow" | "chart";
+
+type JoinHighlight = {
+  label?: string;
+  title: string;
+  description: string;
+};
+
+type StoryStep = {
+  eyebrow: string;
+  title: string;
+  body: string;
+  icon: IconName;
+};
+
+type Props = {
+  joinHighlights?: JoinHighlight[];
+};
+
+const { joinHighlights = [] } = Astro.props;
+
+const problemSteps: StoryStep[] = [
+  {
+    eyebrow: "单中心 / 样本不足",
+    title: "单中心结果容易停在片段",
+    body: "样本量有限时，效应不稳定，统计检验的效能受限，结论也很难被长期信任。",
+    icon: "users",
+  },
+  {
+    eyebrow: "流程不一",
+    title: "不同站点之间难以直接比较",
+    body: "采集、预处理、质控和变量口径不一致，会让真正的疾病信号被方法差异稀释。",
+    icon: "sliders",
+  },
+  {
+    eyebrow: "缺少验证",
+    title: "发现之后还需要被重复确认",
+    body: "缺少独立队列和跨中心验证时，研究结果很难进一步走向临床解释与转化应用。",
+    icon: "shield",
+  },
+];
+
+const responseSteps: StoryStep[] = [
+  {
+    eyebrow: "01 / 接入",
+    title: "多中心接入",
+    body: "让 MRI、EEG、fNIRS 与临床量表在可追溯的规范下进入同一协作框架。",
+    icon: "network",
+  },
+  {
+    eyebrow: "02 / 协调",
+    title: "中心节点协调",
+    body: "以统一协议、质控标准、BIDS 与数据治理，减少站点之间不可比较的部分。",
+    icon: "workflow",
+  },
+  {
+    eyebrow: "03 / 产出",
+    title: "联合产出",
+    body: "在联合分析、结果复核和开放共享中，让发现被更多研究者检验、复用和延展。",
+    icon: "chart",
+  },
+];
+
+const joinIcons: IconName[] = ["database", "check", "chart", "network"];
+const joinSteps: StoryStep[] = joinHighlights.map((item, index) => ({
+  eyebrow: item.label ?? `加入我们 / ${String(index + 1).padStart(2, "0")}`,
+  title: item.title,
+  body: item.description,
+  icon: joinIcons[index % joinIcons.length],
+}));
+
+const flowCardClass = "story-card surface-card flex h-full flex-col border-t-4 border-t-accent transition-shadow hover:shadow-md";
+---
+
+<section id="why-sani-story" class="why-sani-story relative overflow-hidden py-16 md:py-24 scroll-mt-24" data-why-sani-story>
+  <div class="page-wrap relative z-10">
+    <div class="mx-auto max-w-6xl">
+      <div class="mx-auto max-w-4xl text-center">
+        <p class="text-[13px] font-bold uppercase tracking-[0.18em] text-accent">Research Challenge</p>
+        <h2 class="mt-4 font-serif text-[34px] font-bold leading-[1.22] text-ink-deep md:text-[46px]">
+          研究困境
+        </h2>
+        <p class="mx-auto mt-5 max-w-3xl text-[16px] leading-[1.9] text-text-secondary md:text-[18px]">
+          成瘾神经影像研究常受限于小样本、单中心与流程不统一。
+        </p>
+      </div>
+
+      <div class="relative mx-auto mt-12 max-w-6xl md:mt-16" data-story-timeline>
+        <div class="story-axis" aria-hidden="true"></div>
+
+        <div class="space-y-[18px] md:space-y-8">
+          {problemSteps.map((step, index) => (
+            <div data-story-reveal style={`--story-delay:${index * 100}ms;`}>
+              <div class="relative pl-14 md:hidden">
+                <div class="story-node story-node--compact absolute left-0 top-4" data-story-node>
+                  <span class="story-node-ring"></span>
+                  <span class="story-node-core">
+                    <ProcessIcon name={step.icon} class="h-4 w-4" />
+                  </span>
+                </div>
+
+                <article class={flowCardClass}>
+                  <span class="story-eyebrow">{step.eyebrow}</span>
+                  <h3>{step.title}</h3>
+                  <p>{step.body}</p>
+                </article>
+              </div>
+
+              <div class="hidden md:grid md:grid-cols-[minmax(0,1fr)_88px_minmax(0,1fr)] md:items-center md:gap-6">
+                {index % 2 === 0 ? (
+                  <>
+                    <article class={`${flowCardClass} md:justify-self-end`}>
+                      <span class="story-eyebrow">{step.eyebrow}</span>
+                      <h3>{step.title}</h3>
+                      <p>{step.body}</p>
+                    </article>
+
+                    <div class="story-node hidden md:flex md:justify-self-center" aria-hidden="true" data-story-node>
+                      <span class="story-node-ring"></span>
+                      <span class="story-node-core">
+                        <ProcessIcon name={step.icon} class="h-5 w-5" />
+                      </span>
+                    </div>
+
+                    <div aria-hidden="true"></div>
+                  </>
+                ) : (
+                  <>
+                    <div aria-hidden="true"></div>
+
+                    <div class="story-node hidden md:flex md:justify-self-center" aria-hidden="true" data-story-node>
+                      <span class="story-node-ring"></span>
+                      <span class="story-node-core">
+                        <ProcessIcon name={step.icon} class="h-5 w-5" />
+                      </span>
+                    </div>
+
+                    <article class={`${flowCardClass} md:justify-self-start`}>
+                      <span class="story-eyebrow">{step.eyebrow}</span>
+                      <h3>{step.title}</h3>
+                      <p>{step.body}</p>
+                    </article>
+                  </>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="solution-story-section relative overflow-hidden py-16 md:py-24" data-why-sani-story>
+  <div class="page-wrap relative z-10">
+    <div class="mx-auto max-w-6xl">
+      <div class="mx-auto max-w-4xl text-center">
+        <p class="text-[13px] font-bold uppercase tracking-[0.18em] text-accent">Our Solution</p>
+        <h2 class="mt-4 font-serif text-[34px] font-bold leading-[1.22] text-ink-deep md:text-[46px]">
+          解决方案
+        </h2>
+        <p class="mx-auto mt-5 max-w-3xl text-[16px] leading-[1.9] text-text-secondary md:text-[18px]">
+          以统一协议、标准流程与数据治理为基础，汇聚多中心数据，形成可比较、可复现、可验证的协作体系。
+        </p>
+      </div>
+
+      <div class="relative mx-auto mt-12 max-w-6xl md:mt-16" data-story-timeline>
+        <div class="story-axis" aria-hidden="true"></div>
+
+        <div class="space-y-[18px] md:space-y-8">
+
+          {responseSteps.map((step, index) => (
+            <div data-story-reveal style={`--story-delay:${index * 100}ms;`}>
+              <div class="relative pl-14 md:hidden">
+                <div class="story-node story-node--compact absolute left-0 top-4" data-story-node>
+                  <span class="story-node-ring"></span>
+                  <span class="story-node-core">
+                    <ProcessIcon name={step.icon} class="h-4 w-4" />
+                  </span>
+                </div>
+
+                <article class={flowCardClass}>
+                  <span class="story-eyebrow">{step.eyebrow}</span>
+                  <h3>{step.title}</h3>
+                  <p>{step.body}</p>
+                </article>
+              </div>
+
+              <div class="hidden md:grid md:grid-cols-[minmax(0,1fr)_88px_minmax(0,1fr)] md:items-center md:gap-6">
+                {index % 2 === 0 ? (
+                  <>
+                    <article class={`${flowCardClass} md:justify-self-end`}>
+                      <span class="story-eyebrow">{step.eyebrow}</span>
+                      <h3>{step.title}</h3>
+                      <p>{step.body}</p>
+                    </article>
+
+                    <div class="story-node hidden md:flex md:justify-self-center" aria-hidden="true" data-story-node>
+                      <span class="story-node-ring"></span>
+                      <span class="story-node-core">
+                        <ProcessIcon name={step.icon} class="h-5 w-5" />
+                      </span>
+                    </div>
+
+                    <div aria-hidden="true"></div>
+                  </>
+                ) : (
+                  <>
+                    <div aria-hidden="true"></div>
+
+                    <div class="story-node hidden md:flex md:justify-self-center" aria-hidden="true" data-story-node>
+                      <span class="story-node-ring"></span>
+                      <span class="story-node-core">
+                        <ProcessIcon name={step.icon} class="h-5 w-5" />
+                      </span>
+                    </div>
+
+                    <article class={`${flowCardClass} md:justify-self-start`}>
+                      <span class="story-eyebrow">{step.eyebrow}</span>
+                      <h3>{step.title}</h3>
+                      <p>{step.body}</p>
+                    </article>
+                  </>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{joinSteps.length > 0 && (
+  <section class="join-story-section relative overflow-hidden py-16 md:py-24" data-why-sani-story>
+    <div class="page-wrap relative z-10">
+      <div class="mx-auto max-w-6xl">
+        <div class="mx-auto max-w-4xl text-center">
+          <p class="text-[13px] font-bold uppercase tracking-[0.18em] text-accent">Join Us</p>
+          <h2 class="mt-4 font-serif text-[34px] font-bold leading-[1.22] text-ink-deep md:text-[46px]">
+            加入我们
+          </h2>
+        </div>
+
+        <div class="relative mx-auto mt-12 max-w-6xl md:mt-16" data-story-timeline>
+          <div class="story-axis" aria-hidden="true"></div>
+
+          <div class="space-y-[18px] md:space-y-8">
+            {joinSteps.map((step, index) => (
+              <div data-story-reveal style={`--story-delay:${index * 100}ms;`}>
+                <div class="relative pl-14 md:hidden">
+                  <div class="story-node story-node--compact absolute left-0 top-4" data-story-node>
+                    <span class="story-node-ring"></span>
+                  <span class="story-node-core">
+                    <ProcessIcon name={step.icon} class="h-4 w-4" />
+                  </span>
+                </div>
+
+                <article class={flowCardClass}>
+                  <span class="story-eyebrow">{step.eyebrow}</span>
+                  <h3>{step.title}</h3>
+                  <p>{step.body}</p>
+                  </article>
+                </div>
+
+                <div class="hidden md:grid md:grid-cols-[minmax(0,1fr)_88px_minmax(0,1fr)] md:items-center md:gap-6">
+                  {index % 2 === 0 ? (
+                    <>
+                      <article class={`${flowCardClass} md:justify-self-end`}>
+                        <span class="story-eyebrow">{step.eyebrow}</span>
+                        <h3>{step.title}</h3>
+                        <p>{step.body}</p>
+                      </article>
+
+                      <div class="story-node hidden md:flex md:justify-self-center" aria-hidden="true" data-story-node>
+                        <span class="story-node-ring"></span>
+                        <span class="story-node-core">
+                          <ProcessIcon name={step.icon} class="h-5 w-5" />
+                        </span>
+                      </div>
+
+                      <div aria-hidden="true"></div>
+                    </>
+                  ) : (
+                    <>
+                      <div aria-hidden="true"></div>
+
+                      <div class="story-node hidden md:flex md:justify-self-center" aria-hidden="true" data-story-node>
+                        <span class="story-node-ring"></span>
+                        <span class="story-node-core">
+                          <ProcessIcon name={step.icon} class="h-5 w-5" />
+                        </span>
+                      </div>
+
+                      <article class={`${flowCardClass} md:justify-self-start`}>
+                        <span class="story-eyebrow">{step.eyebrow}</span>
+                        <h3>{step.title}</h3>
+                        <p>{step.body}</p>
+                      </article>
+                    </>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div class="mt-12 flex justify-center">
+          <a href="/join-us" class="btn-primary px-8 shadow-lg shadow-accent/20">申请加入协作网络</a>
+        </div>
+      </div>
+    </div>
+  </section>
+)}
+
+<script>
+  const storyRoots = document.querySelectorAll<HTMLElement>("[data-why-sani-story]");
+
+  storyRoots.forEach((root) => {
+    const revealNodes = Array.from(root.querySelectorAll<HTMLElement>("[data-story-reveal]"));
+    const timeline = root.querySelector<HTMLElement>("[data-story-timeline]");
+    const timelineNodes = timeline ? Array.from(timeline.querySelectorAll<HTMLElement>("[data-story-node]")) : [];
+
+    const visibleNodes = () => timelineNodes.filter((node) => node.getClientRects().length > 0);
+
+    const updateTimeline = () => {
+      if (!timeline) return;
+
+      const nodes = visibleNodes();
+      if (nodes.length === 0) return;
+
+      const firstNode = nodes[0];
+      const lastNode = nodes[nodes.length - 1];
+      const timelineRect = timeline.getBoundingClientRect();
+      const firstRect = firstNode.getBoundingClientRect();
+      const lastRect = lastNode.getBoundingClientRect();
+
+      const topOffset = firstRect.top + firstRect.height / 2 - timelineRect.top;
+      const bottomOffset = timelineRect.bottom - (lastRect.top + lastRect.height / 2);
+
+      timeline.style.setProperty("--story-line-top", `${Math.max(0, topOffset)}px`);
+      timeline.style.setProperty("--story-line-bottom", `${Math.max(0, bottomOffset)}px`);
+    };
+
+    const scheduleTimelineUpdate = () => {
+      if (typeof window.requestAnimationFrame === "function") {
+        window.requestAnimationFrame(updateTimeline);
+      } else {
+        updateTimeline();
+      }
+    };
+
+    if (!("IntersectionObserver" in window)) {
+      revealNodes.forEach((node) => node.classList.add("is-visible"));
+    } else {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        {
+          threshold: 0.18,
+          rootMargin: "0px 0px -8% 0px",
+        },
+      );
+
+      revealNodes.forEach((node) => observer.observe(node));
+    }
+
+    scheduleTimelineUpdate();
+    window.addEventListener("load", scheduleTimelineUpdate, { once: true });
+    window.addEventListener("resize", scheduleTimelineUpdate);
+
+    if ("ResizeObserver" in window && timeline) {
+      const resizeObserver = new ResizeObserver(scheduleTimelineUpdate);
+      resizeObserver.observe(timeline);
+      timelineNodes.forEach((node) => resizeObserver.observe(node));
+    }
+  });
+</script>
+
+<style>
+  .why-sani-story {
+    background: var(--color-bg);
+  }
+
+  .solution-story-section,
+  .join-story-section {
+    background: var(--color-bg);
+  }
+
+  .story-axis {
+    position: absolute;
+    left: 22px;
+    top: var(--story-line-top, 0px);
+    bottom: var(--story-line-bottom, 0px);
+    width: 2px;
+    transform: translateX(-50%);
+    border-radius: 999px;
+    background: rgba(31, 107, 102, 0.34);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .story-node {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 74px;
+    height: 74px;
+  }
+
+  .story-node--compact {
+    width: 44px;
+    height: 44px;
+  }
+
+  .story-node-ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 999px;
+    border: 1px solid rgba(215, 223, 219, 0.95);
+    background: rgba(252, 253, 252, 0.86);
+  }
+
+  .story-node-core {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 999px;
+    background: var(--color-accent);
+    color: white;
+    box-shadow: 0 14px 28px rgba(31, 107, 102, 0.18);
+  }
+
+  .story-node--compact .story-node-core {
+    width: 30px;
+    height: 30px;
+  }
+
+  .story-card {
+    border-radius: 8px;
+    background: rgba(252, 253, 252, 0.82);
+    box-shadow: 0 16px 44px rgba(16, 33, 50, 0.055);
+    backdrop-filter: blur(12px);
+    width: min(100%, 520px);
+    padding: 24px;
+  }
+
+  .story-eyebrow {
+    color: var(--color-accent);
+    font-size: 13px;
+    font-weight: 850;
+  }
+
+  .story-card h3 {
+    margin-top: 12px;
+    color: var(--color-ink-deep);
+    font-size: 22px;
+    font-weight: 850;
+    line-height: 1.34;
+  }
+
+  .story-card p {
+    margin-top: 12px;
+    color: var(--color-text-secondary);
+    font-size: 15px;
+    line-height: 1.85;
+  }
+
+  [data-story-reveal] {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity 700ms cubic-bezier(0.2, 0.75, 0.2, 1),
+      transform 700ms cubic-bezier(0.2, 0.75, 0.2, 1);
+    transition-delay: var(--story-delay, 0ms);
+  }
+
+  [data-story-reveal].is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (min-width: 768px) {
+    .story-axis {
+      left: 50%;
+    }
+
+  }
+
+  @media (max-width: 767px) {
+    .why-sani-story {
+      padding-top: 56px;
+      padding-bottom: 64px;
+    }
+
+    .story-card {
+      padding: 20px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-story-reveal] {
+      opacity: 1;
+      transform: none;
+      transition-duration: 0.01ms !important;
+    }
+  }
+</style>

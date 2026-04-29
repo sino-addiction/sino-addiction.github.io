@@ -77,9 +77,9 @@ export const siteData: SiteData = {
   },
   homepage: {
     stats: [
-      { label: "参与站点", value: "10+", note: "覆盖多家高校与医疗机构，持续扩展中。" },
-      { label: "被试人数", value: "2,000+", note: "多中心纳入样本，含不同成瘾类型与健康对照。" },
-      { label: "已有项目", value: "4", note: "涉及脑网络、纵向随访、亚型识别与复发预测。" },
+      { label: "参与站点", value: "2", note: "当前按已确认参与的站点保守展示，后续确认后再更新。" },
+      { label: "被试人数", value: "1,200", note: "按当前可梳理样本规模保守展示，后续以入库版本为准。" },
+      { label: "已有项目", value: "1", note: "以成瘾神经影像数据库建设为主线，真实立项后持续更新。" },
     ],
     modalities: [
       { name: "结构 MRI", status: "integrating", note: "正在进行跨中心参数清洗与一致化整理。" },

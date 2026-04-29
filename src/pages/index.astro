@@ -1,43 +1,16 @@
 ---
-import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import SectionHeading from "../components/SectionHeading.astro";
-import FeaturedCarousel from "../components/FeaturedCarousel.astro";
-import NetworkMap from "../components/NetworkMap.astro";
+import WhySaniStory from "../components/WhySaniStory.astro";
 import { siteData } from "../data/site";
-import { listPublishedNews, sortFeaturedFirst } from "../lib/content";
+import { requirePage } from "../lib/content";
 
 // Fetch contents
-const news = (await listPublishedNews()).slice(0, 1);
-const projects = sortFeaturedFirst(await getCollection("projects")).slice(0, 1);
-
-const carouselItems: { type: "项目" | "新闻"; title: string; description: string; url: string; meta: string; }[] = [];
-
-news.forEach((n) => {
-  const dateStr = n.data.date.toLocaleDateString("zh-CN", { year: "numeric", month: "long", day: "numeric" });
-  carouselItems.push({
-    type: "新闻",
-    title: n.data.title,
-    description: n.data.summary,
-    url: `/news/${n.data.slug}/`,
-    meta: dateStr,
-  });
-});
-
-projects.forEach((p) => {
-  carouselItems.push({
-    type: "项目",
-    title: p.data.title,
-    description: p.body ?? "",
-    url: "/projects/",
-    meta: p.data.lead || "SANI Team",
-  });
-});
+const joinPage = await requirePage("join-us");
 ---
 
 <BaseLayout title={siteData.siteName} description={siteData.description}>
   <!-- Title Intro Section -->
-  <section class="page-wrap pt-20 pb-10 md:pt-28 md:pb-12 overflow-hidden">
+  <section class="page-wrap flex min-h-[calc(100svh-76px)] items-center justify-center overflow-hidden py-8 md:min-h-[calc(100svh-84px)] md:py-10">
     <div class="mx-auto flex max-w-5xl flex-col items-center text-center">
       <h1 class="text-[42px] md:text-[52px] lg:text-[58px] font-serif font-bold text-ink-deep leading-[1.15] mb-4">
         中国成瘾神经影像协作计划
@@ -49,61 +22,13 @@ projects.forEach((p) => {
         致力于构建标准化、可复现的多中心成瘾神经影像网络。通过透明的数据治理与跨站点协作逻辑，深耕具有临床转化价值的生物标志物发现与验证。
       </p>
       <div class="flex flex-wrap justify-center gap-6 items-center">
-        <a href="/join-us" class="btn-primary px-10 shadow-lg shadow-accent/20">加入我们</a>
-        <a href="/about" class="btn-link text-[16px] font-bold group">
-          了解更多联盟使命
-          <span class="ml-2 group-hover:translate-x-1 transition-transform inline-block">→</span>
+        <a href="#why-sani-story" class="btn-link text-[16px] font-bold group">
+          下滑了解更多
+          <span class="ml-2 group-hover:translate-y-1 transition-transform inline-block">↓</span>
         </a>
       </div>
     </div>
   </section>
 
-  <!-- Stats + Network Map -->
-  <section class="relative pt-6 pb-10 md:pt-8 md:pb-12 bg-surface-alt/35">
-    <div class="page-wrap">
-      <div class="w-full max-w-4xl mx-auto mb-8 md:mb-10 text-center">
-        <SectionHeading title="多中心协作版图" description="立足规模化建设的样本枢纽，实现分布式站点间的高度方法论一致性。" center={true} />
-      </div>
-
-      <div class="grid gap-8 xl:gap-10 lg:grid-cols-[minmax(300px,360px)_minmax(0,1fr)] lg:items-center">
-        <aside class="rounded-[32px] border border-border/60 bg-[#f4f7f3]/70 p-4 md:p-5 shadow-[0_14px_40px_rgba(16,33,50,0.04)] backdrop-blur-sm lg:self-center">
-          <div class="grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
-          {siteData.homepage.stats.map((stat) => (
-            <article class="rounded-[24px] border border-white/70 bg-white/58 p-6 md:p-7 shadow-[0_10px_24px_rgba(16,33,50,0.04)] backdrop-blur-sm">
-              <span class="text-[13px] font-[750] text-text-muted uppercase tracking-[0.18em] mb-3 flex items-center gap-3">
-                <span class="relative w-3 h-3 flex items-center justify-center">
-                  <span class="absolute inset-0 bg-accent/25 rounded-full animate-ping"></span>
-                  <span class="relative w-2 h-2 bg-accent rounded-full"></span>
-                </span>
-                {stat.label}
-              </span>
-              <span class="block text-[44px] md:text-[52px] font-serif font-bold text-ink-deep leading-none tracking-tighter">
-                {stat.value}
-              </span>
-              <p class="mt-3 text-[13px] md:text-[14px] text-text-muted/85 leading-relaxed">
-                {stat.note}
-              </p>
-            </article>
-          ))}
-          </div>
-        </aside>
-
-        <div class="w-full max-w-[860px] justify-self-end">
-          <NetworkMap variant="home" />
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Featured Carousel - Alliance Updates -->
-  {carouselItems.length > 0 && (
-    <section class="page-wrap pt-6 pb-16 md:pt-8 md:pb-20">
-      <div class="max-w-5xl mx-auto">
-        <div class="mb-8 md:mb-10">
-          <SectionHeading eyebrow="Alliance Updates" title="联盟动态" description="最新的科研项目进展、学术成果沉淀与机构新闻。" center={true} />
-        </div>
-        <FeaturedCarousel items={carouselItems} />
-      </div>
-    </section>
-  )}
+  <WhySaniStory joinHighlights={joinPage.data.highlights ?? []} />
 </BaseLayout>

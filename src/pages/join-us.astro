@@ -3,7 +3,6 @@ import { render } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Hero from "../components/Hero.astro";
 import SectionHeading from "../components/SectionHeading.astro";
-import FeatureGrid from "../components/FeatureGrid.astro";
 import ProcessIcon from "../components/ProcessIcon.astro";
 import { siteData } from "../data/site";
 import { requirePage } from "../lib/content";
@@ -228,20 +227,6 @@ const buttonClass = (variant: "primary" | "secondary") =>
       中心站点将定期更新数据处理进展，并在数据积累成熟后向成员发布可提研究计划。
     </p>
   </section>
-
-  {page.data.highlights && (
-    <section class="page-wrap section-shell pt-0">
-      <SectionHeading
-        eyebrow="Why Join"
-        title="为什么加入 SANI"
-        description="在统一规则下共享数据、问题与研究体系，减少重复建设。"
-        center={true}
-      />
-      <div class="mt-12">
-        <FeatureGrid items={page.data.highlights} columns={4} />
-      </div>
-    </section>
-  )}
 
   <section class="page-wrap section-shell pt-0">
     <div class="max-w-5xl mx-auto flex flex-col items-center">
