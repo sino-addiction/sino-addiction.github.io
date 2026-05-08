@@ -13,119 +13,213 @@
 <![endif]-->
 <style>
 <!--
-@page Section1 { size: 595.3pt 841.9pt; margin: 72pt 72pt 72pt 72pt; }
+@page Section1 { size: 595.3pt 841.9pt; margin: 58pt 64pt 58pt 64pt; }
 div.Section1 { page: Section1; }
 body {
   font-family: "SimSun", "宋体", serif;
-  font-size: 12pt;
-  line-height: 1.7;
-  color: #202020;
+  font-size: 11.5pt;
+  line-height: 1.62;
+  color: #1f2933;
   background: #ffffff;
 }
-h1, h2, h3, p, li, td { mso-fareast-font-family: "宋体"; }
+h1, h2, h3, p, li, td, th { mso-fareast-font-family: "宋体"; }
 h1 {
-  margin: 0 0 10pt 0;
-  font-size: 22pt;
+  margin: 0 0 8pt 0;
+  font-size: 21pt;
+  line-height: 1.25;
   text-align: center;
   font-weight: bold;
+  color: #17324d;
 }
 h2 {
-  margin: 18pt 0 8pt 0;
-  font-size: 14pt;
+  margin: 17pt 0 8pt 0;
+  padding: 0 0 4pt 0;
+  font-size: 13.5pt;
   font-weight: bold;
-  border-bottom: 1pt solid #a7b7b0;
-  padding-bottom: 4pt;
+  color: #17324d;
+  border-bottom: 1.2pt solid #9fb3c8;
+  page-break-after: avoid;
+}
+h3 {
+  margin: 12pt 0 5pt 0;
+  font-size: 11.8pt;
+  font-weight: bold;
+  color: #23435f;
 }
 p {
-  margin: 0 0 8pt 0;
+  margin: 0 0 7pt 0;
+  text-align: justify;
 }
-ul {
-  margin: 0 0 8pt 22pt;
+ul, ol {
+  margin: 0 0 8pt 21pt;
+  padding: 0;
 }
 li {
-  margin-bottom: 4pt;
+  margin: 0 0 4.5pt 0;
+  text-align: justify;
 }
-.meta {
+.cover {
+  padding: 13pt 0 10pt 0;
+  border-top: 4pt solid #17324d;
+  border-bottom: 1pt solid #c8d4df;
+}
+.kicker {
+  margin: 0 0 8pt 0;
   text-align: center;
-  color: #4f6373;
+  letter-spacing: 1pt;
+  font-size: 10pt;
+  color: #5f7283;
+  text-transform: uppercase;
+}
+.subtitle {
+  margin: 0;
+  text-align: center;
+  font-size: 10.8pt;
+  color: #526678;
+}
+.doc-meta {
+  width: 84%;
+  margin: 14pt auto 13pt auto;
+  border-collapse: collapse;
+}
+.doc-meta td {
+  border: 1pt solid #d8e0e7;
+  padding: 5.5pt 8pt;
+  font-size: 10.5pt;
+}
+.doc-meta .label {
+  width: 25%;
+  color: #526678;
+  background: #f5f8fa;
+  font-weight: bold;
+  text-align: center;
 }
 .lead {
-  margin: 14pt 0 16pt 0;
-  padding: 10pt 12pt;
-  background: #f4f8f6;
-  border: 1pt solid #d7dfdb;
+  margin: 12pt 0 15pt 0;
+  padding: 10pt 13pt;
+  background: #f5f8fa;
+  border-left: 4pt solid #3d6f8e;
+}
+.lead p {
+  margin-bottom: 5pt;
+}
+.note {
+  margin: 9pt 0 11pt 0;
+  padding: 8pt 10pt;
+  background: #fbfcfd;
+  border: 1pt solid #d9e2ea;
+  color: #3f5366;
 }
 .section-note {
-  color: #4f6373;
+  color: #3f5366;
+}
+.subhead {
+  margin: 10pt 0 5pt 0;
+  font-weight: bold;
+  color: #23435f;
+  page-break-after: avoid;
 }
 table {
   width: 100%;
   border-collapse: collapse;
-  margin: 10pt 0 12pt 0;
+  margin: 9pt 0 12pt 0;
+  page-break-inside: avoid;
 }
 td, th {
-  border: 1pt solid #c9d2ce;
+  border: 1pt solid #cfd9e2;
   padding: 7pt 8pt;
-  vertical-align: top;
+  vertical-align: middle;
 }
 th {
   width: 28%;
-  background: #f7f9f8;
+  background: #f3f6f8;
   text-align: left;
   font-weight: bold;
+  color: #23435f;
+}
+.form-table td {
+  height: 25pt;
 }
 .blank {
   display: inline-block;
-  border-bottom: 1pt solid #7a8a84;
-  min-width: 160pt;
+  border-bottom: 1pt solid #6b7f90;
+  min-width: 155pt;
   height: 12pt;
   vertical-align: middle;
 }
-.blank.short { min-width: 90pt; }
+.blank.short { min-width: 95pt; }
+.blank.mid { min-width: 210pt; }
 .blank.wide { min-width: 320pt; }
-.fill-block {
-  min-height: 54pt;
-  border: 1pt solid #d7dfdb;
-  background: #fbfcfb;
-  margin: 8pt 0 12pt 0;
+.choice {
+  color: #3f5366;
 }
-.subhead {
-  font-weight: bold;
-  margin-top: 8pt;
+.fill-block {
+  min-height: 62pt;
+  border: 1pt solid #d9e2ea;
+  background: #fbfcfd;
+  margin: 6pt 0 11pt 0;
+  padding: 7pt 8pt;
+  color: #7b8b99;
+  page-break-inside: avoid;
+}
+.fill-block.large {
+  min-height: 88pt;
+}
+.fill-block.compact {
+  min-height: 46pt;
+}
+.page-break {
+  page-break-before: always;
 }
 .footer-note {
-  margin-top: 16pt;
-  font-size: 10.5pt;
-  color: #5e6c7a;
+  margin-top: 14pt;
+  padding-top: 7pt;
+  border-top: 1pt solid #d8e0e7;
+  font-size: 10.2pt;
+  color: #5c6f80;
 }
 -->
 </style>
 </head>
 <body lang="zh-CN">
 <div class="Section1">
-  <h1>中国成瘾神经影像协作计划（SANI）研究计划模板</h1>
-  <p class="meta">Sino-Addiction Neuroimaging Initiatives</p>
-  <p class="meta">版本：v1.0　发布日期：2026年3月25日</p>
-
-  <div class="lead">
-    <p>本模板由 ENIGMA-Addiction 项目申请书结构调整而来，适配 SANI 多中心协作场景，并完成中文版整理。</p>
-    <p>适用范围：拟在 SANI 框架内发起联合研究、申请联盟数据支持，或提交跨中心分析计划的研究团队。</p>
+  <div class="cover">
+    <p class="kicker">SINO-ADDICTION NEUROIMAGING INITIATIVES</p>
+    <h1>中国成瘾神经影像协作计划（SANI）<br>研究计划模板</h1>
+    <p class="subtitle">Research Proposal Template for Collaborative Projects</p>
   </div>
 
-  <h2>一、政策说明</h2>
+  <table class="doc-meta">
+    <tr>
+      <td class="label">文件版本</td>
+      <td>v1.0</td>
+      <td class="label">发布日期</td>
+      <td>2026年3月25日</td>
+    </tr>
+    <tr>
+      <td class="label">适用对象</td>
+      <td colspan="3">拟在 SANI 框架内发起联合研究、申请协作数据支持或提交跨中心分析计划的研究团队</td>
+    </tr>
+  </table>
+
+  <div class="lead">
+    <p>本模板用于规范 SANI 协作研究计划的提交、评估、分发和归档。申请人应以清晰、可执行、可复现为原则，说明研究问题、样本范围、数据需求、分析方案、伦理合规和预期产出。</p>
+    <p>研究计划通过审核并不自动代表所有站点同意参与。各站点仍可根据本地伦理审批、数据治理要求、资源条件和既有合作安排决定是否加入。</p>
+  </div>
+
+  <h2>一、填报与审核说明</h2>
   <ul>
-    <li>SANI 由国内多个成瘾神经影像研究中心共同组成，成员可通过数据贡献、质控、分析实施、方法开发和协作组织等方式参与联盟工作。</li>
-    <li>活跃成员可向 SANI 提交新的研究计划，包括表型分析、关联分析、多模态整合、纵向研究和方法学研究等。</li>
-    <li>申请人在提交研究计划前，应了解当前在研项目，尽量避免与既有计划发生明显重复，并给出预计执行时间表。</li>
-    <li>研究计划应简要说明科学问题、样本范围、数据需求、分析方法，以及各参与站点需要配合完成的脚本、软件或额外处理流程。</li>
-    <li>SANI 协调组将从科学价值、可行性、资源匹配度、项目负责人响应能力，以及与既有项目的重叠程度等方面进行审核。</li>
-    <li>审核通过后，研究计划将在协作网络内分发。原则上自发布之日起保留 14 天反馈期，供各站点提出问题、反馈意见或选择不参与。</li>
-    <li>任何站点的既有数据均不得在未经该站点负责人同意的情况下对外共享。所有研究计划均须遵守联盟的伦理、数据治理、署名与发表规范。</li>
-    <li>项目负责人需定期向协调组更新项目进展，在研究结束后提交版本化脚本、关键结果摘要和成果归档信息，以便联盟持续复用。</li>
+    <li>SANI 成员可提交新的研究计划，范围包括表型分析、影像-临床关联、多模态整合、纵向研究、方法学验证、工具开发和复现研究等。</li>
+    <li>申请人在提交前应尽量了解当前在研项目，主动说明是否存在主题、样本、变量或分析策略上的重叠，并提出协调方案。</li>
+    <li>研究计划应明确科学问题、主要假设、样本范围、数据字段、预处理与质控流程、统计模型、软件环境、时间表和成果形式。</li>
+    <li>中心站点将从科学价值、可行性、资源匹配度、数据安全、项目负责人响应能力及与既有项目的重叠程度等方面进行初步评估。</li>
+    <li>通过初步评估后，研究计划将在相关协作网络内分发。原则上自发布之日起保留 14 天反馈期，供各站点提出问题、反馈意见或选择不参与。</li>
+    <li>任何站点数据均不得在未经该站点负责人书面同意的情况下对外共享。所有研究计划均须遵守 SANI 合作备忘录中的伦理、数据治理、署名与发表规范。</li>
+    <li>项目负责人应定期向中心站点更新进展，并在项目结束后提交版本化脚本、关键结果摘要、数据字典或其他归档材料，便于协作组复核与持续复用。</li>
   </ul>
 
   <h2>二、申请人信息</h2>
-  <table>
+  <table class="form-table">
     <tr>
       <th>提交日期</th>
       <td><span class="blank short"></span></td>
@@ -139,7 +233,7 @@ th {
       <td><span class="blank wide"></span></td>
     </tr>
     <tr>
-      <th>职务 / 角色</th>
+      <th>职务 / 项目角色</th>
       <td><span class="blank"></span></td>
     </tr>
     <tr>
@@ -147,36 +241,40 @@ th {
       <td><span class="blank wide"></span></td>
     </tr>
     <tr>
-      <th>合作备忘录 / 数据使用承诺</th>
-      <td>是否已签署：<span class="blank short"></span></td>
+      <th>合作备忘录</th>
+      <td>是否已签署 SANI 合作备忘录：<span class="blank short"></span></td>
     </tr>
     <tr>
-      <th>协作者名单</th>
-      <td>请填写姓名、单位、邮箱，可另附页。</td>
+      <th>主要协作者</th>
+      <td>请填写姓名、单位、邮箱及拟承担任务；如人数较多，可另附页。</td>
     </tr>
   </table>
 
   <h2>三、研究计划概览</h2>
-  <table>
+  <table class="form-table">
     <tr>
       <th>研究计划题目</th>
       <td><span class="blank wide"></span></td>
     </tr>
     <tr>
       <th>研究类型</th>
-      <td>表型分析 / 多模态整合 / 纵向研究 / 方法学开发 / 其他：<span class="blank"></span></td>
+      <td class="choice">□ 表型分析　□ 影像-临床关联　□ 多模态整合　□ 纵向研究　□ 方法学开发　□ 复现研究　□ 其他：<span class="blank short"></span></td>
+    </tr>
+    <tr>
+      <th>项目阶段</th>
+      <td class="choice">□ 新项目　□ 既有项目扩展　□ 二次分析　□ 方法验证　□ 其他：<span class="blank short"></span></td>
     </tr>
     <tr>
       <th>预计完成周期</th>
       <td><span class="blank short"></span></td>
     </tr>
     <tr>
-      <th>与现有项目重叠情况</th>
-      <td>是否已核查当前 SANI 在研项目并确认无明显重叠：<span class="blank short"></span></td>
+      <th>拟使用数据类型</th>
+      <td class="choice">□ 汇总结果　□ 去标识化个体数据　□ 站点内运行脚本后回传结果　□ 其他：<span class="blank short"></span></td>
     </tr>
     <tr>
-      <th>潜在重叠的处理方案</th>
-      <td><span class="blank wide"></span></td>
+      <th>与现有项目重叠</th>
+      <td>是否已核查当前 SANI 在研项目并确认无明显重叠：<span class="blank short"></span></td>
     </tr>
     <tr>
       <th>利益冲突声明</th>
@@ -184,31 +282,35 @@ th {
     </tr>
   </table>
 
-  <h2>四、研究背景与意义</h2>
-  <p class="section-note">请说明研究背景、当前证据空缺、在 SANI 多中心协作框架下开展本研究的必要性，以及潜在学术或临床价值。</p>
-  <div class="fill-block"></div>
+  <h2 class="page-break">四、项目摘要</h2>
+  <p class="section-note">请用 300-500 字概述研究问题、拟纳入样本、主要分析思路、预期结果及项目价值。</p>
+  <div class="fill-block large">填写摘要：</div>
 
-  <h2>五、研究目标与科学假设</h2>
+  <h2>五、研究背景与意义</h2>
+  <p class="section-note">请说明研究背景、现有证据空缺、为什么需要在 SANI 多中心协作框架下开展本研究，以及潜在学术或临床价值。</p>
+  <div class="fill-block large">填写背景与意义：</div>
+
+  <h2>六、研究目标与科学假设</h2>
   <p class="subhead">1. 主要目标</p>
-  <div class="fill-block"></div>
+  <div class="fill-block">填写主要目标：</div>
   <p class="subhead">2. 次要目标</p>
-  <div class="fill-block"></div>
+  <div class="fill-block">填写次要目标：</div>
   <p class="subhead">3. 核心假设</p>
-  <div class="fill-block"></div>
+  <div class="fill-block">填写核心假设：</div>
 
-  <h2>六、数据申请范围与样本说明</h2>
-  <table>
+  <h2>七、数据申请范围与样本说明</h2>
+  <table class="form-table">
     <tr>
       <th>拟纳入成瘾类型</th>
       <td><span class="blank wide"></span></td>
     </tr>
     <tr>
-      <th>是否包含健康对照</th>
-      <td><span class="blank short"></span></td>
+      <th>研究对象</th>
+      <td class="choice">□ 成瘾人群　□ 健康对照　□ 临床对照　□ 纵向随访样本　□ 其他：<span class="blank short"></span></td>
     </tr>
     <tr>
       <th>申请模态</th>
-      <td>结构 MRI / 静息态 MRI / 任务 MRI / 静息态 EEG / 任务 EEG / 其他：<span class="blank"></span></td>
+      <td class="choice">□ 结构 MRI　□ 静息态 fMRI　□ 任务 fMRI　□ DTI　□ 静息态 EEG　□ 任务 EEG　□ 临床量表　□ 其他：<span class="blank short"></span></td>
     </tr>
     <tr>
       <th>关键临床变量</th>
@@ -216,63 +318,101 @@ th {
     </tr>
     <tr>
       <th>预计样本量</th>
-      <td><span class="blank short"></span></td>
+      <td>病例：<span class="blank short"></span>　对照：<span class="blank short"></span>　站点数：<span class="blank short"></span></td>
     </tr>
     <tr>
-      <th>纳入与排除标准</th>
+      <th>纳入标准</th>
       <td><span class="blank wide"></span></td>
+    </tr>
+    <tr>
+      <th>排除标准</th>
+      <td><span class="blank wide"></span></td>
+    </tr>
+    <tr>
+      <th>最小数据字段</th>
+      <td>请列明完成本研究所必需的影像、临床、人口学和质量控制字段。</td>
     </tr>
   </table>
 
-  <h2>七、分析计划与技术路线</h2>
-  <p class="subhead">1. 数据预处理与质控</p>
-  <div class="fill-block"></div>
+  <h2>八、分析计划与技术路线</h2>
+  <p class="subhead">1. 数据预处理与质量控制</p>
+  <div class="fill-block">请说明预处理流程、质控指标、排除规则、站点效应处理和异常值处理方案。</div>
   <p class="subhead">2. 主要分析方案</p>
-  <div class="fill-block"></div>
+  <div class="fill-block large">请说明主要因变量、自变量、协变量、统计模型、多重比较校正及主要结果判定标准。</div>
   <p class="subhead">3. 敏感性分析 / 亚组分析</p>
-  <div class="fill-block"></div>
-  <p class="subhead">4. 统计模型、软件与脚本环境</p>
-  <div class="fill-block"></div>
+  <div class="fill-block">请说明拟开展的敏感性分析、亚组分析、稳健性检验或验证分析。</div>
+  <p class="subhead">4. 软件、脚本与复现环境</p>
+  <div class="fill-block compact">请列明主要软件、版本、脚本语言、依赖包、运行环境和代码共享计划。</div>
 
-  <h2>八、伦理、合规与数据安全</h2>
-  <table>
+  <h2>九、伦理、合规与数据安全</h2>
+  <table class="form-table">
     <tr>
       <th>本地伦理审批状态</th>
-      <td><span class="blank"></span></td>
+      <td class="choice">□ 已获批　□ 审批中　□ 需补充审批　□ 不适用；说明：<span class="blank mid"></span></td>
     </tr>
     <tr>
-      <th>去标识化说明</th>
+      <th>数据去标识化</th>
       <td><span class="blank wide"></span></td>
     </tr>
     <tr>
-      <th>数据存储与访问控制</th>
+      <th>数据存储位置</th>
+      <td><span class="blank wide"></span></td>
+    </tr>
+    <tr>
+      <th>访问控制方式</th>
       <td><span class="blank wide"></span></td>
     </tr>
     <tr>
       <th>潜在风险与控制措施</th>
       <td><span class="blank wide"></span></td>
     </tr>
+    <tr>
+      <th>第三方共享</th>
+      <td>是否涉及向 SANI 外部机构或人员共享数据 / 结果：<span class="blank short"></span></td>
+    </tr>
   </table>
 
-  <h2>九、预期产出与协作安排</h2>
-  <p class="subhead">1. 预期成果形式（论文、会议摘要、报告、工具或数据产品）</p>
-  <div class="fill-block"></div>
+  <h2>十、预期产出与协作安排</h2>
+  <p class="subhead">1. 预期成果形式</p>
+  <div class="fill-block compact">请说明拟形成的论文、会议摘要、报告、工具、数据产品或其他成果。</div>
   <p class="subhead">2. 贡献记录、署名与共享安排</p>
-  <div class="fill-block"></div>
+  <div class="fill-block">请说明各参与站点和成员的预期贡献、署名原则、结果共享方式和协作组署名安排。</div>
   <p class="subhead">3. 关键时间节点</p>
-  <div class="fill-block"></div>
+  <table class="form-table">
+    <tr>
+      <th>计划分发</th>
+      <td><span class="blank short"></span></td>
+    </tr>
+    <tr>
+      <th>站点反馈截止</th>
+      <td><span class="blank short"></span></td>
+    </tr>
+    <tr>
+      <th>数据 / 结果收集</th>
+      <td><span class="blank short"></span></td>
+    </tr>
+    <tr>
+      <th>分析完成</th>
+      <td><span class="blank short"></span></td>
+    </tr>
+    <tr>
+      <th>初稿完成</th>
+      <td><span class="blank short"></span></td>
+    </tr>
+  </table>
 
-  <h2>十、附件清单</h2>
-  <p>请附上与本研究计划相关的支持材料，例如：</p>
+  <h2>十一、附件清单</h2>
+  <p>请根据研究需要附上支持材料，并在提交时标明版本号和日期。</p>
   <ul>
-    <li>参考文献</li>
-    <li>变量清单或字段映射表</li>
-    <li>分析流程图或预处理说明</li>
-    <li>补充统计方案</li>
-    <li>其他需要协调组审阅的文件</li>
+    <li>参考文献或简要文献综述</li>
+    <li>变量清单、字段映射表或数据字典</li>
+    <li>分析流程图、预处理说明或脚本运行说明</li>
+    <li>补充统计方案、功效分析或样本量说明</li>
+    <li>伦理批件、数据使用授权或其他合规材料</li>
+    <li>其他需要中心站点审阅的文件</li>
   </ul>
 
-  <p class="footer-note">说明：本模板用于立项申请与协作审核，不替代各参与单位本地伦理审批、数据出境审查或内部科研管理流程。</p>
+  <p class="footer-note">说明：本模板用于 SANI 研究计划提交、协作审核和项目归档，不替代各参与单位本地伦理审批、数据使用协议、数据出境审查或内部科研管理流程。实际执行中，应以更严格或更具约束力的文件为准。</p>
 </div>
 </body>
 </html>
