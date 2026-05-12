@@ -9,7 +9,7 @@ export type OutputTool = {
 
 export const paperPlaceholder = {
   eyebrow: "敬请期待",
-  title: "期待你的加入",
+  title: "首批研究论文准备中",
   description:
     "当真实论文完成后，这里会按正式信息持续更新，不使用虚构题目、作者、期刊或 DOI。",
 };
@@ -17,7 +17,7 @@ export const paperPlaceholder = {
 export const researchTools: OutputTool[] = [
   {
     name: "authordown",
-    description: "用于多人作者信息管理与稿件前置信息生成的 R 工具，适合标准化署名和前置页整理。",
+    description: "用于多人作者信息管理与稿件前置信息生成的 R 工具，可支持标准化署名和前置页整理。",
     href: "https://github.com/zh1peng/authordown",
     sourceLabel: "GitHub",
     linkLabel: "打开仓库",
@@ -57,7 +57,7 @@ export const researchTools: OutputTool[] = [
   },
   {
     name: "TaskBeacon",
-    description: "标准化实验任务生态，聚合 canonical tasks、TAPS、PsyFlow 预览和贡献指南。",
+    description: "标准化实验任务资源，聚合 canonical tasks、TAPS、PsyFlow 预览和贡献指南。",
     href: "https://taskbeacon.github.io/",
     sourceLabel: "Official site",
     linkLabel: "打开官网",

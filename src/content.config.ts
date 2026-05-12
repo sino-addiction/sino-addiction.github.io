@@ -68,20 +68,6 @@ const news = defineCollection({
   }),
 });
 
-const publications = defineCollection({
-  loader: glob({ pattern: "**/*.md", base: "./src/data/publications" }),
-  schema: z.object({
-    title: z.string(),
-    authors: z.string(),
-    journal: z.string(),
-    year: z.number().int(),
-    doi: z.string().optional(),
-    tags: z.array(z.string()),
-    featured: z.boolean().default(false),
-    externalUrl: z.url().optional(),
-  }),
-});
-
 const projects = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/data/projects" }),
   schema: z.object({
@@ -107,4 +93,4 @@ const team = defineCollection({
   }),
 });
 
-export const collections = { pages, news, publications, projects, team };
+export const collections = { pages, news, projects, team };

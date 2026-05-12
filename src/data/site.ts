@@ -53,7 +53,7 @@ export const siteData: SiteData = {
   siteName: "中国成瘾神经影像协作计划",
   siteShortName: "SANI",
   description:
-    "SANI 致力于构建国内成瘾神经影像数据库，以多中心协作为基础推动标准化、可复现和高质量研究。",
+    "SANI 致力于建设面向国内人群的成瘾神经影像数据库，以多中心协作推动标准化、可复现和高质量研究。",
   navigation: [
     { label: "首页", href: "/" },
     { label: "协作模式", href: "/collaboration" },
@@ -63,7 +63,7 @@ export const siteData: SiteData = {
     { label: "关于我们", href: "/about" },
   ],
   footerLinks: [
-    { label: "隐私政策", href: "mailto:contact@sino-addiction.org", external: true },
+    { label: "数据与隐私说明（制定中）", href: "mailto:contact@sino-addiction.org", external: true },
     { label: "联系我们", href: "mailto:contact@sino-addiction.org", external: true },
   ],
   portal: {
@@ -77,7 +77,7 @@ export const siteData: SiteData = {
   },
   homepage: {
     stats: [
-      { label: "参与站点", value: "2", note: "当前按已确认参与的站点保守展示，后续确认后再更新。" },
+      { label: "已确认站点", value: "2", note: "当前按已确认参与的站点保守展示；拟协作节点将在确认后纳入统计。" },
       { label: "被试人数", value: "1,200", note: "按当前可梳理样本规模保守展示，后续以入库版本为准。" },
       { label: "已有项目", value: "1", note: "以成瘾神经影像数据库建设为主线，真实立项后持续更新。" },
     ],
@@ -99,11 +99,11 @@ export const siteData: SiteData = {
   },
   collaborationFlow: ["数据汇聚", "标准化处理", "协作分析", "成果沉淀"],
   networkMap: [
-    { city: "北京", institution: "北京大学第六医院", count: "核心节点 | MRI / EEG", x: 68.9, y: 38.7, dir: "top" },
-    { city: "上海", institution: "上海市精神卫生中心", count: "核心节点 | MRI / EEG", x: 76.9, y: 60.9, dir: "right" },
-    { city: "广州", institution: "南方医科大学", count: "核心节点 | MRI / fNIRS", x: 63.9, y: 81.7, dir: "bottom" },
-    { city: "成都", institution: "四川大学华西医院", count: "协作中心 | EEG", x: 49.3, y: 62.6, dir: "left" },
-    { city: "武汉", institution: "武汉大学人民医院", count: "协作中心 | MRI", x: 65.6, y: 62.6, dir: "right" },
-    { city: "西安", institution: "空军军医大学", count: "扩展节点 | MRI / EEG", x: 57, y: 53.2, dir: "left" },
+    { city: "北京", institution: "北京大学第六医院", count: "拟协作/展示节点 | MRI / EEG", x: 68.9, y: 38.7, dir: "top" },
+    { city: "上海", institution: "上海市精神卫生中心", count: "拟协作/展示节点 | MRI / EEG", x: 76.9, y: 60.9, dir: "right" },
+    { city: "广州", institution: "南方医科大学", count: "拟协作/展示节点 | MRI / fNIRS", x: 63.9, y: 81.7, dir: "bottom" },
+    { city: "成都", institution: "四川大学华西医院", count: "拟协作/展示节点 | EEG", x: 49.3, y: 62.6, dir: "left" },
+    { city: "武汉", institution: "武汉大学人民医院", count: "拟协作/展示节点 | MRI", x: 65.6, y: 62.6, dir: "right" },
+    { city: "西安", institution: "空军军医大学", count: "拟协作/展示节点 | MRI / EEG", x: 57, y: 53.2, dir: "left" },
   ],
 };

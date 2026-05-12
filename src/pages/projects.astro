@@ -30,7 +30,7 @@ const flowSteps: FlowStep[] = [
   {
     title: "研究计划分发",
     description:
-      "根据评估结果将确认后的研究计划分发到相关站点，完成协作确认与同步。",
+      "根据评估结果将确认后的研究计划同步至相关站点，完成协作确认与同步。",
     icon: "share",
     direction: "left",
   },
@@ -61,11 +61,11 @@ const flowStepNumberClass =
 
 <BaseLayout
   title="项目管理 - SANI"
-  description="展示研究计划从提交到项目启动的标准化流程，以及当前在研项目的横向卡片展示位。"
+  description="展示研究计划从提交、评估到数据准备和启动的标准化协作流程。"
 >
   <Hero
     title="项目管理"
-    subtitle="围绕研究计划的提交、评估、分发、数据准备和项目启动，统一展示标准化协作流程。"
+    subtitle="说明研究计划从提交、评估到数据准备和启动的完整路径，帮助参与者明确每一步的材料、责任与产出。"
     compact={true}
     primaryCta={{ label: "项目申请流程", href: "#project-flow" }}
     secondaryCta={{ label: "浏览当前项目", href: "#current-projects" }}
@@ -80,7 +80,7 @@ const flowStepNumberClass =
         download={researchPlanDownload?.filename}
         class="inline-flex min-w-[240px] h-[64px] items-center justify-center rounded-full bg-accent px-10 text-[16px] font-semibold text-white shadow-[0_16px_34px_rgba(31,107,102,0.22)] transition hover:bg-accent-hover hover:shadow-[0_18px_38px_rgba(31,107,102,0.26)] md:h-[70px] md:px-12 md:text-[17px]"
       >
-        下载研究计划
+        下载研究计划模板
       </a>
     </div>
 
@@ -192,11 +192,11 @@ const flowStepNumberClass =
             </div>
 
             <h3 class="mt-5 max-w-4xl text-[28px] font-serif font-bold leading-[1.18] text-ink-deep md:text-[36px]">
-              基于多中心队列的甲基苯丙胺成瘾神经影像数据库建设
+              甲基苯丙胺成瘾多中心结构像数据库建设
             </h3>
 
             <p class="mt-4 max-w-3xl text-[15px] leading-[1.9] text-text-secondary md:text-[16px]">
-              本项目围绕甲基苯丙胺成瘾相关结构像资料，依托多中心协作场景统一采集规范、命名方式、脱敏流程和质量控制标准，逐步完成影像数据整理、元数据编目与标准化入库，建设可持续更新、可检索复用的神经影像数据库，为联盟内后续数据共享和协作研究提供稳定的数据底座。
+              本项目围绕甲基苯丙胺成瘾相关结构像资料，依托多中心协作场景统一采集规范、命名方式、脱敏流程和质量控制标准，逐步完成影像数据整理、元数据编目与标准化入库，建设可持续更新、可检索复用的神经影像数据库，为联盟内后续数据共享和协作研究提供稳定、可追踪、可复用的数据资源。
             </p>
 
             <div class="mt-8 grid gap-4 sm:grid-cols-2">
@@ -205,7 +205,7 @@ const flowStepNumberClass =
                   建设重点
                 </p>
                 <p class="mt-3 text-[15px] leading-[1.8] text-text-secondary">
-                  聚焦结构像数据的统一采集、脱敏、整理、编目和入库，尽量保证跨中心数据格式和字段口径一致。
+                  聚焦结构像数据的统一采集、脱敏、整理、编目和入库，提升跨中心数据格式、字段口径与质控记录的一致性。
                 </p>
               </div>
 

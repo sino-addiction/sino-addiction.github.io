@@ -4,7 +4,7 @@ date: 2027-06-30
 summary: 联盟首篇多中心研究成果正式发表，展示了不同成瘾类型在脑网络层面的共性特征。
 featured: true
 slug: first-multicenter-publication
-draft: false
+draft: true
 ---
 
 该研究整合多个中心的成瘾相关影像数据，在统一质控和预处理规则下比较不同诊断群体的脑网络指标，初步揭示了奖赏与控制系统中的跨障碍共性变化。

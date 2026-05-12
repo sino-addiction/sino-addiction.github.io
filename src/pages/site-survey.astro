@@ -59,7 +59,7 @@ const surveySubmitUrl = import.meta.env.PUBLIC_SURVEY_ENDPOINT?.trim() ?? "";
 >
   <Hero
     title="站点调查表"
-    subtitle="用于收集站点基本信息、成瘾类别、相关文章、模态和数据概况。请按发表文章对应的数据填写，便于我们后续按 study 整理和提取；同一套数据若发表了多篇文章，请在文章信息中一并列出，未发表数据请填写“未发表”。"
+    subtitle="用于登记站点/研究基本信息、成瘾类别、文献信息和可提供的数据模态。请按每篇文章对应的数据填写；同一套数据有多篇发表请合并列出，未发表请注明“未发表”。"
     compact={true}
   />
 
@@ -70,7 +70,7 @@ const surveySubmitUrl = import.meta.env.PUBLIC_SURVEY_ENDPOINT?.trim() ?? "";
           请按文章对应的数据填写
         </h2>
         <p class="survey-note">
-          我们按文章整理 study；同一套数据若发表了多篇文章，请在“文章信息”中一并列出，未发表数据请填写“未发表”。
+          我们按文章整理 study；同一套数据若发表了多篇文章，请在“文章信息”中一并列出，未发表数据请注明“未发表”。
         </p>
       </div>
 
@@ -207,7 +207,7 @@ const surveySubmitUrl = import.meta.env.PUBLIC_SURVEY_ENDPOINT?.trim() ?? "";
         <fieldset class="survey-section">
           <legend class="survey-section-title">模态与数据</legend>
           <p class="survey-note">
-            勾选后请填写对应的 case / control 数量；如果暂时没有精确数值，可以先留空，后续再补。
+            勾选后请填写对应的病例组 / 对照组数量；如果暂时没有精确数值，可以先留空，后续再补。
           </p>
 
           <div class="grid gap-6 lg:grid-cols-2">
@@ -247,7 +247,7 @@ const surveySubmitUrl = import.meta.env.PUBLIC_SURVEY_ENDPOINT?.trim() ?? "";
 
                       <div class="survey-choice-counts" data-survey-counts hidden>
                         <div class="survey-count-field">
-                          <label class="survey-count-label" for={caseId}>Case 数</label>
+                          <label class="survey-count-label" for={caseId}>病例数</label>
                           <input
                             class="survey-control survey-count-control"
                             id={caseId}
@@ -261,7 +261,7 @@ const surveySubmitUrl = import.meta.env.PUBLIC_SURVEY_ENDPOINT?.trim() ?? "";
                         </div>
 
                         <div class="survey-count-field">
-                          <label class="survey-count-label" for={controlId}>Control 数</label>
+                          <label class="survey-count-label" for={controlId}>对照数</label>
                           <input
                             class="survey-control survey-count-control"
                             id={controlId}
@@ -281,9 +281,9 @@ const surveySubmitUrl = import.meta.env.PUBLIC_SURVEY_ENDPOINT?.trim() ?? "";
             </div>
 
             <div>
-              <p class="survey-label mb-3">其它数据</p>
+              <p class="survey-label mb-3">其他数据</p>
               <p class="survey-note">
-                如果有除影像外的其它数据，请勾选最接近的一类；不确定时可以选“其他数据”，并在备注中补充说明。
+                如果有除影像外的其他数据，请勾选最接近的一类；不确定时可以选“其他数据”，并在备注中补充说明。
               </p>
               <div class="survey-choice-grid">
                 {dataOptions.map((option) => {
@@ -319,7 +319,7 @@ const surveySubmitUrl = import.meta.env.PUBLIC_SURVEY_ENDPOINT?.trim() ?? "";
 
                       <div class="survey-choice-counts" data-survey-counts hidden>
                         <div class="survey-count-field">
-                          <label class="survey-count-label" for={caseId}>Case 数</label>
+                          <label class="survey-count-label" for={caseId}>病例数</label>
                           <input
                             class="survey-control survey-count-control"
                             id={caseId}
@@ -333,7 +333,7 @@ const surveySubmitUrl = import.meta.env.PUBLIC_SURVEY_ENDPOINT?.trim() ?? "";
                         </div>
 
                         <div class="survey-count-field">
-                          <label class="survey-count-label" for={controlId}>Control 数</label>
+                          <label class="survey-count-label" for={controlId}>对照数</label>
                           <input
                             class="survey-control survey-count-control"
                             id={controlId}

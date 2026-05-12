@@ -1,10 +1,10 @@
 ---
 title: 协作模式 - SANI
-description: 多中心提供数据，中心站点统一治理，联盟数据库支撑后续研究与成果复用。
+description: 各中心完成伦理、授权与脱敏后提交数据，中心站点统一治理，联盟数据库支撑后续研究与成果复用。
 hero:
   kicker: Collaboration Framework
   title: 协作模式
-  subtitle: 多中心数据进入 SANI 后，会经过脱敏、质控、标准化和版本管理，沉淀为可追踪、可分析、可复用的联盟数据库。
+  subtitle: 各中心在完成本地伦理、授权与脱敏后，将数据提交至 SANI；中心站点按统一规则完成质控、标准化与版本管理，形成可追踪、可分析、可复用的联盟数据库。
   primaryCta:
     label: 查看项目管理
     href: /projects/
@@ -14,18 +14,18 @@ hero:
 highlights:
   - label: Compliance
     title: 数据合规
-    description: 本地伦理、授权、脱敏先完成，再进入联盟流程。
+    description: 各中心先完成本地伦理审批、数据授权与脱敏校验，再进入联盟治理流程。
   - label: Standard
     title: 标准统一
-    description: 采集、字段、质控和版本使用同一套规则。
+    description: 采集说明、字段映射、质控记录和版本管理采用同一套规则。
   - label: Output
     title: 成果共建
-    description: 贡献、访问、署名和复用在立项阶段说清楚。
+    description: 在立项阶段明确数据贡献、访问权限、署名规则与成果复用方式。
 steps:
   - title: 数据准备
-    description: 各中心整理影像、量表、行为任务和必要元数据。
+    description: 各中心整理影像、量表、行为任务和必要元数据，并完成本地合规准备。
   - title: 统一治理
-    description: 中心站点完成脱敏核验、质控、字段映射和版本管理。
+    description: 中心站点完成脱敏核验、集中质控、字段映射和版本管理。
   - title: 数据入库
     description: 标准化副本进入联盟数据库，保留可追踪的数据说明。
   - title: 协作使用
@@ -53,4 +53,4 @@ cta:
   href: /projects/
 ---
 
-协作不是把数据简单集中，而是让不同中心的数据在同一套治理、质量和分析规则下流动。这样后续研究才能比较、复现和持续积累。
+协作不是把数据简单集中，而是让不同中心的数据在同一套治理、质量和分析规则下流动。只有这样，后续研究才更容易比较、复现和持续积累。
