@@ -11,6 +11,7 @@ const page = await requirePage("about");
 const centerMembers = [
   {
     name: "袁逖飞",
+    badge: "学术指导",
     institution: "上海市交通大学心理学院",
     title: "学术委员会主席（待定）",
     homepage: "https://psychology.sjtu.edu.cn/tsml/211.html",
@@ -19,6 +20,7 @@ const centerMembers = [
   },
   {
     name: "曹智鹏",
+    badge: "项目执行",
     institution: "上海市徐汇区精神卫生中心",
     title: "项目执行负责人",
     description:
@@ -71,17 +73,18 @@ const centerMembers = [
     </div>
   </section>
 
-  <!-- Center Site -->
+  <!-- 中心站点成员 -->
   <section class="page-wrap section-shell pt-0">
     <SectionHeading
       eyebrow="Collaboration Network"
       title="中心站点"
+      description="当前仅展示已确认的中心站点人员与职责分工，相关信息将随平台建设和协作确认持续更新。"
       center={true}
     />
     <div class="mt-12 mx-auto grid max-w-5xl gap-6 md:grid-cols-2">
       {centerMembers.map((member) => (
         <article class="surface-card flex h-full flex-col border-t-4 border-t-accent p-8 md:p-10">
-          <span class="eyebrow mb-5 ring-1 ring-inset ring-accent/10 max-w-min">Center Site</span>
+          <span class="eyebrow mb-5 ring-1 ring-inset ring-accent/10 max-w-min">{member.badge}</span>
           <h3 class="card-title">{member.name}</h3>
           <p class="mt-3 text-[14px] font-semibold text-accent">{member.title}</p>
           <p class="mt-4 text-[15px] leading-relaxed text-text-secondary">
