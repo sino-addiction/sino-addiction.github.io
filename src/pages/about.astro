@@ -8,12 +8,22 @@ import { requirePage } from "../lib/content";
 
 const page = await requirePage("about");
 
-const profileFields = [
-  { label: "姓名", value: "曹智鹏" },
-  { label: "角色", value: "SANI 协调与网站维护" },
-  { label: "研究方向", value: "成瘾神经影像、MRI/EEG 数据处理与可复现分析工具" },
-  { label: "GitHub", value: "github.com/zh1peng", href: "https://github.com/zh1peng" },
-  { label: "联系方式", value: "zhipeng30@foxmail.com", href: "mailto:zhipeng30@foxmail.com" },
+const centerMembers = [
+  {
+    name: "袁逖飞",
+    institution: "上海市交通大学心理学院",
+    title: "学术委员会主席（待定）",
+    homepage: "https://psychology.sjtu.edu.cn/tsml/211.html",
+    description:
+      "负责协作平台的学术定位、合作拓展、学术把关和重大研究方向指导，为平台建设与长期发展提供学术支持。",
+  },
+  {
+    name: "曹智鹏",
+    institution: "上海市徐汇区精神卫生中心",
+    title: "项目执行负责人",
+    description:
+      "负责日常协调、数据联络、项目推进、网站维护与执行工作，推动中心站点信息整理、协作流程对接和项目落地。",
+  },
 ];
 ---
 
@@ -24,7 +34,11 @@ const profileFields = [
   <section class="relative pt-6 pb-10 md:pt-8 md:pb-12 bg-surface-alt/35">
     <div class="page-wrap">
       <div class="w-full max-w-4xl mx-auto mb-8 md:mb-10 text-center">
-        <SectionHeading title="多中心协作版图" center={true} />
+        <SectionHeading
+          title="多中心协作版图"
+          description="当前版图仅用于展示 SANI 拟建设的多中心协作网络，具体参与站点与协作关系以后续确认信息为准，并将持续更新。"
+          center={true}
+        />
       </div>
 
       <div class="grid gap-8 xl:gap-10 lg:grid-cols-[minmax(300px,360px)_minmax(0,1fr)] lg:items-center">
@@ -57,37 +71,51 @@ const profileFields = [
     </div>
   </section>
 
-  <!-- Collaboration Network -->
+  <!-- Center Site -->
   <section class="page-wrap section-shell pt-0">
     <SectionHeading
       eyebrow="Collaboration Network"
+      title="中心站点"
+      center={true}
+    />
+    <div class="mt-12 mx-auto grid max-w-5xl gap-6 md:grid-cols-2">
+      {centerMembers.map((member) => (
+        <article class="surface-card flex h-full flex-col border-t-4 border-t-accent p-8 md:p-10">
+          <span class="eyebrow mb-5 ring-1 ring-inset ring-accent/10 max-w-min">Center Site</span>
+          <h3 class="card-title">{member.name}</h3>
+          <p class="mt-3 text-[14px] font-semibold text-accent">{member.title}</p>
+          <p class="mt-4 text-[15px] leading-relaxed text-text-secondary">
+            {member.institution}
+          </p>
+          <p class="mt-5 text-[15px] leading-relaxed text-text-secondary">
+            {member.description}
+          </p>
+          {member.homepage && (
+            <a
+              class="mt-6 inline-flex w-fit rounded-full border border-accent/25 px-4 py-2 text-[14px] font-semibold text-accent transition hover:border-accent hover:bg-accent-soft"
+              href={member.homepage}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              个人主页
+            </a>
+          )}
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- Participating Institutions -->
+  <section class="page-wrap section-shell pt-0">
+    <SectionHeading
+      eyebrow="Growing Network"
       title="参与机构与研究团队"
       center={true}
     />
-    <div class="mt-12 mx-auto max-w-3xl">
-      <article class="surface-card flex h-full flex-col border-t-4 border-t-accent p-8 md:p-10">
-        <span class="eyebrow mb-5 ring-1 ring-inset ring-accent/10 max-w-min">Profile</span>
-        <h3 class="card-title">发起与维护信息</h3>
-        <p class="mt-4 text-[15px] leading-relaxed text-text-secondary">
-          当前仅展示已确认的发起与维护信息。参与机构和研究团队名单将在获得确认后持续更新。
-        </p>
-        <dl class="mt-6 grid gap-3 text-[15px] leading-relaxed">
-          {profileFields.map((field) => (
-            <div class="flex flex-col gap-1 rounded-lg bg-surface-alt px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-              <dt class="shrink-0 font-medium text-text-muted">{field.label}</dt>
-              <dd class="min-w-0 break-words text-left font-semibold text-ink-deep sm:text-right">
-                {field.href ? (
-                  <a class="text-accent underline-offset-4 hover:underline" href={field.href}>
-                    {field.value}
-                  </a>
-                ) : (
-                  field.value
-                )}
-              </dd>
-            </div>
-          ))}
-        </dl>
-      </article>
+    <div class="mt-10 mx-auto max-w-3xl rounded-[28px] border border-border/70 bg-surface-alt/65 p-8 text-center md:p-10">
+      <p class="text-[16px] leading-[1.9] text-text-secondary">
+        SANI 正在持续联系和确认更多参与机构、临床站点与研究团队。相关名单将在获得确认后逐步更新。
+      </p>
     </div>
   </section>
 </BaseLayout>
